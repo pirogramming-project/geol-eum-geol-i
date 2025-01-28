@@ -3,6 +3,7 @@ from .models import CustomUser
 import requests
 from django.conf import settings
 from django.contrib import messages
+from django.http import JsonResponse
 
 # Create your views here.
 def login(request):
@@ -117,4 +118,62 @@ def naver_callback(request):
         "nickname": nickname,
         "user_id": user_id,
     }
+    return render(request, "success.html", context)
+
+def google_login(request):
+    google_auth_url = "https://accounts.google.com/o/oauth2/auth"
+    scope = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+
+    # 항상 계정 선택 화면이 나타나도록 prompt=select_account 추가
+    url = (
+        f"{google_auth_url}?"
+        f"response_type=code&"
+        f"client_id={settings.GOOGLE_CLIENT_ID}&"
+        f"redirect_uri={settings.GOOGLE_REDIRECT_URI}&"
+        f"scope={scope}&"
+        "prompt=select_account"
+    )
+    return redirect(url)
+
+
+# 구글 로그인
+def google_callback(request):
+    code = request.GET.get('code')
+    token_url = "https://oauth2.googleapis.com/token"
+    user_info_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+
+    if not code:
+        return JsonResponse({'error': '인증 코드가 없습니다.'}, status=400)
+
+    # Access Token 요청
+    data = {
+        'code': code,
+        'client_id': settings.GOOGLE_CLIENT_ID,  # 환경 변수에서 값 가져오기
+        'client_secret': settings.GOOGLE_CLIENT_SECRET,  # 환경 변수에서 값 가져오기
+        'redirect_uri': settings.GOOGLE_REDIRECT_URI,
+        'grant_type': 'authorization_code',
+    }
+    token_response = requests.post(token_url, data=data)
+    token_json = token_response.json()
+    access_token = token_json.get('access_token')
+
+    if not access_token:
+        return JsonResponse({'error': 'Access Token 요청 실패'}, status=400)
+
+    # 사용자 정보 가져오기
+    headers = {'Authorization': f'Bearer {access_token}'}
+    user_info_response = requests.get(user_info_url, headers=headers)
+    user_info = user_info_response.json()
+
+    # Google API 응답에서 필요한 정보 추출
+    google_id = user_info.get('id')  # Google 고유 사용자 ID
+    name = user_info.get('name')
+    email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
+
+    context = {
+        "email": email,
+        "nickname": name,
+        "user_id": google_id,
+    }
+
     return render(request, "success.html", context)
