@@ -13,9 +13,12 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal Info', {'fields': ('user_id', 'nickname')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important Dates', {'fields': ('last_login', 'date_joined')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),  
+        ('Important Dates', {'fields': ('last_login', 'date_joined')}),  # ✅ date_joined 포함
     )
+
+    readonly_fields = ('date_joined',)
+
     # 사용자 생성 화면에서 입력할 필드 설정
     add_fieldsets = (
         (None, {
