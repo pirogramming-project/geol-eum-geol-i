@@ -1,25 +1,22 @@
-from django.shortcuts import render, redirect
-from .models import CustomUser
-import requests
-from django.conf import settings
-from django.contrib import messages
-from django.http import JsonResponse
-from .forms import CustomUserCreationForm
-from django.contrib.auth import authenticate, login, logout
-'''
-이메일 인증
-'''
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from .utils import email_verification_token
+from django.shortcuts import render, redirect             # 템플릿 렌더링 및 URL 리다이렉션을 위한 도구
+from .models import CustomUser                            # CustomUser 모델 (사용자 데이터베이스 모델)
+import requests                                           # 외부 API 호출 (예: 소셜 로그인)
+from django.conf import settings                          # Django 프로젝트 설정값 호출
+from django.contrib import messages                      # Django 메시지 프레임워크 (알림, 에러 메시지 처리)
+from django.http import JsonResponse                     # JSON 응답을 생성하기 위한 도구
+from .forms import CustomUserCreationForm                # 사용자 생성 폼 (회원가입 폼)
+from django.contrib.auth import authenticate, login, logout  # 사용자 인증, 로그인 및 로그아웃 관리
 
-from django.contrib.auth import get_user_model
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_str
+# 이메일 인증 관련 도구들
+from django.contrib.sites.shortcuts import get_current_site  # 현재 사이트 정보를 가져오기 (도메인 포함)
+from django.template.loader import render_to_string          # 템플릿을 문자열로 렌더링
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode        # UID를 Base64로 인코딩 (보안 토큰 생성용)
+from django.utils.encoding import force_bytes, force_str                 # 데이터를 바이트로 변환 (Base64 인코딩에 필요)
+from django.http import HttpResponse                        # HTTP 응답 생성
+from django.core.mail import send_mail                      # 이메일 전송 도구
+from .utils import email_verification_token                 # 이메일 인증 토큰 생성 유틸리티
+from django.contrib.auth import get_user_model             # 사용자 모델 가져오기 (커스텀 유저 지원)      # Base64로 인코딩된 UID를 디코딩         # 데이터를 문자열로 강제 변환
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -217,11 +214,22 @@ def naver_callback(request):
     nickname = user_info.get("nickname")
     user_id = user_info.get("id")
 
-    # 사용자 정보와 함께 success.html 템플릿 렌더링
+    # 사용자 정보를 데이터베이스에 저장
+    user, created = CustomUser.objects.get_or_create(
+        user_id=user_id,
+        defaults={
+            "email": email,
+            "nickname": nickname,
+            "is_active": True,  # 네이버 로그인은 바로 활성화
+        },
+    )
+
+    # 사용자 세션 로그인
+    login(request, user)
+
+    # success.html 렌더링
     context = {
-        "email": email,
-        "nickname": nickname,
-        "user_id": user_id,
+        "user": user,  # user 객체를 템플릿에 전달
     }
     return render(request, "success.html", context)
 
@@ -275,10 +283,29 @@ def google_callback(request):
     name = user_info.get('name')
     email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
 
+    # 사용자 정보 저장 또는 기존 사용자 불러오기
+    user, created = CustomUser.objects.get_or_create(
+        user_id=google_id,
+        defaults={
+            "email": email,
+            "nickname": name,
+            "is_active": True,  # 기본적으로 활성화
+        }
+    )
+
+    if created:
+        user.set_unusable_password()  # 소셜 로그인의 경우 비밀번호를 설정하지 않음
+        user.save()
+
+    # 사용자 세션 로그인
+    login(request, user)
+
     context = {
-        "email": email,
-        "nickname": name,
-        "user_id": google_id,
+        "email": user.email,
+        "nickname": user.nickname,
+        "user_id": user.user_id,
+        "date_joined": user.date_joined,
+        "is_active": user.is_active,
     }
 
     return render(request, "success.html", context)
