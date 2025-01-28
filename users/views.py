@@ -65,7 +65,7 @@ def signup(request):
             send_mail(
                 mail_subject,
                 message,
-                'rlarbdlf222@gmail.com',
+                settings.EMAIL_HOST_USER,
                 [user.email],
                 fail_silently=False,
             )
