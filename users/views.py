@@ -22,9 +22,9 @@ def logout_view(request):
         naver_logout(request)  # 네이버 토큰 삭제
         return redirect('users:login')  # 로그인 전 메인 페이지로 이동
 
-    # # Google 로그아웃 처리
-    # if 'google_access_token' in request.session:
-    #     return google_logout(request)
+    # Google 로그아웃 처리
+    if 'google_access_token' in request.session:
+        return google_logout(request)
 
     # # 일반 로그아웃 처리 (Django 세션 초기화)
     request.session.flush()
@@ -63,6 +63,25 @@ def naver_logout(request):
             messages.error(request, "네이버 로그아웃 중 오류가 발생했습니다.")
     else:
         messages.error(request, "네이버 로그아웃 토큰이 없습니다.")
+
+def google_logout(request):
+    # Google 세션 관련 정보 제거
+    if 'google_access_token' in request.session:
+        access_token = request.session['google_access_token']
+        revoke_url = f"https://oauth2.googleapis.com/revoke?token={access_token}"
+
+        # 토큰 취소 요청
+        requests.post(revoke_url)
+
+        # 세션에서 Google 관련 정보 삭제
+        del request.session['google_access_token']
+
+    # 일반 로그아웃 처리
+    request.session.flush()
+
+    # Google 로그아웃 페이지로 리디렉션
+    messages.success(request, "Google에서 로그아웃되었습니다.")
+    return redirect('users:login')
 
 # 네이버 로그인 URL 생성
 def naver_login(request):

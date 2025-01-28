@@ -47,10 +47,14 @@
 <body>
     <div class="container">
         <h1>로그인 성공</h1>
-        <p><strong>이메일:</strong> {{ email }}</p>
-        <p><strong>아이디:</strong> {{ user_id }}</p>
-        <p><strong>닉네임:</strong> {{ nickname }}</p>
-        <a href="{% url 'users:logout_view'  %}" class="button">메인 페이지로 이동</a>
+        <p>이메일: {{ user.email }}</p>
+        <p>닉네임: {{ user.nickname }}</p>
+        <p>유저 ID: {{ user.user_id }}</p>
+        <p>가입일: {{ user.date_joined }}</p>
+        <p>활성화 상태: {{ user.is_active }}</p>
+        <a href="{% url 'users:logout_view' %}">
+            로그아웃
+        </a>
     </div>
 </body>
 </html>

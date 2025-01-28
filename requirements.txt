@@ -4,4 +4,4 @@ asgiref==3.8.1         # Django의 비동기 지원을 위한 라이브러리
 sqlparse==0.5.3        # Django ORM의 SQL 구문 파싱
 tzdata==2025.1         # 시간대 데이터베이스 (시간대 지원)
 requests==2.32.3       # HTTP 요청 라이브러리 (외부 API 통신용, 선택 사항)
-python-decouple==3.8
+python-decouple==3.8   # .env 파일 setting에서 호출
