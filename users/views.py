@@ -4,10 +4,96 @@ import requests
 from django.conf import settings
 from django.contrib import messages
 from django.http import JsonResponse
+from .forms import CustomUserCreationForm
+from django.contrib.auth import authenticate, login, logout
+'''
+이메일 인증
+'''
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.http import HttpResponse
+from django.core.mail import send_mail
+from .utils import email_verification_token
 
-# Create your views here.
-def login(request):
+from django.contrib.auth import get_user_model
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
+
+def login_view(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        password = request.POST.get('password')
+
+        user = authenticate(request, user_id=user_id, password=password)  # 유저 인증
+
+        if user is not None:
+            login(request, user)
+            return redirect('users:success')  # 로그인 성공 시 success.html로 이동
+        else:
+            return render(request, 'login.html', {'error': 'Invalid User ID or Password'})  # 로그인 실패
+
     return render(request, 'login.html')
+
+def success_view(request):
+    if not request.user.is_authenticated:
+        return redirect('users:login')  # 로그인되지 않았다면 로그인 페이지로 리다이렉트
+
+    return render(request, 'success.html', {'user': request.user})
+
+'''
+회원가입 페이지 view
+'''
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False  # 비활성 상태로 저장
+            user.save()
+
+            # 이메일 인증 메일 발송
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your account'
+            message = render_to_string('activate_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': email_verification_token.make_token(user),
+            })
+            send_mail(
+                mail_subject,
+                message,
+                'rlarbdlf222@gmail.com',
+                [user.email],
+                fail_silently=False,
+            )
+            return HttpResponse('Please confirm your email address to complete the registration.')
+
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+'''
+이메일 인증 view
+'''
+User = get_user_model()
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and email_verification_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('Thank you for your email confirmation. Now you can log in.')
+    else:
+        return HttpResponse('Activation link is invalid!')
+
 
 def logout_view(request):
     """

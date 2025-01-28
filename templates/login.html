@@ -74,10 +74,14 @@
 <body>
     <div class="login-container">
         <h1>Login</h1>
-        <form action="/login" method="POST">
+        <form action="{% url 'users:login' %}" method="POST">
+            {% csrf_token %}
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <label for="user_id">User ID</label>
+                <input type="text" id="user_id" name="user_id" placeholder="Enter your User ID" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -85,7 +89,7 @@
             </div>
             <button type="submit" class="login-button">Login</button>
         </form>
-        <a href="/register" class="register-link">Don't have an account? Register</a>
+        <a href="{% url 'users:signup' %}" class="register-link">Don't have an account? Register</a>
         <a href="{% url 'users:naver_login' %}" class="btn btn-primary">
             네이버 로그인
         </a>

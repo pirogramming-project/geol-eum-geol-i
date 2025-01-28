@@ -1,18 +1,19 @@
 from pathlib import Path
-from decouple import config  # python-decouple 사용
+from decouple import config
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# 프로젝트 루트 경로 설정
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')  # .env에서 SECRET_KEY 불러오기
+# SECRET_KEY 보안 처리
+SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG 모드 설정
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+# ALLOWED_HOSTS 설정 (배포 시 추가)
 ALLOWED_HOSTS = []
 
+# 사용자 모델 설정
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Application definition
@@ -24,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    
 ]
 
 MIDDLEWARE = [
@@ -35,6 +37,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -111,3 +116,12 @@ NAVER_REDIRECT_URI = config('NAVER_REDIRECT_URI')
 GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET')
 GOOGLE_REDIRECT_URI = config('GOOGLE_REDIRECT_URI')
+
+# email auth
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # 콘솔에서 테스트
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # 이메일로 전송
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
