@@ -16,7 +16,8 @@ from django.http import HttpResponse                        # HTTP 응답 생성
 from django.core.mail import send_mail                      # 이메일 전송 도구
 from .utils import email_verification_token                 # 이메일 인증 토큰 생성 유틸리티
 from django.contrib.auth import get_user_model             # 사용자 모델 가져오기 (커스텀 유저 지원)      # Base64로 인코딩된 UID를 디코딩         # 데이터를 문자열로 강제 변환
-
+from django.contrib.auth.tokens import default_token_generator
+import json
 
 def login_view(request):
     if request.method == 'POST':
@@ -39,6 +40,8 @@ def success_view(request):
 
     return render(request, 'success.html', {'user': request.user})
 
+User = get_user_model()
+
 '''
 회원가입 페이지 view
 '''
@@ -46,50 +49,65 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False  # 비활성 상태로 저장
-            user.save()
+            # 입력받은 데이터 JSON 직렬화
+            user_data = {
+                'user_id': form.cleaned_data['user_id'],
+                'email': form.cleaned_data['email'],
+                'nickname': form.cleaned_data['nickname'],
+                'password': form.cleaned_data['password1'],
+            }
+            encoded_data = urlsafe_base64_encode(force_bytes(json.dumps(user_data)))  # JSON 직렬화 후 인코딩
 
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
             mail_subject = 'Activate your account'
+            token = default_token_generator.make_token(User(email=user_data['email']))  # email만 있는 User 객체 사용
+
             message = render_to_string('activate_email.html', {
-                'user': user,
+                'uid': encoded_data,  # JSON 직렬화된 데이터 사용
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': email_verification_token.make_token(user),
+                'token': token,
             })
             send_mail(
                 mail_subject,
                 message,
                 settings.EMAIL_HOST_USER,
-                [user.email],
+                [user_data['email']],
                 fail_silently=False,
             )
+            
             return HttpResponse('Please confirm your email address to complete the registration.')
-
+    
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
+
 '''
 이메일 인증 view
 '''
-User = get_user_model()
-
 def activate(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+        # 저장된 유저 데이터 복호화
+        decoded_data = force_str(urlsafe_base64_decode(uidb64))
+        user_data = json.loads(decoded_data)  # JSON 디코딩
 
-    if user is not None and email_verification_token.check_token(user, token):
-        user.is_active = True
-        user.save()
+        # 토큰 검증
+        temp_user = User(email=user_data['email'])  # email만 포함된 가짜 User 객체 생성
+        if not default_token_generator.check_token(temp_user, token):
+            return HttpResponse('Invalid activation link!')
+
+        # 이메일 인증이 완료되었으므로 유저 계정 생성
+        user = User.objects.create_user(
+            user_id=user_data['user_id'],
+            email=user_data['email'],
+            password=user_data['password'],
+            nickname=user_data['nickname'],
+        )
         return HttpResponse('Thank you for your email confirmation. Now you can log in.')
-    else:
-        return HttpResponse('Activation link is invalid!')
+    
+    except Exception as e:
+        return HttpResponse('Invalid activation link!')
 
 
 def logout_view(request):
