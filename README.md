@@ -1,8 +1,3 @@
-아래는 MySQL을 Django 프로젝트와 연결하는 방법을 **Markdown(마크다운)** 형식으로 작성한 내용입니다.  
-이 내용을 그대로 `README.md` 파일에 추가하면 됩니다. 🚀  
-
----
-
 ```markdown
 # 📌 Django에서 MySQL 데이터베이스 연결하기
 
@@ -50,26 +45,9 @@ EXIT;
 
 ---
 
-## 📌 3. MySQL Client & Connector 설치
+## 📌 3. 패키지 설치
 
-Django에서 MySQL을 사용하려면 MySQL 클라이언트 라이브러리를 설치해야 합니다.
-
-```bash
-pip install mysqlclient
-```
-
-만약 `mysqlclient` 설치가 실패하면 `PyMySQL`을 사용할 수도 있습니다.
-
-```bash
-pip install pymysql
-```
-
-그리고 `__init__.py` 파일 (`settings.py`와 같은 폴더)에 다음을 추가하세요.
-
-```python
-import pymysql
-pymysql.install_as_MySQLdb()
-```
+pip install -r requirements.txt
 
 
 ## 📌 4. Django 데이터베이스 마이그레이션
