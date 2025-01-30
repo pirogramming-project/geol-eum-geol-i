@@ -9,7 +9,7 @@ class Course(models.Model):
     title = models.CharField(max_length=255)
     distance = models.DecimalField(max_digits=5, decimal_places=2)  # 총 거리 (KM)
     time = models.PositiveIntegerField()  # 예상 소요 시간 (분)
-    start_location = models.CharField(max_length=255)  # 출발 위치
+    start_location = models.JSONField(null=True, blank=True)  # 출발 위치
     image = models.ImageField(upload_to="course_images/", null=True, blank=True)  # 이미지 파일
 
     def __str__(self):
