@@ -232,11 +232,12 @@ def naver_callback(request):
     nickname = user_info.get("nickname")
     user_id = user_info.get("id")
 
+
     # 사용자 정보를 데이터베이스에 저장
     user, created = CustomUser.objects.get_or_create(
         user_id=user_id,
         defaults={
-            "email": email,
+            "email": email.split('@')[0]+'@naver.com',
             "nickname": nickname,
             "is_active": True,  # 네이버 로그인은 바로 활성화
         },
@@ -248,6 +249,66 @@ def naver_callback(request):
     # success.html 렌더링
     context = {
         "user": user,  # user 객체를 템플릿에 전달
+    }
+    return render(request, "success.html", context)
+
+def naver_callback(request):
+    # 네이버에서 전달받은 인증 코드와 state 값
+    code = request.GET.get("code")
+    state = request.GET.get("state")
+
+    # 액세스 토큰 요청
+    token_url = "https://nid.naver.com/oauth2.0/token"
+    payload = {
+        "grant_type": "authorization_code",
+        "client_id": settings.NAVER_CLIENT_ID,
+        "client_secret": settings.NAVER_CLIENT_SECRET,
+        "code": code,
+        "state": state,
+    }
+    response = requests.post(token_url, data=payload)
+    token_data = response.json()
+
+    access_token = token_data.get("access_token")
+    if access_token:
+        request.session['naver_access_token'] = access_token  # 세션 저장
+    else:
+        return redirect('/?error=token_error')   # 오류 처리
+
+    # 사용자 정보 요청
+    user_info_url = "https://openapi.naver.com/v1/nid/me"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    user_response = requests.get(user_info_url, headers=headers)
+    user_info = user_response.json().get("response")
+
+    # 사용자 정보 추출
+    email = user_info.get("email")
+    nickname = user_info.get("nickname")
+    user_id = user_info.get("id")
+    naver_email = email.split('@')[0]+'@naver.com'
+    try:
+        # 1️⃣ 이메일이 기존 유저에 있으면 그 유저로 로그인
+        user = CustomUser.objects.get(email=naver_email)
+        user.save()
+        created = False
+
+    except CustomUser.DoesNotExist:
+        # 2️⃣ 이메일이 없으면 새로 생성
+        user = CustomUser.objects.create(
+            user_id=user_id,
+            email=naver_email,
+            nickname=nickname,
+            is_active=True,  # 네이버 로그인은 바로 활성화
+        )
+        created = True
+
+    # 3️⃣ 사용자 세션 로그인
+    login(request, user)
+
+    # 성공 페이지 렌더링
+    context = {
+        "user": user,
+        "created": created,  # 새 유저인지 기존 유저인지 전달
     }
     return render(request, "success.html", context)
 
@@ -301,29 +362,56 @@ def google_callback(request):
     name = user_info.get('name')
     email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
 
-    # 사용자 정보 저장 또는 기존 사용자 불러오기
-    user, created = CustomUser.objects.get_or_create(
-        user_id=google_id,
-        defaults={
-            "email": email,
-            "nickname": name,
-            "is_active": True,  # 기본적으로 활성화
-        }
-    )
-
-    if created:
-        user.set_unusable_password()  # 소셜 로그인의 경우 비밀번호를 설정하지 않음
+    try:
+        # 1️⃣ 이메일이 기존 유저에 있으면 그 유저로 로그인
+        user = CustomUser.objects.get(email=email)
         user.save()
+        created = False
 
-    # 사용자 세션 로그인
+    except CustomUser.DoesNotExist:
+        # 2️⃣ 이메일이 없으면 새로 생성
+        user = CustomUser.objects.create(
+            user_id=google_id,
+            email=email,
+            nickname=name,
+            is_active=True,
+        )
+        user.set_unusable_password()
+        created = True
+
+    # 3️⃣ 사용자 세션 로그인
     login(request, user)
 
+    # 성공 페이지 렌더링
     context = {
-        "email": user.email,
-        "nickname": user.nickname,
-        "user_id": user.user_id,
-        "date_joined": user.date_joined,
-        "is_active": user.is_active,
+        "user": user,
+        "created": created,  # 새 유저인지 기존 유저인지 전달
     }
-
     return render(request, "success.html", context)
+
+    # # 사용자 정보 저장 또는 기존 사용자 불러오기
+    # user, created = CustomUser.objects.get_or_create(
+    #     user_id=google_id,
+    #     defaults={
+    #         "email": email,
+    #         "nickname": name,
+    #         "is_active": True,  # 기본적으로 활성화
+    #     }
+    # )
+
+    # if created:
+    #     user.set_unusable_password()  # 소셜 로그인의 경우 비밀번호를 설정하지 않음
+    #     user.save()
+
+    # # 사용자 세션 로그인
+    # login(request, user)
+
+    # context = {
+    #     "email": user.email,
+    #     "nickname": user.nickname,
+    #     "user_id": user.user_id,
+    #     "date_joined": user.date_joined,
+    #     "is_active": user.is_active,
+    # }
+
+    # return render(request, "success.html", context)
