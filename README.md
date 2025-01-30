@@ -99,7 +99,7 @@ print(cursor.fetchall())  # 현재 데이터베이스의 테이블 목록 확인
 
 .env 파일을 만들어야 함
 # Secret key for Django
-SECRET_KEY=django-insecure-on09upgdc0_yc1xxxz)^omjl@o)*b_$4sbb&x9e8_uc=ys$(qy
+SECRET_KEY=(django 시크릿 키)
 
 # MySQL Database
 DB_NAME=(사용할 db 이름)
