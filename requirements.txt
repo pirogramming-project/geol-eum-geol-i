@@ -7,3 +7,4 @@ requests==2.32.3       # HTTP 요청 라이브러리 (외부 API와 통신할 �
 python-decouple==3.8   # .env 파일에서 환경 변수 호출 및 관리
 django-allauth==65.3.1 # Django 기반의 소셜 로그인 및 인증 기능 지원 (Google, Naver 등)
 six==1.17.0            # Python 2와 3 간의 호환성을 위한 유틸리티 라이브러리
+pillow=11.1.0
