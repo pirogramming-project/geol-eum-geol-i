@@ -125,20 +125,32 @@ SECRET_KEY=django-insecure-on09upgdc0_yc1xxxz)^omjl@o)*b_$4sbb&x9e8_uc=ys$(qy
 
 # MySQL Database
 DB_NAME=(사용할 db 이름)
+
 DB_USER=(유저 이름)
+
 DB_PASSWORD=(유저 비밀번호)
+
 DB_HOST=localhost
+
 DB_PORT=3306
 
 # Naver API Keys
 NAVER_CLIENT_ID=(네이버 앱 id)
+
 NAVER_CLIENT_SECRET= (네이버 앱 secret)
+
 NAVER_REDIRECT_URI=http://127.0.0.1:8000/naver/callback/
 
 
+---
 GOOGLE_CLIENT_ID=(구글 프로젝트 id)
+
 GOOGLE_CLIENT_SECRET=(구글 프로젝트 secret)
+
 GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/google/callback/
 
+
+---
 EMAIL_HOST_USER=(본인 google_email)
+
 EMAIL_HOST_PASSWORD=(본인 앱 비밀번호)
