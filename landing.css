@@ -1,0 +1,95 @@
+body {
+    background-color: var(--black);
+}
+.landing__layout {
+    width: 400px;
+    height: 100dvh;
+    background: linear-gradient(180deg, var(--light-coral) 0%, var(--mint) 50%, var(--light-skyblue) 100%);
+    margin-inline: auto;
+    font-family: 'VITRO INSPIRE OTF';
+}
+.landing_container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.landing__title_container {
+    display: flex;
+    flex-direction: column;
+    padding: 110px 35px 35px 35px;
+}
+.landing__title_top {
+    display: flex;
+}
+.landing__title_flag {
+    position: relative;
+    top: 25px;
+    left: 64px;
+}
+.landing__title {
+    font-size: 60px;
+    font-weight: 900;
+    line-height: normal;
+    background: linear-gradient(180deg, var(--peach) 0%, var(--soft-red) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: skewX(14deg);
+}
+.landing__red {
+    background: var(--red);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.landing__title_top_right {
+    position: relative;
+    left: 7px;
+    top: 42px;
+}
+.landing__title_bottom {
+    color: var(--soft-red);
+    font-family: "Kartrider Kor OTF";
+    font-size: 20px;
+    transform: skewX(14deg);
+    padding-left: 12px;
+}
+.landing__person {
+    padding-top: 154px;
+    padding-left: 141px;
+    position: absolute;
+    z-index: 4;
+}
+.landing__ground_container {
+    position: absolute;
+    bottom: 0px;
+}
+.landing__ground_1, .landing__ground_3,
+.landing__ground_2, .landing__ground_4 {
+    position: absolute;
+    bottom: 0px;
+    width: 400px;
+    height: 351px;
+    border-radius: 0px 500px 0px 0px;
+    border-top: 8px solid var(--light-gray);
+    border-right: 8px solid var(--light-gray);
+    background: linear-gradient(180deg, var(--soft-green) 0%, var(--mint) 100%);
+    z-index: 1;
+}
+.landing__ground_2, .landing__ground_4 {
+    background: linear-gradient(180deg, var(--soft-green) 0%, var(--green) 100%);
+}
+.landing__ground_2 {
+    width: 342px;
+    height: 300px;
+    z-index: 2;
+}
+.landing__ground_3 {
+    width: 283px;
+    height: 249px;
+    z-index: 3;
+}
+.landing__ground_4 {
+    width: 216px;
+    height: 191px;
+    z-index: 4;
+}

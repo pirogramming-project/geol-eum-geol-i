@@ -134,4 +134,3 @@ GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/google/callback/
 EMAIL_HOST_USER=(본인 google_email)
 
 EMAIL_HOST_PASSWORD=(본인 앱 비밀번호)
->>>>>>> a9f5eca401704ba3699938789a58d0770892dc1a
