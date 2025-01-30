@@ -31,9 +31,7 @@ sudo systemctl start mysql  # (Linux, macOS)
 -- MySQL 접속
 mysql -u root -p  # (비밀번호 입력)
 
-
-
--- 데이터베이스 생성(처음 한번만 하면 됨)
+-- 데이터베이스 생성
 CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- 새로운 사용자 생성 및 권한 부여
