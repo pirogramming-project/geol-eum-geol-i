@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+import os
 
 # 프로젝트 루트 경로 설정
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -106,6 +107,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

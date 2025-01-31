@@ -1,0 +1,169 @@
+@import url("./root.css");
+
+@font-face {
+  font-family: 'Kartrider Kor OTF';
+  src: url('../fonts/KartriderKorOTFMedium.otf') format('truetype'); /* TTF 파일 경로 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Vitro Inspire OTF';
+  src: url('../fonts/VITROINSPIREOTF.otf') format('truetype'); /* TTF 파일 경로 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+.calendar-page-header {
+  width: 317px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.calender-title {
+  display: flex;
+  font-family: 'Vitro Inspire OTF', sans-serif;
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  gap: 10px;
+}
+
+.calender-title-firstword {
+  color: var(--red);
+}
+
+.calender-title-secondword {
+  color: var(--soft-red);
+}
+
+.calendar-introduction {
+  color: var(--soft-red);
+  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.calendar-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 317px;
+  height: 360px;
+  margin: 30px auto;
+  margin-top: 15px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  background-color: var(--white);
+  border-radius: 10px;
+}
+
+#currentMonth {
+  color: var(--deep-brown);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
+.calendar-header {
+  display: flex;
+  font-family: 'Vitro Inspire OTF', sans-serif;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-days {
+  color: var(--deep-brown);
+  font-family: 'Vitro Inspire OTF', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  /* 
+  grid-template-columns : CSS의 Grid 레이아웃에서 사용되는 속성(property) 중 하나로, 
+  그리드 컨테이너(grid container)의 열(column) 크기를 지정하는 것을 말한다.
+  repeat(7, 1fr) : 1행에 7개의 열이 있으며, 
+  각 열의 크기를 동일하게 1분의 1(fractional unit, fr)로 설정하라는 의미한다. */
+  font-weight: bold;
+  padding-bottom: 5px;
+  margin-top: 10px;
+}
+/* grid-template-columns 속성을 사용하여 그리드 컨테이너의 열 크기를 유연하게 조정할 수 있으며, 
+반응형 웹 디자인에서 유용하게 활용된다. 
+이렇게 함으로써 웹페이지의 레이아웃을 다양한 화면 크기와 장치에 맞추는데 도움이 된다. */
+
+.day {
+  padding: 5px;
+  text-align: center;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  color: var(--red);
+  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
+.date {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.date:hover {
+  background-color: #f5f5f5;
+}
+
+
+.calendar-information {
+  color: var(--deep-brown);
+  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  bottom: -60px;
+}
+
+.calendar-controls {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+}
+
+#prevBtn, #nextBtn {
+  color: var(--deep-brown);
+  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
