@@ -35,9 +35,11 @@
         </iframe>
         {% if course.image %}
             <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-image">
+        {% else %}
+            <img src="{% static 'defaultimage/default-image.jpg' %}" alt="기본 이미지" class="course-image">
         {% endif %}
         <div class="course-introduction">
-            <strong class="course-introduction-start">장소설명:</strong> absc
+            <strong class="course-introduction-start">장소설명: </strong>{{ course.description }}
         </div>
     </div>
     <a href="/" class="home-btn">추천 목록으로 가기</a>
