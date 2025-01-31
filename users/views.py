@@ -19,6 +19,8 @@ from django.contrib.auth import get_user_model             # 사용자 모델 �
 from django.contrib.auth.tokens import default_token_generator
 import json
 import uuid
+from django.utils.timezone import now
+from datetime import timedelta
 
 User = get_user_model()
 
@@ -88,21 +90,27 @@ def signup(request):
 
 def activate(request, uidb64, token):
     try:
-        # 🔥 User 객체를 DB에서 가져오기
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
 
-        # 🔥 실제 DB에서 가져온 user 객체로 토큰 검증
+        # 먼저 토큰 검증을 수행
         if not default_token_generator.check_token(user, token):
-            return HttpResponse('Invalid activation link!')
+            return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
+
+        # 토큰이 생성된 시간을 가져와서 10분 이상 지났는지 확인
+        token_age = timedelta(minutes=10)
+        last_login_time = user.last_login if user.last_login else user.date_joined  # 최근 인증 시간 사용
+
+        if now() - last_login_time > token_age:
+            return HttpResponse("이메일 인증 링크가 만료되었습니다. 다시 요청해주세요.")
 
         # 인증 성공 → 계정 활성화
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can log in.')
+        return HttpResponse("이메일 인증이 완료되었습니다. 이제 로그인할 수 있습니다.")
 
     except (User.DoesNotExist, ValueError, TypeError):
-        return HttpResponse('Invalid activation link!')
+        return HttpResponse("잘못된 인증 링크입니다.")
 
 def password_reset_request(request):
     if request.method == "POST":
@@ -131,18 +139,26 @@ def password_reset_request(request):
 
 def password_reset_confirm(request, uidb64, token):
     try:
-        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
 
+        # 토큰 검증을 먼저 수행
         if not default_token_generator.check_token(user, token):
-            return HttpResponse("유효하지 않은 링크입니다.")
-        
+            return HttpResponse("비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다.")
+
+        # 토큰이 생성된 시간을 가져와서 10분 이상 지났는지 확인
+        token_age = timedelta(minutes=10)
+        last_login_time = user.last_login if user.last_login else user.date_joined  # 최근 인증 시간 사용
+
+        if now() - last_login_time > token_age:
+            return HttpResponse("비밀번호 재설정 링크가 만료되었습니다. 다시 요청해주세요.")
+
         if request.method == "POST":
             new_password = request.POST.get("new_password1")
             confirm_password = request.POST.get("new_password2")
 
             if new_password != confirm_password:
-                return render(request, "UserManage/FindPassWord/password_reset_confirm.html", {
+                return render(request, "UserManage/FindPassword/password_reset_confirm.html", {
                     "error": "비밀번호가 일치하지 않습니다.",
                     "uid": uidb64,
                     "token": token
@@ -150,14 +166,14 @@ def password_reset_confirm(request, uidb64, token):
 
             user.set_password(new_password)
             user.save()
-            login(request, user)  # 비밀번호 변경 후 자동 로그인
 
             return redirect("users:login")
 
-        return render(request, "UserManage/FindPassWord/password_reset_confirm.html", {"uid": uidb64, "token": token})
+        return render(request, "UserManage/FindPassword/password_reset_confirm.html", {"uid": uidb64, "token": token})
 
     except (User.DoesNotExist, ValueError, TypeError):
         return HttpResponse("잘못된 링크입니다.")
+
 
 def logout_view(request):
     """
