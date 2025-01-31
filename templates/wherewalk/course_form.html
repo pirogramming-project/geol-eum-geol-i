@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/root.css' %}">
     <title>어디 걸음?</title>
     <style>
         body {
@@ -35,7 +38,7 @@
         .map-container {
             margin-top: 10px;
             width: 100%;
-            height: 250px;
+            height: auto;
             border-radius: 10px;
             overflow: hidden;
         }
@@ -92,7 +95,7 @@
     <h1>🏠 어디 걸음?</h1>
     <p>나만의 걷기 장소를 추천해요</p>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'submit_course' %}"enctype="multipart/form-data">
         {% csrf_token %}
     
         <!-- 코스 제목 입력 -->
