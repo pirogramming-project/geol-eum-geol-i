@@ -35,7 +35,7 @@ def course_list(request):
         ]
 
     # 페이지네이션 처리
-    paginator = Paginator(courses, 15)  # 페이지당 15개 항목
+    paginator = Paginator(courses, 9)  # 페이지당 9개 항목
     page_number = request.GET.get('page', 1)  # 현재 페이지 번호, 없으면 1로 설정
     page_obj = paginator.get_page(page_number)
 
