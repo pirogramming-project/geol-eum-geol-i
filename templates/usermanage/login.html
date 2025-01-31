@@ -80,8 +80,8 @@
                 <p style="color: red;">{{ error }}</p>
             {% endif %}
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+                <label for="user_id">User ID</label>
+                <input type="text" id="user_id" name="user_id" placeholder="Enter your User ID" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -93,7 +93,9 @@
         <a href="{% url 'users:naver_login' %}" class="btn btn-primary">
             네이버 로그인
         </a>
-        <a href="{% url 'users:google_login' %}">구글 로그인</a>
+        <a href="{% url 'users:google_login' %}">
+            구글 로그인
+        </a>
     </div>
 </body>
 </html>
