@@ -33,9 +33,9 @@ def login_view(request):
             login(request, user)
             return redirect('users:success')
         else:
-            return render(request, 'login.html', {'error': 'Invalid Email or Password'})
+            return render(request, 'UserManage/login.html', {'error': 'Invalid Email or Password'})
 
-    return render(request, 'login.html')
+    return render(request, 'UserManage/login.html')
 
 def success_view(request):
     if not request.user.is_authenticated:
@@ -65,7 +65,7 @@ def signup(request):
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
             mail_subject = 'Activate your account'
-            message = render_to_string('activate_email.html', {
+            message = render_to_string('UserManage/activate_email.html', {
                 'uid': uid,
                 'domain': current_site.domain,
                 'token': token,
@@ -82,7 +82,7 @@ def signup(request):
 
     else:
         form = CustomUserCreationForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'UserManage/signup.html', {'form': form})
 
 
 
