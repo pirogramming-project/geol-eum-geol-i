@@ -104,6 +104,60 @@ def activate(request, uidb64, token):
     except (User.DoesNotExist, ValueError, TypeError):
         return HttpResponse('Invalid activation link!')
 
+def password_reset_request(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return render(request, "UserManage/FindPassWord/password_reset.html", {"error": "해당 이메일이 존재하지 않습니다."})
+
+        # 토큰 및 UID 생성
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        # 이메일 보내기
+        mail_subject = "비밀번호 재설정 링크"
+        message = render_to_string("UserManage/FindPassWord/password_reset_email.html", {
+            "uid": uid,
+            "token": token,
+            "domain": request.get_host(),
+        })
+        send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [email])
+
+        return HttpResponse("비밀번호 재설정 링크가 이메일로 전송되었습니다.")
+    
+    return render(request, "UserManage/FindPassWord/password_reset.html")
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+        if not default_token_generator.check_token(user, token):
+            return HttpResponse("유효하지 않은 링크입니다.")
+        
+        if request.method == "POST":
+            new_password = request.POST.get("new_password1")
+            confirm_password = request.POST.get("new_password2")
+
+            if new_password != confirm_password:
+                return render(request, "UserManage/FindPassWord/password_reset_confirm.html", {
+                    "error": "비밀번호가 일치하지 않습니다.",
+                    "uid": uidb64,
+                    "token": token
+                })
+
+            user.set_password(new_password)
+            user.save()
+            login(request, user)  # 비밀번호 변경 후 자동 로그인
+
+            return redirect("users:login")
+
+        return render(request, "UserManage/FindPassWord/password_reset_confirm.html", {"uid": uidb64, "token": token})
+
+    except (User.DoesNotExist, ValueError, TypeError):
+        return HttpResponse("잘못된 링크입니다.")
 
 def logout_view(request):
     """
