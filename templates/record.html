@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운동 기록</title>
+</head>
+<body>
+    <h1>운동 기록</h1>
+
+    <button id="startButton">운동 시작</button>
+    <button id="stopButton" style="display: none;">운동 종료</button>
+
+    <p id="timeDisplay">운동 시간: 00:00:00</p>
+    <p id="distanceDisplay">이동 거리: 0.00 km</p>
+    <p id="caloriesDisplay">소모 칼로리: 0 kcal</p>
+
+    <!-- CSRF 토큰을 HTML에 포함 -->
+    <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
+    <script>
+        let start_time = null;
+        let end_time = null;
+        let path = [];
+        let distance = 0.0;
+        let watchID = null;
+        let interval = null;
+        let elapsedTime = 0;
+        let lastPosition = null;
+        let userWeight = 75; // ✅ 기본 체중 75kg (사용자별 체중 적용 가능)
+
+        document.getElementById("startButton").addEventListener("click", function() {
+            path = [];
+            distance = 0.0;
+            elapsedTime = 0;
+            lastPosition = null;
+            start_time = new Date().toISOString();
+            console.log("운동 시작 시간:", start_time);
+
+            document.getElementById("startButton").style.display = "none";
+            document.getElementById("stopButton").style.display = "inline-block";
+
+            // ✅ 🚀 `setInterval()` 추가 (1초마다 `elapsedTime` 증가)
+            interval = setInterval(() => {
+                elapsedTime++;
+                updateTimeDisplay();  // ✅ UI 갱신 함수 호출
+            }, 1000);
+            
+            // 🚀 GPS 위치 추적 시작
+            if (navigator.geolocation) {
+                watchID = navigator.geolocation.watchPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        path.push({ lat: latitude, lng: longitude });
+
+                        if (lastPosition) {
+                            distance += calculateDistance(lastPosition.lat, lastPosition.lng, latitude, longitude);
+                        }
+                        lastPosition = { lat: latitude, lng: longitude };
+
+                        updateDistanceDisplay();
+                    },
+                    (error) => console.error("위치 추적 오류:", error),
+                    { enableHighAccuracy: true, maximumAge: 1000 }
+                );
+            }
+        });
+
+        document.getElementById("stopButton").addEventListener("click", function() { 
+            if (!start_time) {
+                console.error("🚨 운동 시작 시간이 없음!");
+                return; 
+            }
+
+            end_time = new Date().toISOString();
+            console.log("운동 종료 시간:", end_time);
+
+            if (watchID) navigator.geolocation.clearWatch(watchID);
+            clearInterval(interval);
+
+            // 🚀 CSRF 토큰 가져오기
+            const csrfToken = document.getElementById("csrf_token").value;
+
+            let minutes = elapsedTime / 60;
+            let calories = calculateCalories(distance, minutes, userWeight);  // ✅ Django와 동일한 로직 적용
+
+            // 🚀 서버로 데이터 전송
+            fetch("/record/save_walk_record/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({
+                    start_time: start_time,
+                    end_time: end_time,
+                    distance: distance.toFixed(2),
+                    calories: parseInt(calories),
+                    path: path
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("운동 기록 저장 완료:", data);
+                updateUI(data);
+            })
+            .catch(error => console.error("🚨 데이터 저장 실패:", error));
+
+            // ✅ 운동 종료 후 버튼 상태 변경
+            document.getElementById("startButton").style.display = "inline-block";
+            document.getElementById("stopButton").style.display = "none";
+        });
+
+        // ✅ 운동 시간 UI 업데이트 함수 추가
+        function updateTimeDisplay() {
+            let hours = Math.floor(elapsedTime / 3600);
+            let minutes = Math.floor((elapsedTime % 3600) / 60);
+            let seconds = elapsedTime % 60;
+
+            document.getElementById("timeDisplay").innerText = 
+                `운동 시간: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateDistanceDisplay() {
+            let minutes = elapsedTime / 60;
+            let calories = calculateCalories(distance, minutes, userWeight);  // ✅ Django와 동일한 로직 적용
+
+            document.getElementById("distanceDisplay").innerText = `이동 거리: ${distance.toFixed(2)} km`;
+            document.getElementById("caloriesDisplay").innerText = `소모 칼로리: ${parseInt(calories)} kcal`;
+        }
+
+        // ✅ 운동 종료 후 UI 업데이트 함수 추가
+        function updateUI(data) {
+            document.getElementById("timeDisplay").innerText = `운동 시간: ${data.time}`;
+            document.getElementById("distanceDisplay").innerText = `이동 거리: ${data.distance} km`;
+            document.getElementById("caloriesDisplay").innerText = `소모 칼로리: ${data.calories} kcal`;
+        }
+
+        // 🚀 Django와 동일한 칼로리 계산 함수
+        function calculateCalories(distance, timeInMinutes, weight) {
+            let speed = distance / (timeInMinutes / 60);
+            let METs;
+
+            if (speed < 5.5) {
+                METs = 3.8;
+            } else if (speed < 8.0) {
+                METs = 4.3;
+            } else {
+                METs = 7.0;
+            }
+
+            return parseInt(METs * weight * (timeInMinutes / 60));  // ✅ 정수형 변환 추가
+        }
+
+        // 🚀 두 좌표 간 거리 계산 (Haversine 공식 사용)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+    </script>
+</body>
+</html>

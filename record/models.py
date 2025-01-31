@@ -17,9 +17,13 @@ class Record(models.Model):
 # 개별 기록 (그날의 기록)
 class Detail(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True)  # 운동 날짜
+    created_at = models.DateField()  # 운동 시작 날짜
+    
+    start_time = models.TimeField(null=True, blank=True)  # 운동 시작 시간
+    end_time = models.TimeField(null=True, blank=True)  # 운동 종료 시간
+    
     distance = models.DecimalField(max_digits=5, decimal_places=2)  # 이동 거리 (KM)
-    time = models.PositiveIntegerField()  # 이동 시간 (분)
+    time = models.CharField(max_length=10)  # "시:분:초" 형식으로 저장
     pace = models.DecimalField(max_digits=4, decimal_places=2)  # 페이스 (분/km)
     calories = models.PositiveIntegerField()  # 소모 칼로리
     memo = models.TextField(null=True, blank=True)  # 메모
