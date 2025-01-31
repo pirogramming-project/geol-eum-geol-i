@@ -19,6 +19,7 @@ from django.contrib.auth import get_user_model             # 사용자 모델 �
 from django.contrib.auth.tokens import default_token_generator
 import json
 import uuid
+from django.core.cache import cache
 from django.utils.timezone import now
 from datetime import timedelta
 
@@ -52,17 +53,22 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # 이메일 인증을 위해 먼저 User 객체를 DB에 저장 (is_active=False)
-            user = User.objects.create_user(
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'],
-                nickname=form.cleaned_data['nickname'],
-                is_active=False  # 🔥 인증 전까지 비활성화 상태
-            )
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            nickname = form.cleaned_data['nickname']
 
-            # 이메일 인증을 위해 토큰 생성
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))  # 🔥 user.pk를 사용해서 직렬화
+            # 캐시에 계정 정보 저장 (이메일 인증 후 계정 생성)
+            temp_user_data = {
+                'email': email,
+                'password': password,
+                'nickname': nickname,
+            }
+            cache_key = f"signup_{email}"  # 이메일 기반 캐시 키
+            cache.set(cache_key, json.dumps(temp_user_data), timeout=600)  # 10분 동안 저장
+
+            # 이메일 인증을 위한 토큰 생성
+            token = default_token_generator.make_token(User(email=email))
+            uid = urlsafe_base64_encode(force_bytes(email))  # 이메일을 기반으로 직렬화
 
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
@@ -76,7 +82,7 @@ def signup(request):
                 mail_subject,
                 message,
                 settings.EMAIL_HOST_USER,
-                [user.email],
+                [email],
                 fail_silently=False,
             )
 
@@ -87,29 +93,35 @@ def signup(request):
     return render(request, 'UserManage/signup.html', {'form': form})
 
 
-
 def activate(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
+        email = force_str(urlsafe_base64_decode(uidb64))  # 이메일 기반 디코딩
+        cache_key = f"signup_{email}"
+        temp_user_data_json = cache.get(cache_key)
 
-        # 먼저 토큰 검증을 수행
-        if not default_token_generator.check_token(user, token):
+        if not temp_user_data_json:
             return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
 
-        # 토큰이 생성된 시간을 가져와서 10분 이상 지났는지 확인
-        token_age = timedelta(minutes=10)
-        last_login_time = user.last_login if user.last_login else user.date_joined  # 최근 인증 시간 사용
+        temp_user_data = json.loads(temp_user_data_json)
 
-        if now() - last_login_time > token_age:
-            return HttpResponse("이메일 인증 링크가 만료되었습니다. 다시 요청해주세요.")
+        # 이메일 인증을 위한 유효성 검사
+        if not default_token_generator.check_token(User(email=email), token):
+            return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
 
-        # 인증 성공 → 계정 활성화
-        user.is_active = True
-        user.save()
+        # 인증 성공 후 계정 생성
+        user = User.objects.create_user(
+            email=temp_user_data['email'],
+            password=temp_user_data['password'],
+            nickname=temp_user_data['nickname'],
+            is_active=True  # 인증 후 활성화
+        )
+
+        # 캐시에서 데이터 삭제
+        cache.delete(cache_key)
+
         return HttpResponse("이메일 인증이 완료되었습니다. 이제 로그인할 수 있습니다.")
 
-    except (User.DoesNotExist, ValueError, TypeError):
+    except (ValueError, TypeError):
         return HttpResponse("잘못된 인증 링크입니다.")
 
 def password_reset_request(request):
