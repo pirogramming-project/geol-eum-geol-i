@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어디 걸음?</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #fde9db, #fff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h1 {
+            color: #a83232;
+        }
+        input, button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .map-container {
+            margin-top: 10px;
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .register-btn {
+            background: #a83232;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .register-btn:hover {
+            background: #842525;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        .map-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        .map-popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .close-btn {
+            background: #a83232;
+            color: white;
+            padding: 5px;
+            border: none;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🏠 어디 걸음?</h1>
+    <p>나만의 걷기 장소를 추천해요</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    
+        <!-- 코스 제목 입력 -->
+        <input type="text" name="title" placeholder="코스 제목" required>
+    
+        <!-- 총 거리 입력 (km) -->
+        <input type="number" name="distance" step="0.01" placeholder="총 거리 (km)" required>
+    
+        <!-- 예상 시간 입력 (분) -->
+        <input type="number" name="time" placeholder="예상 소요 시간 (분)" required>
+        
+        <!-- 위치 선택 버튼 -->
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+        <input type="text" id="location-name" name="location" placeholder="위치 (예: 서울 시청)" required readonly>
+        <button type="button" id="select-location" class="register-btn">📍 지도에서 선택</button>
+    
+        <!-- 지도 미리보기 -->
+        <div class="map-container">
+            <iframe id="map-preview"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=37.5665,126.9780&zoom=15"
+                allowfullscreen
+                loading="lazy">
+            </iframe>
+        </div>
+    
+        <!-- 사진 업로드 -->
+        <input type="file" name="image">
+    
+        <!-- 추천하기 버튼 -->
+        <button type="submit" class="register-btn">추천하기</button>
+    </form>
+</div>
+
+<!-- 구글맵 팝업 -->
+<div class="map-popup" id="map-popup">
+    <div class="map-popup-content">
+        <div id="map"></div>
+        <button class="close-btn" onclick="closeMapPopup()">확인</button>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&callback=initMap" async defer></script>
+<script>
+    let map;
+    let marker;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 37.5665, lng: 126.9780 },
+            zoom: 13
+        });
+
+        map.addListener("click", (event) => {
+            placeMarker(event.latLng);
+        });
+    }
+
+    function placeMarker(location) {
+        if (marker) {
+            marker.setPosition(location);
+        } else {
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+        }
+        document.getElementById("latitude").value = location.lat();
+        document.getElementById("longitude").value = location.lng();
+
+        // 선택된 좌표로 지도 미리보기 업데이트
+        document.getElementById("map-preview").src =
+            `https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=${location.lat()},${location.lng()}&zoom=15`;
+
+        // Geocoding API를 사용하여 주소 변환
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat()},${location.lng()}&key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "OK" && data.results.length > 0) {
+                    document.getElementById("location-name").value = data.results[0].formatted_address;
+                } else {
+                    document.getElementById("location-name").value = "선택된 위치";
+                }
+            })
+            .catch(error => console.error("Error fetching address:", error));
+    }
+
+    document.getElementById("select-location").addEventListener("click", function() {
+        document.getElementById("map-popup").style.display = "block";
+    });
+
+    function closeMapPopup() {
+        document.getElementById("map-popup").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
