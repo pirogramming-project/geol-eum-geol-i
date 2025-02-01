@@ -110,4 +110,4 @@ def record_history(request, date):
         "records": records,
         "form": RecordUpdateTestForm(),
     }
-    return render(request, "record/record_history(test).html", context)
+    return render(request, "record/daily_record.html", context)
