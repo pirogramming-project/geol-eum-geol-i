@@ -18,12 +18,12 @@
 }
 
 @font-face {
-  font-family: "VITRO INSPIRE OTF";
-  font-style: normal;
-  src: url("../fonts/VITRO INSPIRE OTF.otf") format("truetype");
+    font-family: 'VITRO INSPIRE OTF';
+    font-style: normal;
+    src: url('../fonts/VITRO INSPIRE OTF.otf') format('truetype');
 }
 @font-face {
-  font-family: "Kartrider Kor OTF";
-  font-style: normal;
-  src: url("../fonts/NEXON Kart Gothic Kor OTF Bold.otf") format("truetype");
+    font-family: 'Kartrider Kor OTF';
+    font-style: normal;
+    src: url('../fonts/NEXON Kart Gothic Kor OTF Bold.otf') format('truetype');
 }
