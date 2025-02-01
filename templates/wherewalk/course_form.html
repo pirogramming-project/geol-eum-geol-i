@@ -6,144 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/root.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wherewalk/courseform.css' %}">
     <title>어디 걸음?</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom, #fde9db, #fff);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            max-height: 100vh;
-            overflow-y: auto;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            text-align: center;
-        }
-        h1 {
-            color: #a83232;
-        }
-        input, button {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .map-container {
-            margin-top: 10px;
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .register-btn {
-            background: #a83232;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .register-btn:hover {
-            background: #842525;
-        }
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-        .map-popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 10;
-        }
-        .map-popup-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .close-btn {
-            background: #a83232;
-            color: white;
-            padding: 5px;
-            border: none;
-            cursor: pointer;
-            display: block;
-            margin-top: 10px;
-        }
-
-        .keywords {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 아이템 배치 */
-            gap: 10px; /* 아이템 간의 간격 */
-            justify-items: center; /* 아이템을 가운데 정렬 */
-            margin-bottom: 10px; /* 키워드 버튼들과 다른 요소들 간의 간격 */
-        }
-        
-        .keyword {
-            background: #d7ccc8;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            width: 100%; /* 버튼 너비를 100%로 설정 */
-            text-align: center; /* 텍스트를 중앙 정렬 */
-        }
-        
-        .keyword.active {
-            background: #a1887f;
-            color: white;
-        }
-        
-        .keyword.passive {
-            background: #f3e5f5;
-        }
-        
-        #loadMoreKeywords {
-            background: #e0e0e0;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            grid-column: span 3; /* "더 보기" 버튼이 그리드에서 전체 너비를 차지하도록 설정 */
-        }
-        
-        svg {
-            fill: #76453B;
-        }
-        
-    </style>
 </head>
 <body>
     <div class="wrapper">
-        <div class="container">
-            <h1>🏠 어디 걸음?</h1>
+        <div class="course-form-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 0 47 57" fill="none">
+                <path d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z" fill="#B82132"/>
+            </svg> 
+            어디 걸음?
+        </div>
             <p>나만의 걷기 장소를 추천해요</p>
-        
+        <div class="container">
+            <p>키워드</p>
             <div class="keywords">
                 {% for keyword in keywords|slice:":3" %}
                     <button class="keyword passive">{{ keyword.name }}</button>
@@ -162,7 +38,7 @@
                 <!-- 코스 제목 입력 -->
                 <input type="text" name="title" placeholder="코스 제목" required>
 
-                <input type="text" name="description" placeholder="설명" required>
+                <textarea name="description" placeholder="설명" rows="4" cols="50" required></textarea>
             
                 <!-- 총 거리 입력 (km) -->
                 <input type="number" name="distance" step="0.01" placeholder="총 거리 (km)" required>
