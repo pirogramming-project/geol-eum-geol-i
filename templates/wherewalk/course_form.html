@@ -6,140 +6,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/root.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wherewalk/courseform.css' %}">
     <title>어디 걸음?</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom, #fde9db, #fff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            text-align: center;
-        }
-        h1 {
-            color: #a83232;
-        }
-        input, button {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .map-container {
-            margin-top: 10px;
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .register-btn {
-            background: #a83232;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .register-btn:hover {
-            background: #842525;
-        }
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-        .map-popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 10;
-        }
-        .map-popup-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .close-btn {
-            background: #a83232;
-            color: white;
-            padding: 5px;
-            border: none;
-            cursor: pointer;
-            display: block;
-            margin-top: 10px;
-        }
-    </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>🏠 어디 걸음?</h1>
-    <p>나만의 걷기 장소를 추천해요</p>
-
-    <form method="POST" action="{% url 'submit_course' %}"enctype="multipart/form-data">
-        {% csrf_token %}
-    
-        <!-- 코스 제목 입력 -->
-        <input type="text" name="title" placeholder="코스 제목" required>
-    
-        <!-- 총 거리 입력 (km) -->
-        <input type="number" name="distance" step="0.01" placeholder="총 거리 (km)" required>
-    
-        <!-- 예상 시간 입력 (분) -->
-        <input type="number" name="time" placeholder="예상 소요 시간 (분)" required>
-        
-        <!-- 위치 선택 버튼 -->
-        <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
-        <input type="text" id="location-name" name="location" placeholder="위치 (예: 서울 시청)" required readonly>
-        <button type="button" id="select-location" class="register-btn">📍 지도에서 선택</button>
-    
-        <!-- 지도 미리보기 -->
-        <div class="map-container">
-            <iframe id="map-preview"
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=37.5665,126.9780&zoom=15"
-                allowfullscreen
-                loading="lazy">
-            </iframe>
+    <div class="wrapper">
+        <div class="courseform-page-header">
+            <div class="courseform-page-header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 0 47 57" fill="none">
+                <path d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z" fill="#B82132"/>
+              </svg>
+            </div>
+            <div class="courseform-title">
+              <div class="courseform-title-firstword">어디</div>
+              <div class="courseform-title-secondword">걸음?</div>
+            </div>
         </div>
-    
-        <!-- 사진 업로드 -->
-        <input type="file" name="image">
-    
-        <!-- 추천하기 버튼 -->
-        <button type="submit" class="register-btn">추천하기</button>
-    </form>
-</div>
+        <div class="form-introduction">나만의 걷기 장소를 추천해요</div>
+        <div class="container">
+            <p class="form-keyword-title">키워드</p>
+            <div class="keywords">
+                {% for keyword in keywords|slice:":3" %}
+                    <button class="keyword passive">{{ keyword.name }}</button>
+                {% endfor %}
+        
+                <button class="keyword passive" id="loadMoreKeywords">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="5 0 38 31" fill="none">
+                        <path d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/>
+                    </svg>
+                </button>
+            </div>
+        
+            <form method="POST" action="{% url 'course:submit_course' %}"enctype="multipart/form-data">
+                {% csrf_token %}
+                <p class="form-keyword-title">코스 제목</p>
+                <!-- 코스 제목 입력 -->
+                <input class="title-input-form" type="text" name="title" required>
+                <p class="form-keyword-title">이미지</p>
+                <!-- 사진 업로드 -->
+                <div class="image-container">
+                    <input type="file" name="image" id="file-upload" class="image-input">
+                    <span id="file-name">선택된 파일 없음</span>
+                    <label for="file-upload" class="custom-file-btn">등록</label>
+                </div>
+                <p class="form-keyword-title">장소</p>
+                <textarea name="description" rows="4" cols="50" required></textarea>
+                <p class="form-keyword-title">거리</p>
+                <!-- 총 거리 입력 (km) -->
+                <input type="number" name="distance" step="0.01" required>
+                <p class="form-keyword-title">예상소요시간</p>
+                <!-- 예상 시간 입력 (분) -->
+                <input type="number" name="time" required>
+                <p class="form-keyword-title">위치(이름)</p>
+                <!-- 위치 선택 버튼 -->
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+                <input type="text" id="location-name" name="location" required readonly>
+                <button type="button" id="select-location" class="register-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="29" viewBox="0 -2 23 29" fill="none">
+                        <path d="M4.54022 13.2319L4.58162 13.2917C4.63222 13.3676 4.68512 13.4412 4.73802 13.5217L10.7318 22.1329C10.8181 22.2567 10.9329 22.3579 11.0667 22.4277C11.2005 22.4976 11.3491 22.5341 11.5 22.5341C11.6509 22.5341 11.7996 22.4976 11.9333 22.4277C12.0671 22.3579 12.182 22.2567 12.2682 22.1329L18.2482 13.5286C18.3057 13.4481 18.3609 13.3699 18.4161 13.2986L18.4529 13.2434C19.261 11.9931 19.717 10.5481 19.773 9.06048C19.829 7.57286 19.4829 6.09765 18.7711 4.79016C18.0594 3.48266 17.0083 2.39124 15.7285 1.63079C14.4487 0.870343 12.9875 0.468994 11.4989 0.468994C10.0102 0.468994 8.54906 0.870343 7.26926 1.63079C5.98947 2.39124 4.93836 3.48266 4.2266 4.79016C3.51483 6.09765 3.16873 7.57286 3.22473 9.06048C3.28074 10.5481 3.73677 11.9931 4.54482 13.2434L4.54022 13.2319ZM11.5 5.30379C12.1824 5.30379 12.8494 5.50613 13.4167 5.88522C13.9841 6.26431 14.4263 6.80313 14.6874 7.43353C14.9485 8.06394 15.0169 8.75762 14.8837 9.42685C14.7506 10.0961 14.422 10.7108 13.9395 11.1933C13.4571 11.6758 12.8423 12.0044 12.1731 12.1375C11.5038 12.2706 10.8102 12.2023 10.1798 11.9412C9.54936 11.6801 9.01054 11.2379 8.63145 10.6705C8.25236 10.1032 8.05002 9.43614 8.05002 8.75379C8.05002 7.83879 8.4135 6.96127 9.0605 6.31427C9.70751 5.66727 10.585 5.30379 11.5 5.30379Z" fill="white"/>
+                    </svg>
+                    지도에서 선택
+                </button>
+            
+                <!-- 지도 미리보기 -->
+                <div class="map-container">
+                    <iframe id="map-preview"
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=37.5665,126.9780&zoom=15"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+            
+                <!-- 추천하기 버튼 -->
+                <button type="submit" class="register-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="40" viewBox="0 -5 33 40" fill="none">
+                        <path d="M28.07 17.885C28.55 17.355 29.095 16.755 29.095 16C29.095 15.245 28.55 14.645 28.07 14.115C27.76 13.77 27.44 13.415 27.36 13.115C27.27 12.795 27.375 12.31 27.475 11.845C27.625 11.125 27.785 10.38 27.42 9.75001C27.05 9.11501 26.29 8.87001 25.615 8.65001C25.165 8.50501 24.705 8.35501 24.475 8.12501C24.245 7.89501 24.095 7.43501 23.95 6.98501C23.73 6.31001 23.485 5.55001 22.85 5.18001C22.22 4.81501 21.475 4.97501 20.755 5.12501C20.29 5.22501 19.81 5.33001 19.485 5.24001C19.185 5.16001 18.83 4.84001 18.485 4.53001C17.955 4.05001 17.355 3.51001 16.6 3.51001C15.845 3.51001 15.245 4.05001 14.715 4.53001C14.37 4.84001 14.015 5.16001 13.715 5.24001C13.395 5.33001 12.91 5.22501 12.445 5.12501C11.725 4.97501 10.98 4.81501 10.35 5.18001C9.71498 5.55001 9.46998 6.31001 9.24998 6.98501C9.10498 7.43501 8.95498 7.89501 8.72498 8.12501C8.49498 8.35501 8.03498 8.50501 7.58498 8.65001C6.90998 8.87001 6.14998 9.11501 5.77998 9.75001C5.41498 10.38 5.57498 11.125 5.72498 11.845C5.82498 12.31 5.92998 12.795 5.83998 13.115C5.75998 13.415 5.43998 13.77 5.12998 14.115C4.64998 14.645 4.10498 15.245 4.10498 16C4.10498 16.755 4.64998 17.355 5.12998 17.885C5.43998 18.23 5.75998 18.585 5.83998 18.885C5.92998 19.205 5.82498 19.69 5.72498 20.155C5.57498 20.875 5.41498 21.62 5.77998 22.25C6.14998 22.885 6.90998 23.13 7.58498 23.35C8.03498 23.495 8.49498 23.645 8.72498 23.875C8.95498 24.105 9.10498 24.565 9.24998 25.015C9.46998 25.69 9.71498 26.45 10.35 26.82C10.98 27.185 11.725 27.025 12.445 26.875C12.91 26.775 13.39 26.67 13.715 26.76C14.015 26.84 14.37 27.16 14.715 27.47C15.245 27.95 15.845 28.49 16.6 28.49C17.355 28.49 17.955 27.95 18.485 27.47C18.83 27.16 19.185 26.84 19.485 26.76C19.805 26.675 20.29 26.775 20.755 26.875C21.475 27.025 22.22 27.185 22.85 26.82C23.485 26.45 23.73 25.69 23.95 25.015C24.095 24.565 24.245 24.105 24.475 23.875C24.705 23.645 25.165 23.495 25.615 23.35C26.29 23.13 27.05 22.885 27.42 22.25C27.785 21.62 27.625 20.875 27.475 20.155C27.375 19.69 27.27 19.205 27.36 18.885C27.44 18.585 27.76 18.23 28.07 17.885ZM16.6 23.5C12.465 23.5 9.09998 20.135 9.09998 16C9.09998 11.865 12.465 8.50001 16.6 8.50001C20.735 8.50001 24.1 11.865 24.1 16C24.1 20.135 20.735 23.5 16.6 23.5Z" fill="white"/>
+                        <path d="M20.8551 14.0051C20.3551 13.8001 19.6951 13.7601 19.2251 13.7651L19.3451 11.5101C19.3701 11.0101 19.1001 10.5351 18.6701 10.3351C18.3451 10.1751 18.0401 10.1551 17.7501 10.2651C17.0701 10.5301 16.7151 11.4351 16.0601 13.0851C15.6051 14.2401 15.0051 14.6551 14.5951 14.8051C14.3301 14.3801 13.8601 14.0951 13.3251 14.0951H12.6201C11.7901 14.0951 11.1201 14.7651 11.1201 15.5951V19.3051C11.1201 20.1301 11.7901 20.8051 12.6201 20.8051H13.3251C13.9401 20.8051 14.4651 20.4351 14.7001 19.9051C15.0801 19.9551 15.4601 20.0701 15.8301 20.2451C16.3101 20.4701 16.8051 20.7051 17.4251 20.7051H19.5401C20.7951 20.7051 21.7101 19.6451 21.9901 17.8651C22.1051 17.1151 22.3701 14.6301 20.8551 14.0051ZM21.0001 17.7101C20.9251 18.1801 20.6051 19.7051 19.5401 19.7051H17.4251C17.0301 19.7051 16.6751 19.5401 16.2251 19.3251C15.7801 19.1101 15.3101 18.9751 14.8251 18.9101V15.7801C15.4501 15.5851 16.3701 15.0301 16.9901 13.4551C17.3901 12.4451 17.8401 11.3051 18.1101 11.2001C18.1251 11.1951 18.1701 11.2001 18.2401 11.2351C18.3051 11.2701 18.3551 11.3651 18.3501 11.4551L18.2001 14.2651C18.1901 14.4151 18.2451 14.5551 18.3551 14.6551C18.4601 14.7551 18.6101 14.8051 18.7501 14.7901C19.0601 14.7601 19.9751 14.7201 20.4751 14.9301C21.0651 15.1751 21.1901 16.5151 21.0001 17.7101Z" fill="white"/>
+                    </svg>
+                    추천하기
+                </button>
 
-<!-- 구글맵 팝업 -->
-<div class="map-popup" id="map-popup">
-    <div class="map-popup-content">
-        <div id="map"></div>
-        <button class="close-btn" onclick="closeMapPopup()">확인</button>
+                <input type="hidden" id="selectedKeywords" name="selected_keywords">
+            </form>
+        </div>
+        
+        <!-- 구글맵 팝업 -->
+        <div class="map-popup" id="map-popup">
+            <div class="map-popup-content">
+                <div id="map"></div>
+                <button class="close-btn" onclick="closeMapPopup()">확인</button>
+            </div>
+        </div>
     </div>
-</div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&callback=initMap" async defer></script>
 <script>
+
+    // 파일 선택 후 파일 이름 표시
+    document.getElementById("file-upload").addEventListener("change", function(event) {
+        const fileName = event.target.files[0] ? event.target.files[0].name : "선택된 파일 없음";
+        document.getElementById("file-name").textContent = fileName;
+    });
+    
     let map;
     let marker;
 
@@ -190,6 +159,76 @@
     function closeMapPopup() {
         document.getElementById("map-popup").style.display = "none";
     }
+
+    const loadMoreButton = document.getElementById('loadMoreKeywords');
+    const keywordsContainer = document.querySelector('.keywords');
+
+    const moreKeywords = [
+        {% for keyword in keywords|slice:"3:" %}
+            "{{ keyword.name }}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    ];
+
+    let isExpanded = false;
+    let selectedKeywords = [];
+
+    // 키워드 버튼 클릭 시 active 클래스를 토글하여 선택/해제 처리
+    keywordsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('keyword') && event.target !== loadMoreButton) {
+            const activeKeywords = keywordsContainer.querySelectorAll('.keyword.active');
+
+            // 선택을 해제하는 경우 그대로 허용
+            if (event.target.classList.contains('active')) {
+                event.target.classList.remove('active');
+                selectedKeywords = selectedKeywords.filter(keyword => keyword !== event.target.textContent);
+
+                    // 추가된 키워드 중 선택되지 않은 키워드만 제거
+                const addedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword'))
+                    .filter(button => button !== loadMoreButton && !button.classList.contains('active') && !button.classList.contains('passive'));
+
+                addedKeywords.forEach(keyword => {
+                    keyword.remove();
+        });
+            } else {
+                event.target.classList.add('active');
+                // 키워드 목록에 추가
+                selectedKeywords.push(event.target.textContent);
+            }
+        }
+    });
+
+    // "더 보기 ▼" 클릭 시 추가 키워드 삽입
+    loadMoreButton.addEventListener('click', function () {
+        if (!isExpanded) {
+            moreKeywords.forEach(keyword => {
+                // 기존 키워드 중에 같은 내용이 있으면 추가하지 않음
+                const existingKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword')).map(btn => btn.textContent);
+                if (!existingKeywords.includes(keyword)) {
+                    const newButton = document.createElement('button');
+                    newButton.classList.add('keyword');
+                    newButton.textContent = keyword;
+                    keywordsContainer.insertBefore(newButton, loadMoreButton);
+                }
+            });
+            loadMoreButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="-2 0 38 31" fill="none"><path transform="rotate(180 19 15.5)" d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/></svg>';
+            isExpanded = true;
+        } else {
+            // 추가된 키워드 중 선택되지 않은 키워드만 제거
+            const addedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword'))
+                .filter(button => button !== loadMoreButton && !button.classList.contains('active') && !button.classList.contains('passive'));
+
+            addedKeywords.forEach(keyword => {
+                keyword.remove();
+            });
+
+            loadMoreButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="5 0 38 31" fill="none"><path d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/></svg>';;
+            isExpanded = false;
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('selectedKeywords').value = selectedKeywords.join(',');
+    });
 </script>
 
 </body>

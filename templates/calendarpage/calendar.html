@@ -19,7 +19,7 @@
         <div class="calender-title-secondword">캘린더</div>
       </div>
       <div class="calendar-introduction">
-        멈추지 않을 {}님의 걸음을 응원해요!
+        멈추지 않을 {{ user.nickname }}님의 걸음을 응원해요!
       </div>
     </div>
     <div class="calendar-container">
@@ -37,9 +37,9 @@
       </div>
       <div class="calendar-dates" id="calendarDates"></div>
       <div class="calendar-information">
-        <div>이달의 걸음: {}</div>
-        <div>이달의 소비 칼로리: {}</div>
-      </div>
+        <div>이달의 걸음: {{ total_distance }} km</div>
+        <div>이달의 소비 칼로리: {{ total_calories }} kcal</div>
+    </div>
       <div class="calendar-controls">
         <button id="prevBtn">이전 달
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -93,10 +93,15 @@
 
         // 현재 달의 날짜
         for (let i = 1; i <= daysInMonth; i++) {
-            const dateElement = document.createElement("div");
-            dateElement.classList.add("date");
-            dateElement.textContent = i;
-            calendarDates.appendChild(dateElement);
+          const dateElement = document.createElement("div");
+          dateElement.classList.add("date");
+          dateElement.textContent = i;
+
+          // 날짜 형식을 "YYYY-MM-DD"로 변환하여 data-date 속성에 저장(김규일일)
+          const formattedDate = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+          dateElement.dataset.date = formattedDate;
+
+          calendarDates.appendChild(dateElement);
         }
         /* 
         1. for 문을 이용하여 현재 월의 총 일 수만큼 반복하여 월의 날짜를 순서대로 표시한다.
@@ -135,5 +140,38 @@
         1. 다음 버튼(nextBtn)을 클릭하면 현재 월을 다음 월로 변경하고, 연도가 바뀌어야 한다면 연도를 변경한다.
         2. 변경된 월과 연도를 바탕으로 renderCalendar 함수를 호출하여 다음 월의 캘린더를 표시한다.
         */
+  </script>
+
+  <script>
+    {% comment %} 
+    캘린더 날짜 클릭시 detail로 이동(김규일)
+    {% endcomment %}
+    document.addEventListener("DOMContentLoaded", function () {
+      const dates = document.getElementById("calendarDates");
+  
+      dates.addEventListener("click", function (event) {
+          if (event.target.classList.contains("date")) {
+              const selectedDate = event.target.dataset.date; // 올바르게 data-date 가져오기
+              console.log("선택된 날짜:", selectedDate); // 디버깅 로그 출력
+  
+              if (!selectedDate) {
+                  alert("날짜 정보가 올바르게 전달되지 않았습니다.");
+                  return;
+              }
+  
+              // 기록 존재 여부 확인 후 페이지 이동
+              fetch(`/record/check/${selectedDate}/`)
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.has_record) {
+                          window.location.href = `/record/history/${selectedDate}/`;
+                      } else {
+                          alert("이 날짜에는 기록이 없습니다.");
+                      }
+                  })
+                  .catch(error => console.error("에러 발생:", error));
+          }
+      });
+  });
   </script>
 </html>

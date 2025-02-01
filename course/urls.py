@@ -3,9 +3,9 @@ from django.conf.urls.static import static
 from django.urls import path
 from .views import *
 
+app_name = 'course'
+
 urlpatterns = [
-    # path('', login_view, name='login'),
-    # path('', calendar_view, name='calender'),
     path('', course_list, name='course_list'),
     path('calendar/', calendar_view, name='calendar_view'),
     path("recommend/", course_form_view, name="course_form"),  # 코스 추천 페이지
