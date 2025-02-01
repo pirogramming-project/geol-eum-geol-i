@@ -50,6 +50,8 @@ input, button, textarea {
     overflow: hidden;
 }
 .register-btn {
+    display: flex;
+    align-items: center;
     background: var(--deep-brown);
     font-family: 'Kartrider Kor OTF', sans-serif;
     font-size: 24px;
@@ -60,7 +62,9 @@ input, button, textarea {
     border: none;
     padding: 10px;
     cursor: pointer;
-    margin-top: 10px;
+    width: max-content;
+    margin: 10px auto;
+    height: max-content;
 }
 #map {
     height: 100%;
