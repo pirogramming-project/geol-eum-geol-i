@@ -126,6 +126,7 @@ header i {
     flex-wrap: wrap;
     gap: 10px;
     padding-right: 30px; /* 아래 화살표와 겹치지 않게 여백 추가 */
+    width: 317px;
 }
 
 .keywords {
