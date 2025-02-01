@@ -6,6 +6,7 @@ from .models import Course, Keyword, CourseKeyword
 from .forms import CourseForm
 from decimal import Decimal
 from .utils import calculate_distance
+from django.contrib.auth.decorators import login_required
 import json
 
 def course_list(request):
@@ -52,8 +53,9 @@ class CourseDetailView(DetailView):
     template_name = 'wherewalk/course_detail.html'  # 사용할 템플릿 파일
     context_object_name = 'course'  # 템플릿에서 사용할 변수 이름
 
+@login_required # 로그인 된 상태에서만 접근 가능
 def calendar_view(request):
-    return render(request, 'calendarpage/calendar.html')
+    return render(request, 'calendarpage/calendar.html', {'user': request.user})
 
 def course_form_view(request):
     if request.method == "POST":
