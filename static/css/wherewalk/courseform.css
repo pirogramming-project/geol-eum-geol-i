@@ -1,0 +1,149 @@
+@import url("../root.css");
+
+@font-face {
+  font-family: 'Kartrider Kor OTF';
+  src: url('../../fonts/KartriderKorOTFMedium.otf') format('truetype'); /* TTF 파일 경로 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Vitro Inspire OTF';
+  src: url('../../fonts/VITROINSPIREOTF.otf') format('truetype'); /* TTF 파일 경로 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #fde9db, #fff);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+.container {
+    padding: 20px;
+    width: 350px;
+    text-align: center;
+}
+h1 {
+    color: #a83232;
+}
+input, button, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.map-container {
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.register-btn {
+    background: #a83232;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.register-btn:hover {
+    background: #842525;
+}
+#map {
+    height: 100%;
+    width: 100%;
+}
+.map-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+.map-popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.close-btn {
+    background: #a83232;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+}
+
+.keywords {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 아이템 배치 */
+    gap: 10px; /* 아이템 간의 간격 */
+    justify-items: center; /* 아이템을 가운데 정렬 */
+    margin-bottom: 10px; /* 키워드 버튼들과 다른 요소들 간의 간격 */
+}
+
+.keyword {
+    background: #d7ccc8;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%; /* 버튼 너비를 100%로 설정 */
+    text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+.keyword.active {
+    background: #a1887f;
+    color: white;
+}
+
+.keyword.passive {
+    background: #f3e5f5;
+}
+
+#loadMoreKeywords {
+    background: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    grid-column: span 3; /* "더 보기" 버튼이 그리드에서 전체 너비를 차지하도록 설정 */
+}
+
+svg {
+    fill: #76453B;
+}
+
+.course-form-header {
+    display: flex;
+    font-family: 'Vitro Inspire OTF', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
