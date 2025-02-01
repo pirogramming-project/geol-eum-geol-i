@@ -6,13 +6,12 @@ User = get_user_model()
 # 전체 기록 (한달 단위)
 class Record(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    total_distance = models.DecimalField(max_digits=6, decimal_places=2)  # 총 이동 거리 (KM)
-    total_time = models.PositiveIntegerField()  # 총 이동 시간 (분)
-    avg_pace = models.DecimalField(max_digits=4, decimal_places=2)  # 평균 페이스 (분/km)
-    total_calories = models.PositiveIntegerField()  # 총 소모 칼로리
+    date = models.DateField(null=True, blank=True) # 기록된 월
+    total_distance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    total_time = models.PositiveIntegerField(default=0)
+    avg_pace = models.DecimalField(max_digits=4, decimal_places=2, default=0)
+    total_calories = models.PositiveIntegerField(default=0)
 
-    def __str__(self):
-        return f"{self.user.nickname} - {self.total_distance}km"
 
 # 개별 기록 (그날의 기록)
 class Detail(models.Model):
