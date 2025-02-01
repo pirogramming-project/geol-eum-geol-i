@@ -10,6 +10,15 @@ from .form__test import RecordUpdateTestForm
 def main_view(request):
     return render(request, 'main/landing.html')
 
+def record_start(request):
+    return render(request, 'record/record_start.html')
+
+def record_stop(request):
+    return render(request, 'record/record_stop.html')
+
+def daily_record(request):
+    return render(request, 'record/daily_record.html')
+
 def record_page(request):
     return render(request, "record/record(test).html")
 
