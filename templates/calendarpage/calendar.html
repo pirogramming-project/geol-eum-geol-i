@@ -197,5 +197,37 @@
       renderCalendar();
 
     </script>
+    <script>
+      {% comment %} 
+      캘린더 날짜 클릭시 detail로 이동(김규일)
+      {% endcomment %}
+      document.addEventListener("DOMContentLoaded", function () {
+        const dates = document.getElementById("calendarDates");
+    
+        dates.addEventListener("click", function (event) {
+            if (event.target.classList.contains("date")) {
+                const selectedDate = event.target.dataset.date; // 올바르게 data-date 가져오기
+                console.log("선택된 날짜:", selectedDate); // 디버깅 로그 출력
+    
+                if (!selectedDate) {
+                    alert("날짜 정보가 올바르게 전달되지 않았습니다.");
+                    return;
+                }
+    
+                // 기록 존재 여부 확인 후 페이지 이동
+                fetch(`/record/check/${selectedDate}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.has_record) {
+                            window.location.href = `/record/history/${selectedDate}/`;
+                        } else {
+                            alert("이 날짜에는 기록이 없습니다.");
+                        }
+                    })
+                    .catch(error => console.error("에러 발생:", error));
+            }
+        });
+    });
+    </script>
   </body>
 </html>
