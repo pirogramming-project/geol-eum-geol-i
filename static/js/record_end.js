@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
         caloriesBurned = totalDistance * 50; // 식 수정필요
 
         showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
-        showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
+        showCalories.textContent = `총 소비칼로리: ${caloriesBurned.toFixed(1)}kcal`;
     }
 
     function updateTime() {
