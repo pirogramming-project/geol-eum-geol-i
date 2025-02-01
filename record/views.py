@@ -133,3 +133,56 @@ def check_record(request, date):
     
     logger.info(f"기록 여부: {record_exists}")
     return JsonResponse({"has_record": record_exists})
+
+from .utils import update_monthly_record  # 새로 만든 함수 가져오기
+
+# 걷기 기록이 추가될 때마다 record 업데이트
+@api_view(["POST"])
+def save_walk_record(request):
+    user = request.user
+    data = request.data
+    print("받은 데이터:", data)
+
+    try:
+        start_time = data.get("start_time", None)
+        end_time = data.get("end_time", None)
+        
+        if start_time and end_time:
+            start_dt = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
+            end_dt = datetime.fromisoformat(end_time.replace("Z", "+00:00"))
+            total_seconds = int((end_dt - start_dt).total_seconds()) 
+        else:
+            total_seconds = 0 
+
+        hours = total_seconds // 3600
+        minutes = (total_seconds % 3600) // 60
+        seconds = total_seconds % 60
+        time_str = f"{hours}h{minutes:02d}m{seconds:02d}s"
+
+        distance = float(data.get("distance",0))
+        pace = round((minutes / distance),2) if distance > 0 else 0 
+        calories = calculate_calories(distance, minutes)
+        path = data.get("path",[]) 
+
+        # 운동 기록 저장
+        walk_record = Detail.objects.create(
+            user=user,
+            created_at=start_dt.date(),
+            start_time=start_dt.time(),
+            end_time=end_dt.time(),
+            distance=distance,
+            time=time_str,
+            pace=pace,
+            calories=calories,
+            path=path
+        )
+
+        # `Record` 업데이트
+        update_monthly_record(user)
+
+        serializer = DetailSerializer(walk_record)
+        return Response(serializer.data, status=201)
+
+    except Exception as e:
+        print("서버 오류:", str(e))
+        return Response({"error": str(e)}, status=400)
