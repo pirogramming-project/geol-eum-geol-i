@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.response import Response
 from datetime import datetime
 from .models import *
 from .serializers import DetailSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
+from .form__test import RecordUpdateTestForm
 
 def main_view(request):
     return render(request, 'main/landing.html')
@@ -13,13 +14,10 @@ def record_start(request):
     return render(request, 'record/record_start.html')
 
 def record_stop(request):
-    return render(request, 'record/record_end.html')
+    return render(request, 'record/record_stop.html')
 
 def daily_record(request):
     return render(request, 'record/daily_record.html')
-
-# def save_record(request): - 사진/코멘트 저장하는 함수 필요
-# def load_record(request): - 사진/코멘트 보내는(불러오는) 함수 필요
 
 def record_page(request):
     return render(request, "record/record(test).html")
@@ -90,16 +88,26 @@ def save_walk_record(request):
         print("🚨 서버 오류:", str(e))  # ✅ 디버깅 로그 출력
         return Response({"error": str(e)}, status=400)
     
-    
-    
-## 기록 보여주는 함수
+
+# 기록 보여주는 함수
 @login_required
 def record_history(request, date):
-    user = request.user
-    records = Detail.objects.filter(user=user, created_at=date).order_by("-start_time") # 최신순으로 정렬
-    
+    user = request.user  
+    records = Detail.objects.filter(user=user, created_at=date).order_by("-start_time")  
+
+    if request.method == "POST":
+        record_id = request.POST.get("record_id")
+        record = get_object_or_404(Detail, id=record_id, user=user)
+
+        form = RecordUpdateTestForm(request.POST, request.FILES, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect("record:record_history", date=date)
+
+
     context = {
-        "date" : date,
-        "records" : records 
+        "date": date,  
+        "records": records,
+        "form": RecordUpdateTestForm(),
     }
-    return render(request, "record/record_history.html", context)
+    return render(request, "record/record_history(test).html", context)
