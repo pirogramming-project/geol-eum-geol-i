@@ -11,11 +11,18 @@
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(to bottom, #fde9db, #fff);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .wrapper {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            max-height: 100vh;
+            overflow-y: auto;
         }
         .container {
             background: #fff;
@@ -87,56 +94,115 @@
             display: block;
             margin-top: 10px;
         }
+
+        .keywords {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 아이템 배치 */
+            gap: 10px; /* 아이템 간의 간격 */
+            justify-items: center; /* 아이템을 가운데 정렬 */
+            margin-bottom: 10px; /* 키워드 버튼들과 다른 요소들 간의 간격 */
+        }
+        
+        .keyword {
+            background: #d7ccc8;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%; /* 버튼 너비를 100%로 설정 */
+            text-align: center; /* 텍스트를 중앙 정렬 */
+        }
+        
+        .keyword.active {
+            background: #a1887f;
+            color: white;
+        }
+        
+        .keyword.passive {
+            background: #f3e5f5;
+        }
+        
+        #loadMoreKeywords {
+            background: #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            grid-column: span 3; /* "더 보기" 버튼이 그리드에서 전체 너비를 차지하도록 설정 */
+        }
+        
+        svg {
+            fill: #76453B;
+        }
+        
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>🏠 어디 걸음?</h1>
-    <p>나만의 걷기 장소를 추천해요</p>
-
-    <form method="POST" action="{% url 'submit_course' %}"enctype="multipart/form-data">
-        {% csrf_token %}
-    
-        <!-- 코스 제목 입력 -->
-        <input type="text" name="title" placeholder="코스 제목" required>
-    
-        <!-- 총 거리 입력 (km) -->
-        <input type="number" name="distance" step="0.01" placeholder="총 거리 (km)" required>
-    
-        <!-- 예상 시간 입력 (분) -->
-        <input type="number" name="time" placeholder="예상 소요 시간 (분)" required>
+    <div class="wrapper">
+        <div class="container">
+            <h1>🏠 어디 걸음?</h1>
+            <p>나만의 걷기 장소를 추천해요</p>
         
-        <!-- 위치 선택 버튼 -->
-        <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
-        <input type="text" id="location-name" name="location" placeholder="위치 (예: 서울 시청)" required readonly>
-        <button type="button" id="select-location" class="register-btn">📍 지도에서 선택</button>
-    
-        <!-- 지도 미리보기 -->
-        <div class="map-container">
-            <iframe id="map-preview"
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=37.5665,126.9780&zoom=15"
-                allowfullscreen
-                loading="lazy">
-            </iframe>
-        </div>
-    
-        <!-- 사진 업로드 -->
-        <input type="file" name="image">
-    
-        <!-- 추천하기 버튼 -->
-        <button type="submit" class="register-btn">추천하기</button>
-    </form>
-</div>
+            <div class="keywords">
+                {% for keyword in keywords|slice:":3" %}
+                    <button class="keyword passive">{{ keyword.name }}</button>
+                {% endfor %}
+        
+                <button class="keyword passive" id="loadMoreKeywords">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="0 0 38 31" fill="none">
+                        <path d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/>
+                    </svg>
+                </button>
+            </div>
+        
+            <form method="POST" action="{% url 'submit_course' %}"enctype="multipart/form-data">
+                {% csrf_token %}
+            
+                <!-- 코스 제목 입력 -->
+                <input type="text" name="title" placeholder="코스 제목" required>
 
-<!-- 구글맵 팝업 -->
-<div class="map-popup" id="map-popup">
-    <div class="map-popup-content">
-        <div id="map"></div>
-        <button class="close-btn" onclick="closeMapPopup()">확인</button>
+                <input type="text" name="description" placeholder="설명" required>
+            
+                <!-- 총 거리 입력 (km) -->
+                <input type="number" name="distance" step="0.01" placeholder="총 거리 (km)" required>
+            
+                <!-- 예상 시간 입력 (분) -->
+                <input type="number" name="time" placeholder="예상 소요 시간 (분)" required>
+                
+                <!-- 위치 선택 버튼 -->
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+                <input type="text" id="location-name" name="location" placeholder="위치 (예: 서울 시청)" required readonly>
+                <button type="button" id="select-location" class="register-btn">📍 지도에서 선택</button>
+            
+                <!-- 지도 미리보기 -->
+                <div class="map-container">
+                    <iframe id="map-preview"
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=37.5665,126.9780&zoom=15"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+            
+                <!-- 사진 업로드 -->
+                <input type="file" name="image">
+            
+                <!-- 추천하기 버튼 -->
+                <button type="submit" class="register-btn">추천하기</button>
+
+                <input type="hidden" id="selectedKeywords" name="selected_keywords">
+            </form>
+        </div>
+        
+        <!-- 구글맵 팝업 -->
+        <div class="map-popup" id="map-popup">
+            <div class="map-popup-content">
+                <div id="map"></div>
+                <button class="close-btn" onclick="closeMapPopup()">확인</button>
+            </div>
+        </div>
     </div>
-</div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&callback=initMap" async defer></script>
 <script>
@@ -190,6 +256,74 @@
     function closeMapPopup() {
         document.getElementById("map-popup").style.display = "none";
     }
+
+    const MAX_KEYWORDS = 5;
+    const loadMoreButton = document.getElementById('loadMoreKeywords');
+    const keywordsContainer = document.querySelector('.keywords');
+
+    const moreKeywords = [
+        {% for keyword in keywords|slice:"3:" %}
+            "{{ keyword.name }}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    ];
+
+    let isExpanded = false;
+    let selectedKeywords = [];
+
+    // 키워드 버튼 클릭 시 active 클래스를 토글하여 선택/해제 처리
+    keywordsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('keyword') && event.target !== loadMoreButton) {
+            const activeKeywords = keywordsContainer.querySelectorAll('.keyword.active');
+
+            // 선택을 해제하는 경우 그대로 허용
+            if (event.target.classList.contains('active')) {
+                event.target.classList.remove('active');
+                selectedKeywords = selectedKeywords.filter(keyword => keyword !== event.target.textContent);
+            } else {
+                // 선택된 키워드가 5개 이상이면 추가 선택 방지
+                if (activeKeywords.length >= MAX_KEYWORDS) {
+                    alert(`최대 ${MAX_KEYWORDS}개의 키워드만 선택할 수 있습니다.`);
+                    return;
+                }
+                event.target.classList.add('active');
+                // 키워드 목록에 추가
+                selectedKeywords.push(event.target.textContent);
+            }
+        }
+    });
+
+    // "더 보기 ▼" 클릭 시 추가 키워드 삽입
+    loadMoreButton.addEventListener('click', function () {
+        if (!isExpanded) {
+            moreKeywords.forEach(keyword => {
+                // 기존 키워드 중에 같은 내용이 있으면 추가하지 않음
+                const existingKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword')).map(btn => btn.textContent);
+                if (!existingKeywords.includes(keyword)) {
+                    const newButton = document.createElement('button');
+                    newButton.classList.add('keyword');
+                    newButton.textContent = keyword;
+                    keywordsContainer.insertBefore(newButton, loadMoreButton);
+                }
+            });
+            loadMoreButton.textContent = '닫기';
+            isExpanded = true;
+        } else {
+            // 추가된 키워드 중 선택되지 않은 키워드만 제거
+            const addedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword'))
+                .filter(button => button !== loadMoreButton && !button.classList.contains('active') && !button.classList.contains('passive'));
+
+            addedKeywords.forEach(keyword => {
+                keyword.remove();
+            });
+
+            loadMoreButton.innerHTML = '더 보기 ▼';
+            isExpanded = false;
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        document.getElementById('selectedKeywords').value = selectedKeywords.join(',');
+    });
 </script>
 
 </body>

@@ -13,6 +13,7 @@ def course_list(request):
     latitude = request.GET.get('latitude', None)
     longitude = request.GET.get('longitude', None)
     selected_location = None
+    keywords = Keyword.objects.all()
 
     # 위도와 경도가 제공되었을 때
     if latitude and longitude:
@@ -43,6 +44,7 @@ def course_list(request):
     return render(request, 'wherewalk/courserecommand.html', {
         'page_obj': page_obj,
         'search_term': search_term,  # 검색어를 템플릿으로 전달
+        'keywords': keywords,
     })
 
 class CourseDetailView(DetailView):
@@ -57,6 +59,7 @@ def course_form_view(request):
     if request.method == "POST":
         form = CourseForm(request.POST, request.FILES)
         selected_keywords = request.POST.getlist("keywords")
+        keywords = Keyword.objects.all()
 
         if form.is_valid():
             course = form.save(commit=False)
@@ -75,13 +78,13 @@ def course_form_view(request):
 
     else:
         form = CourseForm()
+        keywords = Keyword.objects.all()
 
-    return render(request, "wherewalk/course_form.html", {"form": form})
+    return render(request, "wherewalk/course_form.html", {"form": form, 'keywords': keywords})
 
 def submit_course(request):
     if request.method == "POST":
         try:
-            print("📌 submit_course 실행됨!")
 
             # 폼 데이터를 가져오기
             title = request.POST.get("title")
@@ -89,13 +92,14 @@ def submit_course(request):
             time = int(request.POST.get("time"))  # 정수 변환
             image = request.FILES.get("image")
             keywords = json.loads(request.POST.get("keywords", "[]"))  # JSON 변환
+            description = request.POST.get("description")
+
+            # 키워드 데이터를 JSON으로 받기
+            keywords = request.POST.get("selected_keywords", "").split(",")  # 쉼표로 구분된 값으로 리스트로 변환
 
             # 먼저 latitude, longitude 값을 가져오기
             latitude = request.POST.get("latitude")
             longitude = request.POST.get("longitude")
-
-            # 디버깅 출력: latitude와 longitude 값을 먼저 확인
-            print(f"📌 title: {title}, distance: {distance}, time: {time}, lat: {latitude}, lng: {longitude}")
 
             # 위치 정보 처리 (JSON 변환)
             start_location = {
@@ -110,7 +114,8 @@ def submit_course(request):
                 distance=distance,
                 time=time,
                 start_location=start_location,
-                image=image
+                image=image,
+                description=description
             )
 
             # 키워드 저장
@@ -118,7 +123,7 @@ def submit_course(request):
                 keyword, created = Keyword.objects.get_or_create(name=keyword_name)
                 CourseKeyword.objects.create(course=course, keyword=keyword)
 
-            return JsonResponse({"message": "코스가 성공적으로 저장되었습니다."})
+            return redirect('course_form')
 
         except (ValueError, TypeError) as e:
             return JsonResponse({"error": f"잘못된 입력 값: {str(e)}"}, status=400)
