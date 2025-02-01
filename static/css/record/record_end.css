@@ -1,4 +1,25 @@
+.record__e_info{
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 .record__e_total_dist, .record__e_total_cal,
 .record__e_total_time, .record__e_status {
-    
+    color: var(--soft-red);
+    font-family: "Kartrider Kor OTF";
+    font-size: 30px;
+    font-weight: 600;
+}
+.record__e_total_time{
+    font-family: "VITRO INSPIRE OTF";
+    font-size: 68px;
+    font-weight: 900;
+    padding-block: 8px;
+}
+.record__e_person{
+    padding-top: 99px;
+    padding-left: 141px;
+    position: absolute;
+    z-index: 4;
 }

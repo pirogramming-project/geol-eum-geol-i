@@ -1,0 +1,65 @@
+body {
+    background-color: var(--white);
+}
+.daily__layout {
+    width: 400px;
+    height: 100dvh;
+    background: var(--background-beige);
+    margin-inline: auto;
+    font-family: 'VITRO INSPIRE OTF';
+    position: relative;
+}
+.daily__container {
+    width: 100%;
+    height: 100%;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.daily__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.daily__date_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.daily__date {
+    color: var(--soft-red);
+    font-family: "VITRO INSPIRE OTF";
+    font-size: 40px;
+    font-weight: 900;
+}
+.daily__time_container {
+    display: flex;
+    align-items: flex-start;
+}
+.daily__time_info {
+    color: var(--soft-red);
+    font-family: "Kartrider Kor OTF";
+    font-size: 22px;
+    font-weight: 600;
+    padding: 5px;
+    line-height: 28px;
+}
+.daily__both_time {
+    display: flex;
+    gap: 10px;
+}
+.daily__red {
+    color: var(--red);
+}
+.daily__route_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%
+}
+.daily__route_info {
+    color: var(--soft-red);
+    font-family: "Kartrider Kor OTF";
+    font-size: 30px;
+    font-weight: 600;
+}
