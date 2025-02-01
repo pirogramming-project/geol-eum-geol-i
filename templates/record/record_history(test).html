@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운동 기록</title>
+</head>
+<body>
+    <h1>📅 {{ date }}의 운동 기록</h1>
+    
+    {% if records %}
+        <ul>
+            {% for record in records %}
+                <li>
+                    <strong>날짜:</strong> {{ date }} <br>
+                    <strong>시작 시간:</strong> {{ record.start_time|date:"H:i" }} <br>
+                    <strong>종료 시간:</strong> {{ record.end_time|date:"H:i" }} <br>
+                    <strong>운동 시간:</strong> {{ record.time }} <br>
+                    <strong>이동 거리:</strong> {{ record.distance }} km <br>
+                    <strong>페이스:</strong> {{ record.pace }} 분/km <br>
+                    <strong>소모 칼로리:</strong> {{ record.calories }} kcal <br>
+
+                    <!-- 기존에 업로드한 이미지 표시 -->
+                    {% if record.image %}
+                        <br><strong>운동 사진:</strong> <br>
+                        <img src="{{ record.image.url }}" alt="운동 사진" style="max-width: 200px;"><br>
+                    {% endif %}
+
+                    <!-- 메모 표시 -->
+                    <br><strong>메모:</strong> {{ record.memo }} <br>
+                    
+                    <!-- 메모 및 사진 업데이트 폼 -->
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="record_id" value="{{ record.id }}">
+                        <label for="memo">메모:</label>
+                        <textarea name="memo">{{ record.memo }}</textarea><br>
+
+                        <label for="image">사진 추가:</label>
+                        <input type="file" name="image"><br>
+
+                        <button type="submit">저장</button>
+                    </form>
+
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>운동 기록이 없습니다.</p>
+    {% endif %}
+
+    <a href="/">🏠 홈으로 가기</a>
+</body>
+</html>
