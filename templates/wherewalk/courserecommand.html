@@ -57,9 +57,9 @@
         <div class="keywords-container">            
             <div class="keywords">
                 <!-- 키워드1은 기본으로 항상 보이고, 처음에는 선택되지 않음 -->
-                <button class="keyword passive">키워드1</button>
-                <button class="keyword passive">키워드1</button>
-                <button class="keyword passive">키워드1</button>
+                {% for keyword in keywords|slice:":3" %}
+                    <button class="keyword passive">{{ keyword.name }}</button>
+                {% endfor %}
 
                 <!-- 드롭다운 버튼 -->
                 <button class="keyword passive" id="loadMoreKeywords">
@@ -215,7 +215,9 @@ function closeMapPopup() {
         const findButton = document.getElementById('findButton');
 
         const moreKeywords = [
-            '키워드2', '키워드3', '키워드4', '키워드5', '키워드6', '키워드7'
+        {% for keyword in keywords|slice:"3:" %}
+            "{{ keyword.name }}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}
         ];
 
         let isExpanded = false;
@@ -284,18 +286,20 @@ function closeMapPopup() {
             console.log("선택된 키워드들:", selectedKeywords);
 
             // 예시: 키워드를 서버로 전송 (fetch API 사용)
-            // fetch('/your-server-endpoint', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({ keywords: selectedKeywords })
-            // }).then(response => response.json())
-            //   .then(data => {
-            //       console.log("서버 응답:", data);
-            //   }).catch(error => {
-            //       console.error("서버 에러:", error);
-            //   });
+            fetch('/your-server-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ keywords: selectedKeywords })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("서버 응답:", data);
+            })
+            .catch(error => {
+                console.error("서버 에러:", error);
+            });
         });
     </script>
 
