@@ -6,6 +6,7 @@ from .serializers import DetailSerializer
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from .form__test import RecordUpdateTestForm
+from django.http import JsonResponse
 
 def main_view(request):
     return render(request, 'main/landing.html')
@@ -111,3 +112,24 @@ def record_history(request, date):
         "form": RecordUpdateTestForm(),
     }
     return render(request, "record/daily_record.html", context)
+
+
+import logging
+from django.contrib.auth.decorators import login_required
+from .models import Detail
+
+logger = logging.getLogger(__name__)  # 로깅 설정
+# 요청한 날짜에 기록이 있는지 확인(김규일 추가)
+@login_required
+def check_record(request, date):
+    user = request.user
+    logger.info(f"check_record 요청됨 | 사용자: {user} | 요청 날짜: {date}")
+
+    if not date or date == "undefined":
+        logger.error(f"잘못된 날짜 값: {date}")
+        return JsonResponse({"error": "Invalid date format"}, status=400)
+
+    record_exists = Detail.objects.filter(user=user, created_at=date).exists()
+    
+    logger.info(f"기록 여부: {record_exists}")
+    return JsonResponse({"has_record": record_exists})
