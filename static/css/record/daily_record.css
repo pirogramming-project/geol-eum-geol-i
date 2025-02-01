@@ -103,7 +103,7 @@ body {
 }
 .daily__user_image{
     width: 100%;
-    height: 200px;
+    height: 300px;
     border: 2px var(--light-gray) solid;
     border-radius: 10px;
 }
