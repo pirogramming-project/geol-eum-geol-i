@@ -62,11 +62,15 @@ body {
     flex-direction: column;
     gap: 5px;
 }
-.daily__route_info, .walkForm > label {
+.daily__route_info, .walkForm > label, .daily__empty_alert {
     color: var(--soft-red);
     font-family: "Kartrider Kor OTF";
     font-size: 24px;
     font-weight: 600;
+}
+.daily__empty_alert{
+    width: 60%;
+    margin-inline: auto;
 }
 .daily__user_register {
     padding: 20px;
