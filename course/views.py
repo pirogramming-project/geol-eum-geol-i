@@ -6,6 +6,7 @@ from .models import Course, Keyword, CourseKeyword
 from .forms import CourseForm
 from decimal import Decimal
 from .utils import calculate_distance
+from django.contrib.auth.decorators import login_required
 import json
 
 def course_list(request):
@@ -52,8 +53,26 @@ class CourseDetailView(DetailView):
     template_name = 'wherewalk/course_detail.html'  # 사용할 템플릿 파일
     context_object_name = 'course'  # 템플릿에서 사용할 변수 이름
 
+
+from record.models import Record
+from datetime import datetime
+
+@login_required
 def calendar_view(request):
-    return render(request, 'calendarpage/calendar.html')
+    user = request.user
+    today = datetime.today()
+    year, month = today.year, today.month
+
+    # `date` 필드를 기준으로 월별 데이터 조회
+    record = Record.objects.filter(user=user, date__year=year, date__month=month).first()
+    total_distance = record.total_distance if record else 0
+    total_calories = record.total_calories if record else 0
+
+    return render(request, "calendarpage/calendar.html", {
+        "total_distance": total_distance,
+        "total_calories": total_calories,
+        "user" : user,
+    })
 
 def course_form_view(request):
     if request.method == "POST":

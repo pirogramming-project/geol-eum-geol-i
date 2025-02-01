@@ -364,13 +364,13 @@ def naver_callback(request):
     user_id = user_info.get("id")
     naver_email = email.split('@')[0]+'@naver.com'
     try:
-        # 1️⃣ 이메일이 기존 유저에 있으면 그 유저로 로그인
+        # 이메일이 기존 유저에 있으면 그 유저로 로그인
         user = CustomUser.objects.get(email=naver_email)
         user.save()
         created = False
 
     except CustomUser.DoesNotExist:
-        # 2️⃣ 이메일이 없으면 새로 생성
+        # 이메일이 없으면 새로 생성
         user = CustomUser.objects.create(
             user_id=user_id,
             email=naver_email,
@@ -379,7 +379,7 @@ def naver_callback(request):
         )
         created = True
 
-    # 3️⃣ 사용자 세션 로그인
+    # 사용자 세션 로그인
     login(request, user)
 
     # 성공 페이지 렌더링
@@ -440,13 +440,13 @@ def google_callback(request):
     email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
 
     try:
-        # 1️⃣ 이메일이 기존 유저에 있으면 그 유저로 로그인
+        # 이메일이 기존 유저에 있으면 그 유저로 로그인
         user = CustomUser.objects.get(email=email)
         user.save()
         created = False
 
     except CustomUser.DoesNotExist:
-        # 2️⃣ 이메일이 없으면 새로 생성
+        # 이메일이 없으면 새로 생성
         user = CustomUser.objects.create(
             user_id=google_id,
             email=email,
@@ -456,7 +456,7 @@ def google_callback(request):
         user.set_unusable_password()
         created = True
 
-    # 3️⃣ 사용자 세션 로그인
+    # 사용자 세션 로그인
     login(request, user)
 
     # 성공 페이지 렌더링
@@ -465,30 +465,3 @@ def google_callback(request):
         "created": created,  # 새 유저인지 기존 유저인지 전달
     }
     return render(request, "success.html", context)
-
-    # # 사용자 정보 저장 또는 기존 사용자 불러오기
-    # user, created = CustomUser.objects.get_or_create(
-    #     user_id=google_id,
-    #     defaults={
-    #         "email": email,
-    #         "nickname": name,
-    #         "is_active": True,  # 기본적으로 활성화
-    #     }
-    # )
-
-    # if created:
-    #     user.set_unusable_password()  # 소셜 로그인의 경우 비밀번호를 설정하지 않음
-    #     user.save()
-
-    # # 사용자 세션 로그인
-    # login(request, user)
-
-    # context = {
-    #     "email": user.email,
-    #     "nickname": user.nickname,
-    #     "user_id": user.user_id,
-    #     "date_joined": user.date_joined,
-    #     "is_active": user.is_active,
-    # }
-
-    # return render(request, "success.html", context)

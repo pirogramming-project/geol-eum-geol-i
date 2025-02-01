@@ -3,6 +3,8 @@ from django.conf.urls.static import static
 from django.urls import path
 from .views import *
 
+app_name = 'course'
+
 urlpatterns = [
     path('', course_list, name='course_list'),
     path('calendar/', calendar_view, name='calendar_view'),
