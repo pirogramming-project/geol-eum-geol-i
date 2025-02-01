@@ -26,7 +26,7 @@ class Detail(models.Model):
     time = models.CharField(max_length=10)  # "시:분:초" 형식으로 저장
     pace = models.DecimalField(max_digits=4, decimal_places=2)  # 페이스 (분/km)
     calories = models.PositiveIntegerField()  # 소모 칼로리
-    image =  models.ImageField(upload_to='record_image/%Y%m%d', null=True, blank=True)
+    image =  models.ImageField(upload_to='record_images/%Y%m%d', null=True, blank=True)
     memo = models.TextField(null=True, blank=True)  # 메모
     path = models.JSONField(null=True, blank=True)  # 이동 경로 데이터 (좌표 JSON 형태)
 

@@ -90,4 +90,4 @@ def record_history(request, date):
         "date" : date,
         "records" : records 
     }
-    return render(request, "record/record_history.html", context)
+    return render(request, "record/record_history(test).html", context)
