@@ -23,6 +23,13 @@ from django.core.cache import cache
 from django.utils.timezone import now
 from datetime import timedelta
 
+
+
+def main_beforeLogin(request):
+    return render(request, 'main/main(beforeLogin).html')
+
+
+
 User = get_user_model()
 
 def login_view(request):

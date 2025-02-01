@@ -1,0 +1,135 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.landing__layout {
+  background: var(--background_beige, #fff3e9);
+}
+
+.title {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 67px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.title_red {
+  color: var(--red, #b82132);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 67.902px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
+.title_name {
+  float: left;
+  margin-top: 80px;
+  margin-right: 125px;
+}
+
+.title_bottom {
+  display: flex;
+  flex-direction: row;
+
+  margin-left: 23px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 50px;
+}
+
+.center_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_button:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: transform 300ms ease;
+}
+
+.center_button_box_outside {
+  width: 163px;
+  height: 108px;
+  flex-shrink: 0;
+
+  border-radius: 359.031px;
+  border: 4px solid var(--light_gray, #e6e6e6);
+  background: linear-gradient(180deg, #ffa79d 0%, #d2665a 100%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_button_box_inside {
+  width: 127px;
+  height: 84px;
+  flex-shrink: 0;
+
+  border-radius: 279.736px;
+  border: 8px solid var(--red, #b82132);
+  background: var(--light_coral, #ffe5d0);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_button_box_inside img {
+  fill: var(--red, #b82132);
+}
+
+.center_text1 {
+  color: var(--red, #b82132);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  margin-top: 12px;
+}
+
+.center_text2 {
+  display: flex;
+  flex-direction: row;
+}
+
+.center_text2 > span {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
