@@ -6,7 +6,7 @@
 }
 .record__e_total_dist, .record__e_total_cal,
 .record__e_total_time, .record__e_status {
-    color: var(--soft_red, #D2665A);
+    color: var(--soft-red);
     font-family: "Kartrider Kor OTF";
     font-size: 30px;
     font-weight: 600;

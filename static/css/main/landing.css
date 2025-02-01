@@ -9,11 +9,9 @@ body {
     font-family: 'VITRO INSPIRE OTF';
     position: relative;
 }
-.landing_container {
+.landing__container {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
 }
 .landing__title_container {
     display: flex;
