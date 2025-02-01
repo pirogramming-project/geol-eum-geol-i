@@ -97,6 +97,8 @@ def submit_course(request):
             # 키워드 데이터를 JSON으로 받기
             keywords = request.POST.get("selected_keywords", "").split(",")  # 쉼표로 구분된 값으로 리스트로 변환
 
+            keywords = [keyword for keyword in keywords if keyword.strip()]
+
             # 먼저 latitude, longitude 값을 가져오기
             latitude = request.POST.get("latitude")
             longitude = request.POST.get("longitude")
@@ -119,9 +121,10 @@ def submit_course(request):
             )
 
             # 키워드 저장
-            for keyword_name in keywords:
-                keyword, created = Keyword.objects.get_or_create(name=keyword_name)
-                CourseKeyword.objects.create(course=course, keyword=keyword)
+            if keywords:
+                for keyword_name in keywords:
+                    keyword, created = Keyword.objects.get_or_create(name=keyword_name)
+                    CourseKeyword.objects.create(course=course, keyword=keyword)
 
             return redirect('course_form')
 

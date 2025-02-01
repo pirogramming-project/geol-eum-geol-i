@@ -145,6 +145,7 @@ input, button, textarea {
     grid-column: span 3; /* "더 보기" 버튼이 그리드에서 전체 너비를 차지하도록 설정 */
 }
 
+
 .courseform-page-header {
     width: 310px;
     height: 50px;
