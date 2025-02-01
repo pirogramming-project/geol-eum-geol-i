@@ -2,14 +2,14 @@
 
 @font-face {
   font-family: 'Kartrider Kor OTF';
-  src: url('../../fonts/KartriderKorOTFMedium.otf') format('truetype'); /* TTF 파일 경로 */
+  src: url('../fonts/KartriderKorOTFMedium.otf') format('truetype'); /* TTF 파일 경로 */
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Vitro Inspire OTF';
-  src: url('../../fonts/VITROINSPIREOTF.otf') format('truetype'); /* TTF 파일 경로 */
+  src: url('../fonts/VITROINSPIREOTF.otf') format('truetype'); /* TTF 파일 경로 */
   font-weight: normal;
   font-style: normal;
 }
@@ -53,9 +53,9 @@ body {
 .calendar-introduction {
   color: var(--soft-red);
   font-family: 'Kartrider Kor OTF', sans-serif;
-  font-size: 24px;
+  font-size: 23px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
 }
 
@@ -143,12 +143,12 @@ body {
   color: var(--deep-brown);
   font-family: 'Kartrider Kor OTF', sans-serif;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: start;
-  bottom: -60px;
+  bottom: -75px;
 }
 
 .calendar-controls {
@@ -157,6 +157,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: max-content;
+  top: 480px;
 }
 
 #prevBtn, #nextBtn {
