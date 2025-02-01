@@ -36,12 +36,15 @@
     font-size: 67px;
     padding-top: 28px;
 }
+.record__today_ment {
+    padding-top: 18px;
+}
 .record__date {
     font-size: 50px;
     padding-top: 40px;
 }
 .record__person {
-    padding-top: 135px;
+    padding-top: 143px;
     padding-left: 141px;
     position: absolute;
     z-index: 4;
