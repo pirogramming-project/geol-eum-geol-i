@@ -6,6 +6,51 @@
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/root.css' %}">
     <link rel="stylesheet" href="{% static 'css/calendar/calendar.css' %}">
+    <style>
+      .date {
+        position: relative;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1; /* 날짜 숫자가 아이콘 위에 오도록 z-index 값 조정 */
+      }
+      
+      .date:hover {
+        background-color: #f5f5f5;
+      }
+      
+      .icon-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        z-index: -1; /* 아이콘이 배경으로 오도록 z-index 값 조정 */
+      }
+      
+      .empty {
+        visibility: hidden;
+      }
+
+      .icon-overlay.opacity-0-25 {
+        opacity: 0.25;
+      }
+      
+      .icon-overlay.opacity-0-50 {
+        opacity: 0.50;
+      }
+      
+      .icon-overlay.opacity-0-75 {
+        opacity: 0.75;
+      }
+      
+      .icon-overlay.opacity-1 {
+        opacity: 1;
+      }
+    </style>
   </head>
   <body>
     <div class="calendar-page-header">
@@ -22,6 +67,7 @@
         멈추지 않을 {{ user.nickname }}님의 걸음을 응원해요!
       </div>
     </div>
+
     <div class="calendar-container">
       <div class="calendar-header">
         <h2 id="currentMonth"></h2>
@@ -39,139 +85,117 @@
       <div class="calendar-information">
         <div>이달의 걸음: {{ total_distance }} km</div>
         <div>이달의 소비 칼로리: {{ total_calories }} kcal</div>
-    </div>
+      </div>
       <div class="calendar-controls">
         <button id="prevBtn">이전 달
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M10 0C4.48584 0 0 4.48584 0 10C0 15.5142 4.48584 20 10 20C15.5142 20 20 15.5142 20 10C20 4.48584 15.5142 0 10 0ZM15 11H7.41406L8.70703 12.293C9.09766 12.6836 9.09766 13.3164 8.70703 13.707C8.51172 13.9023 8.25586 14 8 14C7.74414 14 7.48828 13.9023 7.29297 13.707L4.29297 10.707C3.90234 10.3164 3.90234 9.68359 4.29297 9.29297L7.29297 6.29297C7.68359 5.90234 8.31641 5.90234 8.70703 6.29297C9.09766 6.68359 9.09766 7.31641 8.70703 7.70703L7.41406 9H15C15.5522 9 16 9.44775 16 10C16 10.5522 15.5522 11 15 11Z" fill="#76453B"/>
-            </svg>
-        </button>
-        <button id="nextBtn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M10 0C15.5142 0 20 4.48584 20 10C20 15.5142 15.5142 20 10 20C4.48584 20 0 15.5142 0 10C0 4.48584 4.48584 0 10 0ZM5 11H12.5859L11.293 12.293C10.9023 12.6836 10.9023 13.3164 11.293 13.707C11.4883 13.9023 11.7441 14 12 14C12.2559 14 12.5117 13.9023 12.707 13.707L15.707 10.707C16.0977 10.3164 16.0977 9.68359 15.707 9.29297L12.707 6.29297C12.3164 5.90234 11.6836 5.90234 11.293 6.29297C10.9023 6.68359 10.9023 7.31641 11.293 7.70703L12.5859 9H5C4.44775 9 4 9.44775 4 10C4 10.5522 4.44775 11 5 11Z" fill="#76453B"/>
           </svg>
-          다음 달</button>
+        </button>
+        <button id="nextBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 0C15.5142 0 20 4.48584 20 10C20 15.5142 15.5142 20 10 20C4.48584 20 0 15.5142 0 10C0 4.48584 4.48584 0 10 0ZM5 11H12.5859L11.293 12.293C10.9023 12.6836 10.9023 13.3164 11.293 13.707C11.4883 13.9023 11.7441 14 12 14C12.2559 14 12.5117 13.9023 12.707 13.707L15.707 10.707C16.0977 10.3164 16.0977 9.68359 15.707 9.29297L12.707 6.29297C12.3164 5.90234 11.6836 5.90234 11.293 6.29297C10.9023 6.68359 10.9023 7.31641 11.293 7.70703L12.5859 9H5C4.44775 9 4 9.44775 4 10C4 10.5522 4.44775 11 5 11Z" fill="#76453B"/>
+          </svg>  
+          다음 달
+        </button>
       </div>
     </div>
-  </body>
-  <script>
-        const calendarDates = document.getElementById("calendarDates");
-        const currentMonthElement = document.getElementById("currentMonth");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
 
-        const today = new Date(); // 현재 날짜를 나타내는 Date 객체를 저장한다.
-        let currentMonth = today.getMonth();
-        /* 현재 월을 나타내는 값을 저장한다. getMonth() 메서드는 0부터 시작하는 월을 반환하므로
-        1월이면 0, 2월이면 1을 반환한다. */
-        let currentYear = today.getFullYear(); // 변수에 현재 연도를 나타내는 값을 저장한다.
+    <script>
+      const calendarDates = document.getElementById("calendarDates");
+      const currentMonthElement = document.getElementById("currentMonth");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
 
-        function renderCalendar() {
-        /* renderCalendar 함수는 월별 캘랜더를 생성하고 표시하는 함수이다. */
+      const today = new Date();
+      let currentMonth = today.getMonth();
+      let currentYear = today.getFullYear();
+
+      function renderCalendar() {
         const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-        /* firstDayOfMonth 변수에 현재 월의 첫 번째 날짜를 나타내는 Date 객체를 저장한다.
-        해당 월의 첫 번째 날짜에 대한 정보를 얻는다. */
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        /* daysInMonth 변수에 현재 월의 총 일 수를 나타내는 값을 저장한다. 
-        해당 월이 몇 일까지 있는지 알 수 있다. */
         const startDayOfWeek = firstDayOfMonth.getDay();
-        /* 변수에 현재 월의 첫 번째 날짜의 요일을 나타내는 값을 저장한다.
-        해당 월의 첫 번째 날짜가 무슨 요일인지 알 수 있다. */
         currentMonthElement.textContent = `${currentYear}년 ${currentMonth + 1}월`;
-        // 월을 나타내는 요소에 현재 월과 연도를 설정하여 표시한다.
 
-        calendarDates.innerHTML = ""; // 일자를 표시하는 그리드 컨테이너를 비운다.
+        calendarDates.innerHTML = "";
 
-        // 빈 날짜(이전 달)
+        // 빈 날짜 (이전 달)
         for (let i = 0; i < startDayOfWeek; i++) {
-            const emptyDate = document.createElement("div");
-            //  빈 날짜를 나타내는 div 요소를 생성한다.
-            emptyDate.classList.add("date", "empty");
-            // 생성한 div 요소에 "date"와 "empty" 클래스를 추가한다.
-            calendarDates.appendChild(emptyDate);
-            // 생성한 빈 날짜 요소를 캘린더 그리드에 추가한다.
+          const emptyDate = document.createElement("div");
+          emptyDate.classList.add("date", "empty");
+          calendarDates.appendChild(emptyDate);
         }
 
-        // 현재 달의 날짜
+        // 현재 달 날짜 생성
         for (let i = 1; i <= daysInMonth; i++) {
           const dateElement = document.createElement("div");
           dateElement.classList.add("date");
           dateElement.textContent = i;
-
-          // 날짜 형식을 "YYYY-MM-DD"로 변환하여 data-date 속성에 저장(김규일일)
           const formattedDate = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
           dateElement.dataset.date = formattedDate;
-
           calendarDates.appendChild(dateElement);
-        }
-        /* 
-        1. for 문을 이용하여 현재 월의 총 일 수만큼 반복하여 월의 날짜를 순서대로 표시한다.
-        2. const dateElement = document.createElement("div");를 통해 날짜를 나타내는 div 요소를 생성한다.
-        3. dateElement.classList.add("date");를 통해 생성한 div 요소에 "date" 클래스를 추가한다.
-        4. dateElement.textContent = i;를 통해 해당 날짜 값을 div 요소의 텍스트로 설정한다.
-        5. calendarDates.appendChild(dateElement);를 통해 생성한 날짜 요소를 캘린더 그리드에 추가한다.
-        */
-        }
 
-        renderCalendar();
-        // 페이지가 로드되면 renderCalendar 함수를 실행하여 초기 캘린더를 표시한다.
+          checkRecordAndShowIcon(dateElement, formattedDate); // 레코드 확인 및 아이콘 표시
+        }
+      }
 
-        prevBtn.addEventListener("click", () => {
+      function checkRecordAndShowIcon(dateElement, date) {
+        fetch(`/record/check/${date}/`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.has_record) {
+              dateElement.classList.add("record-exists"); // 레코드가 있으면 스타일 추가
+              const svgIcon = document.createElement("div");
+              svgIcon.classList.add("icon-overlay");
+
+              let opacityClass = "";
+
+              if (0 < data.distance && data.distance <= 1) {
+                opacityClass = "opacity-0-25";
+              } else if (1 < data.distance && data.distance <= 3) {
+                opacityClass = "opacity-0-50";
+              } else if (3 < data.distance && data.distance <= 5) {
+                opacityClass = "opacity-0-75";
+              } else {
+                opacityClass = "opacity-1";
+              }
+
+              svgIcon.classList.add(opacityClass);
+
+              console.log(`날짜: ${date}, 거리: ${data.distance}, 설정된 opacity: ${opacityClass}`);
+              
+              svgIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="65" height="78" viewBox="0 0 65 78" fill="none">
+                <path d="M41.718 32.3128C41.9503 31.6808 42.3389 24.7092 46.0826 19.7368C50.4654 13.9163 44.7557 8.29626 38.5975 8.29626C31.3838 8.31883 32.3057 14.5975 26.38 21.0345C26.3754 21.0345 26.3754 21.0345 26.3754 21.039C21.689 24.8375 15.2064 30.0553 17.6671 35.6846C20.8336 42.0176 23.86 46.292 26.6262 49.1358C19.6009 53.1419 19.2724 52.9997 19.4726 53.3427C19.6957 53.7354 19.9509 53.1734 26.9253 49.4337C27.2518 49.7655 27.5807 50.0769 27.9026 50.3658C16.7777 56.5452 17.3776 56.0985 17.5318 56.3603C17.587 56.4573 17.7158 56.4912 17.8147 56.437C28.7488 50.3386 28.1325 50.7631 28.1831 50.6211C28.7557 51.1176 29.3168 51.5532 29.8548 51.9346C23.6231 55.4939 23.2139 55.4013 23.4117 55.7444C23.5681 56.0107 23.2623 56.0491 30.2322 52.1897C30.6553 52.4741 31.0646 52.7133 31.4647 52.93C21.3259 58.6716 21.1882 58.4211 21.3883 58.7644C21.616 59.1616 21.6942 58.6876 31.9015 53.1604C32.7064 53.5576 33.4721 53.842 34.1942 54.0315C27.5138 57.8413 27.1418 57.7329 27.3349 58.076C27.5625 58.4619 27.8063 57.9067 34.7875 54.167C45.4621 56.3314 50.238 39.5307 41.4514 42.7039C41.2904 42.7264 40.8788 42.9273 40.6006 42.6881C39.9682 42.1419 40.4396 39.9797 40.412 39.8601C40.6742 38.2487 40.7568 34.9396 41.718 32.3128ZM38.8367 41.5029C39.2024 41.2253 39.4484 40.7671 39.6761 41.0064C39.9083 41.2524 39.4254 41.4645 39.1196 41.8031C38.9195 41.9859 38.6367 41.688 38.8367 41.5029ZM39.3748 39.6477C39.4576 39.5665 39.591 39.571 39.6692 39.6522C39.9014 39.8915 39.4185 40.1036 39.1196 40.4489C39.0368 40.5256 38.8643 40.4805 38.8252 40.4376C38.5907 40.1984 39.0759 39.9862 39.3748 39.6477ZM39.1081 36.312C38.9241 36.312 38.8298 36.0885 38.9632 35.9576C39.3242 35.6845 39.5749 35.2219 39.8026 35.4611C39.8853 35.5423 39.8807 35.6732 39.798 35.75C39.2806 36.2081 39.253 36.312 39.1081 36.312ZM39.1426 37.7135C39.0529 37.7948 38.9264 37.7903 38.8482 37.709C38.616 37.4698 39.1035 37.2509 39.4047 36.9123C39.5427 36.7859 39.6761 36.8311 39.7427 36.9168C39.9083 37.147 39.5473 37.2825 39.1426 37.7135ZM38.8298 38.7991C39.1909 38.5215 39.4415 38.0634 39.6692 38.3026C39.9014 38.5418 39.4185 38.754 39.1196 39.0925C39.0368 39.1738 38.9034 39.1693 38.8253 39.088C38.7425 39.0045 38.7471 38.8736 38.8298 38.7991ZM38.6252 8.70498C44.2062 8.70498 50.0149 13.8238 45.7511 19.4979C43.1849 22.8991 41.881 27.8439 41.3406 32.0738C38.7743 32.6561 35.6976 31.0333 34.8605 27.6637C33.9889 24.1587 30.4339 23.4997 26.858 21.1233C32.6206 14.614 31.8387 8.70568 38.6245 8.70568L38.6252 8.70498Z" fill="#6A3200" fill-opacity="0.6"/>
+                <path d="M25.7134 60.6511C25.4742 60.782 25.6812 61.1408 25.9181 61.0054C36.3648 55.1011 36.4754 55.363 36.2753 55.0202C36.0821 54.6704 36.2542 54.9049 25.7134 60.6511Z" fill="#6A3200" fill-opacity="0.6"/>
+                </svg>
+              `;
+              dateElement.appendChild(svgIcon); // SVG 아이콘을 날짜에 추가
+            }
+          })
+          .catch(error => console.error("에러 발생:", error));
+      }
+
+      prevBtn.addEventListener("click", () => {
         currentMonth--;
         if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
+          currentMonth = 11;
+          currentYear--;
         }
         renderCalendar();
-        });
-        /* 
-        1. 이전 버튼(prevBtn)을 클릭하면 현재 월을 이전 월로 변경하고, 연도가 바뀌어야 한다면 연도를 변경한다.
-        2. 변경된 월과 연도를 바탕으로 renderCalendar 함수를 호출하여 이전 월의 캘린더를 표시한다.
-        */
+      });
 
-        nextBtn.addEventListener("click", () => {
+      nextBtn.addEventListener("click", () => {
         currentMonth++;
         if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
+          currentMonth = 0;
+          currentYear++;
         }
         renderCalendar();
-        });
-        /* 
-        1. 다음 버튼(nextBtn)을 클릭하면 현재 월을 다음 월로 변경하고, 연도가 바뀌어야 한다면 연도를 변경한다.
-        2. 변경된 월과 연도를 바탕으로 renderCalendar 함수를 호출하여 다음 월의 캘린더를 표시한다.
-        */
-  </script>
-
-  <script>
-    {% comment %} 
-    캘린더 날짜 클릭시 detail로 이동(김규일)
-    {% endcomment %}
-    document.addEventListener("DOMContentLoaded", function () {
-      const dates = document.getElementById("calendarDates");
-  
-      dates.addEventListener("click", function (event) {
-          if (event.target.classList.contains("date")) {
-              const selectedDate = event.target.dataset.date; // 올바르게 data-date 가져오기
-              console.log("선택된 날짜:", selectedDate); // 디버깅 로그 출력
-  
-              if (!selectedDate) {
-                  alert("날짜 정보가 올바르게 전달되지 않았습니다.");
-                  return;
-              }
-  
-              // 기록 존재 여부 확인 후 페이지 이동
-              fetch(`/record/check/${selectedDate}/`)
-                  .then(response => response.json())
-                  .then(data => {
-                      if (data.has_record) {
-                          window.location.href = `/record/history/${selectedDate}/`;
-                      } else {
-                          alert("이 날짜에는 기록이 없습니다.");
-                      }
-                  })
-                  .catch(error => console.error("에러 발생:", error));
-          }
       });
-  });
-  </script>
+
+      renderCalendar();
+
+    </script>
+  </body>
 </html>
