@@ -94,8 +94,10 @@ iframe {
 }
 
 .coursedetail-title {
+    display: flex;
+    align-items: flex-end;
     font-family: 'Vitro Inspire OTF', sans-serif;
-    font-size: 51.238px;
+    font-size: 30px;
     font-style: normal;
     font-weight: 900;
     line-height: normal;

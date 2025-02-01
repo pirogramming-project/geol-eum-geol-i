@@ -93,7 +93,7 @@ def course_form_view(request):
                 keyword, created = Keyword.objects.get_or_create(name=keyword_name)
                 CourseKeyword.objects.create(course=course, keyword=keyword)
 
-            return redirect("course_form")  # 폼 제출 후 다시 폼 페이지로 이동
+            return redirect("course:course_form")  # 폼 제출 후 다시 폼 페이지로 이동
 
     else:
         form = CourseForm()
@@ -145,7 +145,7 @@ def submit_course(request):
                     keyword, created = Keyword.objects.get_or_create(name=keyword_name)
                     CourseKeyword.objects.create(course=course, keyword=keyword)
 
-            return redirect('course_form')
+            return redirect('course:course_form')
 
         except (ValueError, TypeError) as e:
             return JsonResponse({"error": f"잘못된 입력 값: {str(e)}"}, status=400)
