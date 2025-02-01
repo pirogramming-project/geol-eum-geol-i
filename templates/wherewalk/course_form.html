@@ -37,7 +37,7 @@
                 </button>
             </div>
         
-            <form method="POST" action="{% url 'submit_course' %}"enctype="multipart/form-data">
+            <form method="POST" action="{% url 'course:submit_course' %}"enctype="multipart/form-data">
                 {% csrf_token %}
                 <p class="form-keyword-title">코스 제목</p>
                 <!-- 코스 제목 입력 -->
