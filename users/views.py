@@ -18,21 +18,24 @@ from .utils import email_verification_token                 # 이메일 인증 �
 from django.contrib.auth import get_user_model             # 사용자 모델 가져오기 (커스텀 유저 지원)      # Base64로 인코딩된 UID를 디코딩         # 데이터를 문자열로 강제 변환
 from django.contrib.auth.tokens import default_token_generator
 import json
+import uuid
+
+User = get_user_model()
 
 def login_view(request):
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
+        email = request.POST.get('email')  # user_id 대신 email 사용
         password = request.POST.get('password')
 
-        user = authenticate(request, user_id=user_id, password=password)  # 유저 인증
+        user = authenticate(request, email=email, password=password)  # 이메일로 인증
 
         if user is not None:
             login(request, user)
-            return redirect('users:success')  # 로그인 성공 시 success.html로 이동
+            return redirect('users:success')
         else:
-            return render(request, 'login.html', {'error': 'Invalid User ID or Password'})  # 로그인 실패
+            return render(request, 'login.html', {'error': 'Invalid Email or Password'})
 
-    return render(request, 'login.html')
+    return render(request, 'usermanage/login.html')
 
 def success_view(request):
     if not request.user.is_authenticated:
@@ -40,31 +43,30 @@ def success_view(request):
 
     return render(request, 'success.html', {'user': request.user})
 
-User = get_user_model()
-
 '''
-회원가입 페이지 view
+회원가입 view
 '''
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # 입력받은 데이터 JSON 직렬화
-            user_data = {
-                'user_id': form.cleaned_data['user_id'],
-                'email': form.cleaned_data['email'],
-                'nickname': form.cleaned_data['nickname'],
-                'password': form.cleaned_data['password1'],
-            }
-            encoded_data = urlsafe_base64_encode(force_bytes(json.dumps(user_data)))  # JSON 직렬화 후 인코딩
+            # 이메일 인증을 위해 먼저 User 객체를 DB에 저장 (is_active=False)
+            user = User.objects.create_user(
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+                nickname=form.cleaned_data['nickname'],
+                is_active=False  # 🔥 인증 전까지 비활성화 상태
+            )
+
+            # 이메일 인증을 위해 토큰 생성
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))  # 🔥 user.pk를 사용해서 직렬화
 
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
             mail_subject = 'Activate your account'
-            token = default_token_generator.make_token(User(email=user_data['email']))  # email만 있는 User 객체 사용
-
             message = render_to_string('activate_email.html', {
-                'uid': encoded_data,  # JSON 직렬화된 데이터 사용
+                'uid': uid,
                 'domain': current_site.domain,
                 'token': token,
             })
@@ -72,41 +74,34 @@ def signup(request):
                 mail_subject,
                 message,
                 settings.EMAIL_HOST_USER,
-                [user_data['email']],
+                [user.email],
                 fail_silently=False,
             )
-            
+
             return HttpResponse('Please confirm your email address to complete the registration.')
-    
+
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 
-'''
-이메일 인증 view
-'''
+
 def activate(request, uidb64, token):
     try:
-        # 저장된 유저 데이터 복호화
-        decoded_data = force_str(urlsafe_base64_decode(uidb64))
-        user_data = json.loads(decoded_data)  # JSON 디코딩
+        # 🔥 User 객체를 DB에서 가져오기
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
 
-        # 토큰 검증
-        temp_user = User(email=user_data['email'])  # email만 포함된 가짜 User 객체 생성
-        if not default_token_generator.check_token(temp_user, token):
+        # 🔥 실제 DB에서 가져온 user 객체로 토큰 검증
+        if not default_token_generator.check_token(user, token):
             return HttpResponse('Invalid activation link!')
 
-        # 이메일 인증이 완료되었으므로 유저 계정 생성
-        user = User.objects.create_user(
-            user_id=user_data['user_id'],
-            email=user_data['email'],
-            password=user_data['password'],
-            nickname=user_data['nickname'],
-        )
+        # 인증 성공 → 계정 활성화
+        user.is_active = True
+        user.save()
         return HttpResponse('Thank you for your email confirmation. Now you can log in.')
-    
-    except Exception as e:
+
+    except (User.DoesNotExist, ValueError, TypeError):
         return HttpResponse('Invalid activation link!')
 
 

@@ -103,6 +103,12 @@
             .then(data => {
                 console.log("운동 기록 저장 완료:", data);
                 updateUI(data);
+
+                // 🚀 start_time 값을 기반으로 YYYY-MM-DD 형식의 날짜를 생성
+                let today = new Date(start_time).toISOString().split("T")[0];
+
+                // 🚀 저장된 운동 기록 페이지로 이동
+                window.location.href = `/record/history/${today}/`;
             })
             .catch(error => console.error("🚨 데이터 저장 실패:", error));
 

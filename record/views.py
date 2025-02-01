@@ -3,11 +3,14 @@ from rest_framework.response import Response
 from datetime import datetime
 from .models import *
 from .serializers import DetailSerializer
-import json
+from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 
+def main_view(request):
+    return render(request, 'main/landing.html')
+
 def record_page(request):
-    return render(request, "record.html")
+    return render(request, "record/record(test).html")
 
 # 칼로리 계산 
 def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
@@ -47,7 +50,7 @@ def save_walk_record(request):
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
         seconds = total_seconds % 60
-        time_str = f"{hours}:{minutes:02d}:{seconds:02d}" # 시:분:초 형식
+        time_str = f"{hours}h{minutes:02d}m{seconds:02d}s" # 시:분:초 형식
         
         distance = float(data.get("distance",0))
         pace = round((minutes / distance),2) if distance > 0 else 0 
@@ -74,3 +77,17 @@ def save_walk_record(request):
     except Exception as e:
         print("🚨 서버 오류:", str(e))  # ✅ 디버깅 로그 출력
         return Response({"error": str(e)}, status=400)
+    
+    
+    
+## 기록 보여주는 함수
+@login_required
+def record_history(request, date):
+    user = request.user
+    records = Detail.objects.filter(user=user, created_at=date).order_by("-start_time") # 최신순으로 정렬
+    
+    context = {
+        "date" : date,
+        "records" : records 
+    }
+    return render(request, "record/record_history.html", context)

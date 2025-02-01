@@ -1,0 +1,67 @@
+.record__title_container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 35px 35px 35px;
+}
+.record__title_top {
+    display: flex;
+}
+.record__title_flag {
+    position: relative;
+    top: 15px;
+    left: 30px;
+}
+.record__title {
+    font-size: 29px;
+    font-weight: 900;
+    line-height: normal;
+    background: linear-gradient(180deg, var(--peach) 0%, var(--soft-red) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: skewX(14deg);
+}
+.record__red {
+    background: var(--red);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.record__title_top_right {
+    position: relative;
+    left: 4px;
+    top: 22px;
+}
+.record__date, .record__today_ment {
+    color: var(--soft-red);
+    font-family: "VITRO INSPIRE OTF";
+    font-size: 67px;
+    padding-top: 28px;
+}
+.record__date {
+    font-size: 50px;
+    padding-top: 40px;
+}
+.record__person {
+    padding-top: 135px;
+    padding-left: 141px;
+    position: absolute;
+    z-index: 4;
+}
+.record__btn {
+    border-radius: 25px;
+    border: 3px solid var(--white);
+    background: linear-gradient(180deg, var(--soft-red) 0%, var(--red) 100%);
+    box-shadow: 0px 7.097px 7.097px 0px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    bottom: 105px;
+    z-index: 5;
+    padding: 10px 20px;
+    transform: translateX(45%);
+}
+.record_btn_text {
+    color: var(--white);
+    font-family: "VITRO INSPIRE OTF";
+    font-size: 40px;
+}
+.eng {
+    font-size: 25px;
+}
