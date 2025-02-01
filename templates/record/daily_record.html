@@ -102,17 +102,13 @@
                         {% if record.memo %}
                             <div class="daily__user_comment">{{ record.memo }}</div>
                         {% endif %}
-                        <div class="daily__user_image">
-                            <img src="{{ record.image.url }}" alt="오늘걸음 사진">
-                        </div>
-                        <div class="daily__user_comment">{{ record.memo }}기분좋은 하루~</div>
                         <form class="walkForm" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="hidden" name="record_id" value="{{ record.id }}">
                             <label for="image">사진 등록 및 변경하기</label>
                             <input type="file" name="image">
-                            <label for="comment">코멘트 등록 및 변경하기</label>
-                            <textarea name="comment">{{ record.memo }}</textarea>
+                            <label for="memo">코멘트 등록 및 변경하기</label>
+                            <textarea name="memo">{{ record.memo }}</textarea>
                             <button type="submit">변경사항 저장</button>
                         </form>               
                     </div>
