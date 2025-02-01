@@ -1,0 +1,154 @@
+@import url("../root.css");
+
+@font-face {
+  font-family: 'Kartrider Kor OTF';
+  src: url('../../fonts/KartriderKorOTFMedium.otf') format('truetype'); /* TTF 파일 경로 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Vitro Inspire OTF';
+  src: url('../../fonts/VITROINSPIREOTF.otf') format('truetype'); /* TTF 파일 경로 */
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+    background-color: #fef8f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 328px;
+    height: 441px;
+    margin: 5px auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+h1 {
+    color: #b22222;
+}
+.course-info {
+    font-size: 16px;
+    color: #333;
+}
+.course-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.home-btn {
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 185px;
+    height: 46px;
+    text-align: center;
+    display: block;
+    background: var(--deep-brown);
+    color: var(--white) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 18px;
+    text-decoration: none;
+    margin-top: 15px;
+}
+.home-btn:hover {
+    background: #a02020;
+}
+
+iframe {
+    width: 280px;
+    height: 107px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: 0;
+}
+
+.coursedetail-page-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 328px;
+    margin: 10px auto;
+}
+
+.coursedetail-title {
+    display: flex;
+    gap: 10px;
+}
+
+.coursedetail-title {
+    font-family: 'Vitro Inspire OTF', sans-serif;
+    font-size: 51.238px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.coursedetail-title-firstword {
+    color: var(--red);
+}
+
+.coursedetail-title-secondword {
+    color: var(--soft-red);
+}
+
+.course-title {
+    color: var(--deep-brown);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.course-detail-information {
+    display: flex;
+    gap: 30px;
+}
+.course-info {
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.course-distance, .course-time {
+    color: var(--deep-brown);
+}
+
+img {
+    width: 302px;
+    height: 137px;
+}
+
+.course-introduction {
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.course-introduction-start {
+    color: var(--deep-brown);
+}

@@ -18,21 +18,27 @@ from .utils import email_verification_token                 # 이메일 인증 �
 from django.contrib.auth import get_user_model             # 사용자 모델 가져오기 (커스텀 유저 지원)      # Base64로 인코딩된 UID를 디코딩         # 데이터를 문자열로 강제 변환
 from django.contrib.auth.tokens import default_token_generator
 import json
+import uuid
+from django.core.cache import cache
+from django.utils.timezone import now
+from datetime import timedelta
+
+User = get_user_model()
 
 def login_view(request):
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
+        email = request.POST.get('email')  # user_id 대신 email 사용
         password = request.POST.get('password')
 
-        user = authenticate(request, user_id=user_id, password=password)  # 유저 인증
+        user = authenticate(request, email=email, password=password)  # 이메일로 인증
 
         if user is not None:
             login(request, user)
-            return redirect('users:success')  # 로그인 성공 시 success.html로 이동
+            return redirect('users:success')
         else:
-            return render(request, 'login.html', {'error': 'Invalid User ID or Password'})  # 로그인 실패
+            return render(request, 'UserManage/login.html', {'error': 'Invalid Email or Password'})
 
-    return render(request, 'login.html')
+    return render(request, 'UserManage/login.html')
 
 def success_view(request):
     if not request.user.is_authenticated:
@@ -40,31 +46,35 @@ def success_view(request):
 
     return render(request, 'success.html', {'user': request.user})
 
-User = get_user_model()
-
 '''
-회원가입 페이지 view
+회원가입 view
 '''
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # 입력받은 데이터 JSON 직렬화
-            user_data = {
-                'user_id': form.cleaned_data['user_id'],
-                'email': form.cleaned_data['email'],
-                'nickname': form.cleaned_data['nickname'],
-                'password': form.cleaned_data['password1'],
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            nickname = form.cleaned_data['nickname']
+
+            # 캐시에 계정 정보 저장 (이메일 인증 후 계정 생성)
+            temp_user_data = {
+                'email': email,
+                'password': password,
+                'nickname': nickname,
             }
-            encoded_data = urlsafe_base64_encode(force_bytes(json.dumps(user_data)))  # JSON 직렬화 후 인코딩
+            cache_key = f"signup_{email}"  # 이메일 기반 캐시 키
+            cache.set(cache_key, json.dumps(temp_user_data), timeout=600)  # 10분 동안 저장
+
+            # 이메일 인증을 위한 토큰 생성
+            token = default_token_generator.make_token(User(email=email))
+            uid = urlsafe_base64_encode(force_bytes(email))  # 이메일을 기반으로 직렬화
 
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
             mail_subject = 'Activate your account'
-            token = default_token_generator.make_token(User(email=user_data['email']))  # email만 있는 User 객체 사용
-
-            message = render_to_string('activate_email.html', {
-                'uid': encoded_data,  # JSON 직렬화된 데이터 사용
+            message = render_to_string('UserManage/activate_email.html', {
+                'uid': uid,
                 'domain': current_site.domain,
                 'token': token,
             })
@@ -72,42 +82,109 @@ def signup(request):
                 mail_subject,
                 message,
                 settings.EMAIL_HOST_USER,
-                [user_data['email']],
+                [email],
                 fail_silently=False,
             )
-            
+
             return HttpResponse('Please confirm your email address to complete the registration.')
-    
+
     else:
         form = CustomUserCreationForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'UserManage/signup.html', {'form': form})
 
 
-'''
-이메일 인증 view
-'''
 def activate(request, uidb64, token):
     try:
-        # 저장된 유저 데이터 복호화
-        decoded_data = force_str(urlsafe_base64_decode(uidb64))
-        user_data = json.loads(decoded_data)  # JSON 디코딩
+        email = force_str(urlsafe_base64_decode(uidb64))  # 이메일 기반 디코딩
+        cache_key = f"signup_{email}"
+        temp_user_data_json = cache.get(cache_key)
 
-        # 토큰 검증
-        temp_user = User(email=user_data['email'])  # email만 포함된 가짜 User 객체 생성
-        if not default_token_generator.check_token(temp_user, token):
-            return HttpResponse('Invalid activation link!')
+        if not temp_user_data_json:
+            return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
 
-        # 이메일 인증이 완료되었으므로 유저 계정 생성
+        temp_user_data = json.loads(temp_user_data_json)
+
+        # 이메일 인증을 위한 유효성 검사
+        if not default_token_generator.check_token(User(email=email), token):
+            return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
+
+        # 인증 성공 후 계정 생성
         user = User.objects.create_user(
-            user_id=user_data['user_id'],
-            email=user_data['email'],
-            password=user_data['password'],
-            nickname=user_data['nickname'],
+            email=temp_user_data['email'],
+            password=temp_user_data['password'],
+            nickname=temp_user_data['nickname'],
+            is_active=True  # 인증 후 활성화
         )
-        return HttpResponse('Thank you for your email confirmation. Now you can log in.')
+
+        # 캐시에서 데이터 삭제
+        cache.delete(cache_key)
+
+        return HttpResponse("이메일 인증이 완료되었습니다. 이제 로그인할 수 있습니다.")
+
+    except (ValueError, TypeError):
+        return HttpResponse("잘못된 인증 링크입니다.")
+
+def password_reset_request(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return render(request, "UserManage/FindPassWord/password_reset.html", {"error": "해당 이메일이 존재하지 않습니다."})
+
+        # 토큰 및 UID 생성
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        # 이메일 보내기
+        mail_subject = "비밀번호 재설정 링크"
+        message = render_to_string("UserManage/FindPassWord/password_reset_email.html", {
+            "uid": uid,
+            "token": token,
+            "domain": request.get_host(),
+        })
+        send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [email])
+
+        return HttpResponse("비밀번호 재설정 링크가 이메일로 전송되었습니다.")
     
-    except Exception as e:
-        return HttpResponse('Invalid activation link!')
+    return render(request, "UserManage/FindPassWord/password_reset.html")
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+        # 토큰 검증을 먼저 수행
+        if not default_token_generator.check_token(user, token):
+            return HttpResponse("비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다.")
+
+        # 토큰이 생성된 시간을 가져와서 10분 이상 지났는지 확인
+        token_age = timedelta(minutes=10)
+        last_login_time = user.last_login if user.last_login else user.date_joined  # 최근 인증 시간 사용
+
+        if now() - last_login_time > token_age:
+            return HttpResponse("비밀번호 재설정 링크가 만료되었습니다. 다시 요청해주세요.")
+
+        if request.method == "POST":
+            new_password = request.POST.get("new_password1")
+            confirm_password = request.POST.get("new_password2")
+
+            if new_password != confirm_password:
+                return render(request, "UserManage/FindPassword/password_reset_confirm.html", {
+                    "error": "비밀번호가 일치하지 않습니다.",
+                    "uid": uidb64,
+                    "token": token
+                })
+
+            user.set_password(new_password)
+            user.save()
+
+            return redirect("users:login")
+
+        return render(request, "UserManage/FindPassword/password_reset_confirm.html", {"uid": uidb64, "token": token})
+
+    except (User.DoesNotExist, ValueError, TypeError):
+        return HttpResponse("잘못된 링크입니다.")
 
 
 def logout_view(request):

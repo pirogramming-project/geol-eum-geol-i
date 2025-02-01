@@ -1,0 +1,8 @@
+안녕하세요! {{ user.nickname }},
+
+아래 링크를 클릭해 이메일인증을 완료해주세요
+
+http://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}
+
+이 링크는 **10분 후에 만료됩니다**.
+

@@ -11,6 +11,7 @@ class Course(models.Model):
     time = models.PositiveIntegerField()  # 예상 소요 시간 (분)
     start_location = models.JSONField(null=True, blank=True)  # 출발 위치
     image = models.ImageField(upload_to="course_images/", null=True, blank=True)  # 이미지 파일
+    description = models.CharField(max_length=70, blank=True, null=True)  # 70
 
     def __str__(self):
         return self.title
