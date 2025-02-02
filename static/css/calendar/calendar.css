@@ -24,6 +24,7 @@ body {
   background: var(--white);
   padding-bottom: 850px;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .calendar-page-header {
