@@ -21,7 +21,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+  background: var(--white);
 }
 
 .calendar-page-header {
