@@ -89,6 +89,7 @@ iframe {
 }
 
 .coursedetail-title {
+    position: relative;
     display: flex;
     gap: 10px;
 }
@@ -153,4 +154,14 @@ img {
 
 .course-introduction-start {
     color: var(--deep-brown);
+}
+
+.gotohome-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.home-icon {
+    position: relative;
+    top: 7px;
 }

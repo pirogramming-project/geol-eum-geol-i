@@ -15,17 +15,13 @@
 }
 
 body {
-    background-color: #fbe9e7;
+    background: red;
     text-align: center;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    padding-bottom: 250px;
 }
-
 
 
 .container {
@@ -39,6 +35,7 @@ body {
 }
 
 .courserecommand-title {
+    position: relative;
     display: flex;
     align-items: flex-end;
     gap: 10px;
@@ -47,6 +44,11 @@ body {
     font-style: normal;
     font-weight: 900;
     line-height: normal;
+}
+
+.home-icon {
+    position: relative;
+    top: 7px;
 }
 
 .course-recommand-introduction {
