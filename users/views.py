@@ -53,7 +53,7 @@ def success_view(request):
     if not request.user.is_authenticated:
         return redirect('users:login')  # 로그인되지 않았다면 로그인 페이지로 리다이렉트
 
-    return render(request, 'success.html', {'user': request.user})
+    return render(request, 'main/main(afterLogin).html', {'user': request.user})
 
 '''
 회원가입 view
@@ -336,7 +336,7 @@ def naver_callback(request):
     context = {
         "user": user,  # user 객체를 템플릿에 전달
     }
-    return render(request, "success.html", context)
+    return render(request, "main/main(afterLogin).html", context)
 
 def naver_callback(request):
     # 네이버에서 전달받은 인증 코드와 state 값
@@ -396,7 +396,7 @@ def naver_callback(request):
         "user": user,
         "created": created,  # 새 유저인지 기존 유저인지 전달
     }
-    return render(request, "success.html", context)
+    return render(request, "main/main(afterLogin).html", context)
 
 def google_login(request):
     google_auth_url = "https://accounts.google.com/o/oauth2/auth"
@@ -473,4 +473,4 @@ def google_callback(request):
         "user": user,
         "created": created,  # 새 유저인지 기존 유저인지 전달
     }
-    return render(request, "success.html", context)
+    return render(request, "main/main(afterLogin).html", context)
