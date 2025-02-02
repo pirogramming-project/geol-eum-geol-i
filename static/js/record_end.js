@@ -101,6 +101,12 @@ document.addEventListener("DOMContentLoaded", function() {
             pace = (minutes/totalDistance).toFixed(2);
         }
 
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = String(today.getMonth()+1).padStart(2, "0"); // getMonth(0~11) 이므로 범위 보정
+        let day = String(today.getDate()).padStart(2, "0");
+        let formattedDate = `${year}-${month}-${day}`;
+
         // API에 보낼 데이터 구조
         let daily_record = {
             start_time: startTime.toISOString(),
@@ -125,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log("오늘걸음 기록 저장완료:", data);
             alert(`기록이 저장되었습니다.`);
+            window.location.href = `/record/history/${formattedDate}/`;
         })
         .catch(error => console.error("기록 저장에 실패했습니다.", error));
     });
