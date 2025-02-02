@@ -22,7 +22,7 @@ body {
   align-items: center;
   justify-content: center;
   background: var(--white);
-  padding-bottom: 150px;
+  padding-bottom: 300px;
 }
 
 .calendar-page-header {
