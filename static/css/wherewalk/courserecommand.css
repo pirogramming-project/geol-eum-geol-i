@@ -397,3 +397,7 @@ svg {
     display: block;
     margin-top: 10px;
 }
+
+.hidden-footer {
+    display: none;
+}
