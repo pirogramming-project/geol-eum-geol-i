@@ -15,12 +15,16 @@
 }
 
 body {
-    background: red;
+    background: #fff;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-bottom: 250px;
+}
+
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
 }
 
 

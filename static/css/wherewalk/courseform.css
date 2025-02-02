@@ -15,11 +15,16 @@
 }
 
 body {
-    background: linear-gradient(to bottom, #fde9db, #fff);
+    background: #FFF;
     margin: 0;
     padding: 0;
     min-height: 100vh;
 }
+
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
