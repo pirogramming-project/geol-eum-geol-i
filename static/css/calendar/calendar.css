@@ -20,8 +20,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background: var(--white);
+  padding-bottom: 850px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .calendar-page-header {
@@ -167,4 +170,6 @@ body {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-right: 10px;
+  margin-left: 10px;
 }

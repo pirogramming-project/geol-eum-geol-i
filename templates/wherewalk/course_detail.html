@@ -7,39 +7,75 @@
     <title>{{ course.title }}</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/root.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}">
     <link rel="stylesheet" href="{% static 'css/wherewalk/coursedetail.css' %}">
 </head>
 <body>
-    <div class="coursedetail-page-header">
-        <div class="coursedetail-title">
-            <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -7 47 57" fill="none">
-                <path d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z" fill="#B82132"/>
-            </svg>
-          <div class="coursedetail-title-firstword">어디</div>
-          <div class="coursedetail-title-secondword">걸음?</div>
+    <div class="landing__layout">
+        <div class="coursedetail-page-header">
+            <div class="coursedetail-title">
+              <a href="#" class="home-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -13 47 57" fill="none">
+                  <path d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z" fill="#B82132"/>
+              </svg>
+              </a>
+              <div class="coursedetail-title-firstword">어디</div>
+              <div class="coursedetail-title-secondword">걸음?</div>
+            </div>
         </div>
+        <div class="container">
+            <h1 class="course-title">제목: {{ course.title }}</h1>
+            <div class="course-detail-information">
+                <p class="course-info"><strong class="course-distance">거리:</strong> {{ course.distance }} km</p>
+                <p class="course-info"><strong class="course-time">예상 소요 시간:</strong> {{ course.time }} 분</p>
+            </div>
+            <iframe
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA9rHYXZlAKPKq-9pyccVqiesNHJtzMD7U&q={{ course.start_location.latitude }},{{ course.start_location.longitude }}&zoom=15" 
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            {% if course.image %}
+                <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-image">
+            {% else %}
+                <img src="{% static 'defaultimage/default-image.jpg' %}" alt="기본 이미지" class="course-image">
+            {% endif %}
+            <div class="course-introduction">
+                <strong class="course-introduction-start">장소설명: </strong>{{ course.description }}
+            </div>
+        </div>
+        <div class="gotohome-btn">
+            <a href="/" class="home-btn">추천 목록으로 가기</a>
+        </div>
+        <footer>
+            <nav class="bottom_nav">
+              <div class="nav_item">
+                <a href="#">
+                  <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+                  <span>함께걸음!</span>
+                </a>
+              </div>
+              <div class="nav_item">
+                <a href="{% url 'course:course_list' %}">
+                  <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+                  <span>어디걸음?</span>
+                </a>
+              </div>
+              <div class="nav_item">
+                <a href="{% url 'course:calendar_view' %}">
+                  <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+                  <span>걸음캘린더</span>
+                </a>
+              </div>
+              <div class="nav_item">
+                <a href="#">
+                  <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+                  <span>마이걸음</span>
+                </a>
+              </div>
+            </nav>
+          </footer>
     </div>
-    <div class="container">
-        <h1 class="course-title">제목: {{ course.title }}</h1>
-        <div class="course-detail-information">
-            <p class="course-info"><strong class="course-distance">거리:</strong> {{ course.distance }} km</p>
-            <p class="course-info"><strong class="course-time">예상 소요 시간:</strong> {{ course.time }} 분</p>
-        </div>
-        <iframe
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA9rHYXZlAKPKq-9pyccVqiesNHJtzMD7U&q={{ course.start_location.latitude }},{{ course.start_location.longitude }}&zoom=15" 
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-        {% if course.image %}
-            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-image">
-        {% else %}
-            <img src="{% static 'defaultimage/default-image.jpg' %}" alt="기본 이미지" class="course-image">
-        {% endif %}
-        <div class="course-introduction">
-            <strong class="course-introduction-start">장소설명: </strong>{{ course.description }}
-        </div>
-    </div>
-    <a href="/" class="home-btn">추천 목록으로 가기</a>
 </body>
 </html>

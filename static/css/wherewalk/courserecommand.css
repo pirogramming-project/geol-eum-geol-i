@@ -15,17 +15,17 @@
 }
 
 body {
-    background-color: #fbe9e7;
+    background: #fff;
     text-align: center;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    padding-bottom: 250px;
 }
 
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
 
 
 .container {
@@ -39,6 +39,7 @@ body {
 }
 
 .courserecommand-title {
+    position: relative;
     display: flex;
     align-items: flex-end;
     gap: 10px;
@@ -47,6 +48,11 @@ body {
     font-style: normal;
     font-weight: 900;
     line-height: normal;
+}
+
+.home-icon {
+    position: relative;
+    top: 7px;
 }
 
 .course-recommand-introduction {
@@ -193,6 +199,10 @@ header i {
     cursor: pointer;
 }
 
+.find-btn:hover {
+    opacity: 0.7;
+}
+
 .recommendations {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 카드 배치 */
@@ -230,6 +240,12 @@ header i {
     border: 1px solid #ddd;
     box-sizing: border-box;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.1);  /* 카드 크기 확대 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강하게 */
 }
 
 .recommend-btn {
@@ -253,6 +269,10 @@ header i {
     cursor: pointer;
 }
 
+.recommend-btn:hover {
+    background-color: #a02020;
+}
+
 .recommend-btn svg {
     position: relative;
     top: 3px;
@@ -272,7 +292,7 @@ header i {
 }
 
 .keyword.active {
-    background-color: #007bff;
+    background-color: #a1887f;
     color: white;
 }
 
@@ -357,6 +377,10 @@ svg {
     margin-top: 10px;
 }
 
+#select-location:hover {
+    opacity: 0.7;
+}
+
 #map {
     height: 100%;
     width: 100%;
@@ -390,4 +414,8 @@ svg {
     cursor: pointer;
     display: block;
     margin-top: 10px;
+}
+
+.hidden-footer {
+    display: none;
 }

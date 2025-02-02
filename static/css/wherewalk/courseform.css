@@ -15,11 +15,16 @@
 }
 
 body {
-    background: linear-gradient(to bottom, #fde9db, #fff);
+    background: #FFF;
     margin: 0;
     padding: 0;
     min-height: 100vh;
 }
+
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -28,6 +33,7 @@ body {
     box-sizing: border-box;
     max-height: 100vh;
     overflow-y: auto;
+    padding-bottom: 140px;
 }
 .container {
     padding: 20px;
@@ -66,6 +72,11 @@ input, button, textarea {
     margin: 10px auto;
     height: max-content;
 }
+
+.register-btn:hover {
+    background-color: #a02020;
+}
+
 #map {
     height: 100%;
     width: 100%;
@@ -221,6 +232,10 @@ input, button, textarea {
     display: inline-block;
 }
 
+.custom-file-btn:hover {
+    background-color: #a02020;
+}
+
 /* 버튼 위치 조정 */
 .file-input-container {
     position: relative;
@@ -243,4 +258,8 @@ input, button, textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.hidden-footer {
+    display: none;
 }

@@ -25,6 +25,11 @@ body {
     min-height: 100vh;
 }
 
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+
 .container {
     width: 328px;
     height: 441px;
@@ -89,6 +94,7 @@ iframe {
 }
 
 .coursedetail-title {
+    position: relative;
     display: flex;
     gap: 10px;
 }
@@ -153,4 +159,14 @@ img {
 
 .course-introduction-start {
     color: var(--deep-brown);
+}
+
+.gotohome-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.home-icon {
+    position: relative;
+    top: 7px;
 }
