@@ -24,6 +24,8 @@ from django.utils.timezone import now
 from datetime import timedelta
 
 
+def landing_view(request):
+    return render(request, 'main/landing.html')
 
 def main_beforeLogin(request):
     return render(request, 'main/main(beforeLogin).html')
