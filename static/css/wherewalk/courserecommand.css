@@ -199,6 +199,10 @@ header i {
     cursor: pointer;
 }
 
+.find-btn:hover {
+    opacity: 0.7;
+}
+
 .recommendations {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 카드 배치 */
@@ -236,6 +240,12 @@ header i {
     border: 1px solid #ddd;
     box-sizing: border-box;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.1);  /* 카드 크기 확대 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강하게 */
 }
 
 .recommend-btn {
@@ -259,6 +269,10 @@ header i {
     cursor: pointer;
 }
 
+.recommend-btn:hover {
+    background-color: #a02020;
+}
+
 .recommend-btn svg {
     position: relative;
     top: 3px;
@@ -278,7 +292,7 @@ header i {
 }
 
 .keyword.active {
-    background-color: #007bff;
+    background-color: #a1887f;
     color: white;
 }
 
@@ -361,6 +375,10 @@ svg {
     width: max-content; /* 크기 조정 */
     height: 54px;
     margin-top: 10px;
+}
+
+#select-location:hover {
+    opacity: 0.7;
 }
 
 #map {
