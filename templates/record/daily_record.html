@@ -105,7 +105,12 @@
                         <form class="walkForm" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="hidden" name="record_id" value="{{ record.id }}">
-                            <label for="image">사진 등록 및 변경하기</label>
+                            <label for="image">
+                                사진 등록 및 변경하기
+                                {% if record.image %}
+                                    <p>현재 등록된 사진: {{ record.image.name }}</p>
+                                {% endif %}
+                            </label>
                             <input type="file" name="image">
                             <label for="memo">코멘트 등록 및 변경하기</label>
                             <textarea name="memo">{{ record.memo }}</textarea>
