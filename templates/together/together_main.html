@@ -1,0 +1,10 @@
+<h1>게시글 목록</h1>
+<ul>
+  {% for post in posts %}
+  <li>
+    <a href="{% url 'post:together_detail' post.id %}">{{ post.title }}</a>
+    <p>{{ post.created_at|date:"Y-m-d H:i" }}</p>
+  </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'post:together_post' %}">러닝메이트 모집하기</a>

@@ -4,25 +4,25 @@
 <footer>
   <nav class="bottom_nav">
     <div class="nav_item">
-      <a href="#">
+      <a href="{% url 'post:together_main' %}">
         <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
         <span>함께걸음!</span>
       </a>
     </div>
     <div class="nav_item">
-      <a href="#">
+      <a href="{% url 'course:course_list' %}">
         <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
         <span>어디걸음?</span>
       </a>
     </div>
     <div class="nav_item">
-      <a href="#">
+      <a href="{% url 'course:calendar_view' %}">
         <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
         <span>걸음캘린더</span>
       </a>
     </div>
     <div class="nav_item">
-      <a href="#">
+      <a href="{% url 'users:mypage_view' %}">
         <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
         <span>마이걸음</span>
       </a>
