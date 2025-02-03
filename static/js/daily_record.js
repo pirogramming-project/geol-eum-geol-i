@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const mapButtons = document.querySelectorAll(".daily__route_map");
+    const mapButton = document.querySelector(".daily__route_map");
     const modal = document.getElementById("mapModal");
     const closeModalBtn = document.querySelector(".close");
     const mapContainer = document.getElementById("map");
+
+    const paginationLinks = document.querySelectorAll(".pagination a");
+    paginationLinks.forEach(link => {
+        link.addEventListener("click", function() {
+            window.scrollTo({ top:0, behavior: "smooth" });
+        });
+    });
+
     let map = null; // 지도 객체
     let routePath = null; // 경로 업데이트를 위한 변수
 
@@ -15,8 +23,11 @@ document.addEventListener("DOMContentLoaded", function() {
         callback();
     }
 
+    sessionStorage.setItem("path", JSON.stringify(djangoPathData));
+
     // 지도 초기화 및 특정 기록의 경로 표시
-    function showMap(path) {
+    function showMap() {
+        let path = JSON.parse(sessionStorage.getItem("path"));
         console.log("경로: ", path);
 
         modal.style.display = "flex";
@@ -46,20 +57,9 @@ document.addEventListener("DOMContentLoaded", function() {
         routePath.setMap(map);
     }
 
-    if(mapButtons.length > 0) {
-        mapButtons.forEach((mapBtn, index) => {
-            mapBtn.addEventListener("click", function() {
-                let paths = djangoPathData;
-                sessionStorage.setItem("path", JSON.stringify(paths));
-                let path = paths[index];
-
-                if (!path) {
-                    alert("저장된 경로 데이터 없음.");
-                    return;
-                }
-
-                loadGoogleMaps(() => showMap(path));
-            });
+    if(mapButton) {
+        mapButton.addEventListener("click", function() {
+            loadGoogleMaps(() => showMap());
         });
     }
 });
