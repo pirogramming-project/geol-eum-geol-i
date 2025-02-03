@@ -75,6 +75,7 @@ body {
     align-items: center;
     gap: 5px;
     margin-top: 10px;
+    font-family: 'Kartrider Kor OTF';
 }
 header {
     display: flex;

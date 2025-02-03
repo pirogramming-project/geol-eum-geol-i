@@ -37,9 +37,8 @@ def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
     return int(round(METs * weight * (minutes / 60)))
 
 
-#@login_required
-@api_view(["POST"])  # POST 요청만 허용
 #운동 종료 시, 기록 저장 함수
+@login_required
 @api_view(["POST"])
 def save_walk_record(request):
     user = request.user
@@ -48,6 +47,9 @@ def save_walk_record(request):
     print("🚀 받은 데이터:", data, flush=True)  # ✅ 프론트에서 보낸 원본 데이터 확인
 
     try:
+        if not isinstance(data, dict):
+            data = json.loads(request.body.decode('utf-8'))
+            
         start_time = data.get("start_time")
         end_time = data.get("end_time")
 
@@ -89,11 +91,11 @@ def save_walk_record(request):
 
         # 🔹 JSON 변환 후 응답 반환
         serializer = DetailSerializer(walk_record)
-        return Response(serializer.data, status=201)
+        return JsonResponse(serializer.data, status=201)
 
     except Exception as e:
         print("🚨 서버 오류:", str(e), flush=True)
-        return Response({"error": str(e)}, status=400)
+        return JsonResponse({"error": str(e)}, status=400)
 
 
 
