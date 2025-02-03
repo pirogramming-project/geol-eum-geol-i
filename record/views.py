@@ -150,9 +150,9 @@ def check_record(request, date):
 
 from .utils import update_monthly_record  # 새로 만든 함수 가져오기
 
-# 걷기 기록이 추가 기능 걷기 기능 만들 때 참고(김규일)
+# 월간 걷기 기록 업데이트, 걷기 기록 저장 기능 만들 때 참고(김규일)
 @api_view(["POST"])
-def save_walk_record(request):
+def save_monthly_record(request):
     user = request.user
     data = request.data
     print("받은 데이터:", data)
