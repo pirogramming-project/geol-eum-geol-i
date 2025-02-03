@@ -18,13 +18,7 @@ a:hover {
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 100%;
+  padding-left: 55px;
 }
 
 .title_red {
@@ -37,16 +31,11 @@ a:hover {
 }
 
 .title_name {
-  float: left;
-  margin-top: 80px;
-  margin-right: 125px;
+  padding-top: 80px;
 }
 
 .title_bottom {
   display: flex;
-  flex-direction: row;
-
-  margin-left: 23px;
 }
 
 .center {
