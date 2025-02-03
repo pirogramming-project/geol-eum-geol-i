@@ -3,4 +3,4 @@ setTimeout(() => {
     setTimeout(() => {
         window.location.href = "/main/";
     }, 1000);
-}, 4000);
+}, 2000);
