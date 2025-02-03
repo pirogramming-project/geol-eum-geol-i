@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let timeUpdate = setInterval(updateTime, 1000);
 
     document.getElementById("stopBtn").addEventListener("click", function() {
-        //let endTime = new Date().toISOString(); // ISO 형식 저장
         let now = new Date();
         now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
         let endTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
