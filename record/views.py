@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from .form__test import RecordUpdateTestForm
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 import json
 
 def main_view(request):
@@ -111,13 +112,18 @@ def record_history(request, date):
             form.save()
             return redirect("record:record_history", date=date)
 
-    path_data = json.dumps([record.path for record in records if record.path]) # 경민 추가
+    # 페이지 네이션(한 페이지에 1개의 기록)
+    paginator = Paginator(records, 1)
+    page_number = request.GET.get("page", 1) # 현재 페이지 번호 가져오기
+    page_obj = paginator.get_page(page_number)
+    
+    current_path_data = json.dumps(page_obj[0].path if page_obj else []) # 경민 추가
     
     context = {
         "date": date,  
-        "records": records,
+        "records": page_obj, # 페이지네이션 적용된 객체
         "form": RecordUpdateTestForm(),
-        "path_data": path_data, # 경민 추가
+        "path_data": current_path_data, # page_obj에 해당하는 path만 전달
     }
     return render(request, "record/daily_record.html", context)
 
