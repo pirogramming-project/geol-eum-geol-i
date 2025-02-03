@@ -89,7 +89,10 @@ document.addEventListener("DOMContentLoaded", function() {
     let timeUpdate = setInterval(updateTime, 1000);
 
     document.getElementById("stopBtn").addEventListener("click", function() {
-        let endTime = new Date().toISOString(); // ISO 형식 저장
+        //let endTime = new Date().toISOString(); // ISO 형식 저장
+        let now = new Date();
+        now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
+        let endTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
 
         navigator.geolocation.clearWatch(watchID);
         clearInterval(timeUpdate);
@@ -109,8 +112,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // API에 보낼 데이터 구조
         let daily_record = {
-            start_time: startTime.toISOString(),
-            end_time: endTime,
+            //start_time: startTime.toISOString(),
+            start_time: sessionStorage.getItem("startTime"), // ✅ 프론트에서 KST로 변환한 값 사용
+            end_time: endTime, // ✅ KST로 변환된 값 전송
             distance: totalDistance.toFixed(2),
             time: durationSec,
             pace: pace,
