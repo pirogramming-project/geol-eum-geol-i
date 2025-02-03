@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from .form__test import RecordUpdateTestForm
 from django.http import JsonResponse
-from datetime import datetime, timezone, timedelta
+import json
 
 def main_view(request):
     return render(request, 'main/landing.html')
@@ -111,11 +111,13 @@ def record_history(request, date):
             form.save()
             return redirect("record:record_history", date=date)
 
-
+    path_data = json.dumps([record.path for record in records if record.path]) # 경민 추가
+    
     context = {
         "date": date,  
         "records": records,
         "form": RecordUpdateTestForm(),
+        "path_data": path_data, # 경민 추가
     }
     return render(request, "record/daily_record.html", context)
 
