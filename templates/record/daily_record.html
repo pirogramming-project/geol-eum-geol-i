@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/record/daily_record.css' %}">
     <title>걸음걸이</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5qxdgHtQEaaRKI9zP9_tTjZRXQOXPFiU&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5qxdgHtQEaaRKI9zP9_tTjZRXQOXPFiU" async defer></script>
 </head>
 <body>
     <div class="daily__layout">
@@ -123,6 +123,13 @@
                 </div>
                 <div class="daily__empty_alert">운동기록이 없습니다. 🥲</div>
             {% endif %}
+        </div>
+    </div>
+    <div id="mapModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>경로보기</h2>
+            <div id="map"></div>
         </div>
     </div>
     <script>
