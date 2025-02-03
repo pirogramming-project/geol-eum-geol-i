@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/record/daily_record.css' %}">
     <title>걸음걸이</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5qxdgHtQEaaRKI9zP9_tTjZRXQOXPFiU&callback=initMap" async defer></script>
 </head>
 <body>
     <div class="daily__layout">
@@ -56,7 +57,7 @@
                                 <div class="daily__route_info">평균 페이스: <span class="daily__red">{{ record.pace }}분/km</span></div>
                                 <div class="daily__route_info">총 소비칼로리: <span class="daily__red">{{ record.calories }}kcal</span></div>
                             </div>
-                            <div class="daily__route_map">
+                            <button type="submit" class="daily__route_map" data-record-id="{{record.id}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="55" height="69" viewBox="0 0 55 69" fill="none">
                                     <path d="M44.2628 24.4819H36.1377V31.0165H44.2628V24.4819Z" fill="#76453B"/>
                                     <path d="M44.2634 17.6052H38.1402C38.0748 18.6997 37.2223 19.5726 36.1377 19.6765V24.1398H44.2628L44.2634 17.6052Z" fill="#76453B"/>
@@ -90,7 +91,7 @@
                                     <path d="M27.328 38.8606H19.2034V44.6581H27.328V38.8606Z" fill="#76453B"/>
                                     <path d="M27.328 31.3597H19.2034V37.1941H27.328V31.3597Z" fill="#76453B"/>
                                 </svg>
-                            </div>
+                            </button>
                         </div>
                     </div>
                     <div class="daily__user_register">
@@ -124,5 +125,10 @@
             {% endif %}
         </div>
     </div>
+    <script>
+        let djangoPathData = JSON.parse('{{ path_data|safe }}'); // 뷰에서 보내준 모델의 path 데이터
+        console.log("모델의 path 데이터: ", djangoPathData); // 확인용(삭제 예정)
+    </script>
+    <script src="{% static 'js/daily_record.js' %}"></script>
 </body>
 </html>
