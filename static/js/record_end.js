@@ -89,7 +89,10 @@ document.addEventListener("DOMContentLoaded", function() {
     let timeUpdate = setInterval(updateTime, 1000);
 
     document.getElementById("stopBtn").addEventListener("click", function() {
-        let endTime = new Date().toISOString(); // ISO 형식 저장
+        //let endTime = new Date().toISOString(); // ISO 형식 저장
+        let now = new Date();
+        now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
+        let endTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
 
         navigator.geolocation.clearWatch(watchID);
         clearInterval(timeUpdate);
@@ -101,10 +104,17 @@ document.addEventListener("DOMContentLoaded", function() {
             pace = (minutes/totalDistance).toFixed(2);
         }
 
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = String(today.getMonth()+1).padStart(2, "0"); // getMonth(0~11) 이므로 범위 보정
+        let day = String(today.getDate()).padStart(2, "0");
+        let formattedDate = `${year}-${month}-${day}`;
+
         // API에 보낼 데이터 구조
         let daily_record = {
-            start_time: startTime.toISOString(),
-            end_time: endTime,
+            //start_time: startTime.toISOString(),
+            start_time: sessionStorage.getItem("startTime"), // ✅ 프론트에서 KST로 변환한 값 사용
+            end_time: endTime, // ✅ KST로 변환된 값 전송
             distance: totalDistance.toFixed(2),
             time: durationSec,
             pace: pace,
@@ -125,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log("오늘걸음 기록 저장완료:", data);
             alert(`기록이 저장되었습니다.`);
+            window.location.href = `/record/history/${formattedDate}/`;
         })
         .catch(error => console.error("기록 저장에 실패했습니다.", error));
     });

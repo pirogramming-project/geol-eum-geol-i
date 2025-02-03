@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from .form__test import RecordUpdateTestForm
 from django.http import JsonResponse
+from django.core.paginator import Paginator
+import json
 
 def main_view(request):
     return render(request, 'main/landing.html')
@@ -34,58 +36,66 @@ def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
 
     return int(round(METs * weight * (minutes / 60)))
 
+
 #@login_required
 @api_view(["POST"])  # POST 요청만 허용
-# 운동 종료 시, 기록 저장 함수
+#운동 종료 시, 기록 저장 함수
+@api_view(["POST"])
 def save_walk_record(request):
-    user = request.user  # 현재 로그인한 사용자 정보
-    data = request.data  # 클라이언트(프론트엔드)에서 보낸 JSON 데이터
-    # 🔹 요청 데이터 출력 (디버깅 용도)
-    print("🚀 받은 데이터:", data)
-    
+    user = request.user
+    data = request.data
+
+    print("🚀 받은 데이터:", data, flush=True)  # ✅ 프론트에서 보낸 원본 데이터 확인
+
     try:
-        start_time = data.get("start_time", None)
-        end_time = data.get("end_time", None)
-        
-        # datetime.fromisoformat() : Python의 datetime 모듈에서 제공하는 날짜 문자열 → datetime 객체 변환 함수
+        start_time = data.get("start_time")
+        end_time = data.get("end_time")
+
         if start_time and end_time:
-            start_dt = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
-            end_dt = datetime.fromisoformat(end_time.replace("Z", "+00:00"))
-            total_seconds = int((end_dt - start_dt).total_seconds()) # .total_seconds()를 사용하여 초 단위로 변환
+
+            # ✅ 프론트에서 KST로 보내므로, UTC 변환 없이 그대로 사용!
+            kst_start_dt = datetime.fromisoformat(start_time)
+            kst_end_dt = datetime.fromisoformat(end_time)
+
+            # 🔹 총 운동 시간 계산 (초 단위)
+            total_seconds = int((kst_end_dt - kst_start_dt).total_seconds())
         else:
-            total_seconds = 0 
-            
+            total_seconds = 0
+
+        # 🔹 시, 분, 초 변환
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
         seconds = total_seconds % 60
-        time_str = f"{hours}h{minutes:02d}m{seconds:02d}s" # 시:분:초 형식
-        
-        distance = float(data.get("distance",0))
-        pace = round((minutes / distance),2) if distance > 0 else 0 
+        time_str = f"{hours}h{minutes:02d}m{seconds:02d}s"
+
+        # 🔹 거리, 속도, 칼로리 계산
+        distance = float(data.get("distance", 0))
+        pace = round((minutes / distance), 2) if distance > 0 else 0
         calories = calculate_calories(distance, minutes)
-        path = data.get("path",[]) #  MySQL JSONField에 "path" 값이 그대로 저장 [{},{}, , ,] 
-        
-        #MySQL에 저장 ( Detail.object.create : INSERT INTO SQL 쿼리를 직접 작성할 필요 없이 Django ORM이 자동으로 실행해줌. )
+        path = data.get("path", [])  
+
+        # 🔹 MySQL에 저장 (UTC 변환 제거, 그대로 저장)
         walk_record = Detail.objects.create(
-            user = user,
-            created_at = start_dt.date(), # 오늘날짜(YYYY-MM-DD 형식)
-            start_time=start_dt.time(),  # HH:MM:SS 형식
-            end_time=end_dt.time(),  # HH:MM:SS 형식
-            distance = distance,
-            time = time_str,
-            pace = pace,
-            calories = calories,
-            path = path
+            user=user,
+            created_at=kst_start_dt.date(),  # YYYY-MM-DD 형식
+            start_time=kst_start_dt.time(),  # HH:MM:SS 형식
+            end_time=kst_end_dt.time(),  # HH:MM:SS 형식
+            distance=distance,
+            time=time_str,
+            pace=pace,
+            calories=calories,
+            path=path
         )
 
-        # JSON 변환 후 응답 반환
+        # 🔹 JSON 변환 후 응답 반환
         serializer = DetailSerializer(walk_record)
         return Response(serializer.data, status=201)
 
     except Exception as e:
-        print("🚨 서버 오류:", str(e))  # ✅ 디버깅 로그 출력
+        print("🚨 서버 오류:", str(e), flush=True)
         return Response({"error": str(e)}, status=400)
-    
+
+
 
 # 기록 보여주는 함수
 @login_required
@@ -102,11 +112,18 @@ def record_history(request, date):
             form.save()
             return redirect("record:record_history", date=date)
 
-
+    # 페이지 네이션(한 페이지에 1개의 기록)
+    paginator = Paginator(records, 1)
+    page_number = request.GET.get("page", 1) # 현재 페이지 번호 가져오기
+    page_obj = paginator.get_page(page_number)
+    
+    current_path_data = json.dumps(page_obj[0].path if page_obj else []) # 경민 추가
+    
     context = {
         "date": date,  
-        "records": records,
+        "records": page_obj, # 페이지네이션 적용된 객체
         "form": RecordUpdateTestForm(),
+        "path_data": current_path_data, # page_obj에 해당하는 path만 전달
     }
     return render(request, "record/daily_record.html", context)
 
