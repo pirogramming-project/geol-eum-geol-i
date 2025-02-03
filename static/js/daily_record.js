@@ -1,62 +1,65 @@
 document.addEventListener("DOMContentLoaded", function() {
     const mapButtons = document.querySelectorAll(".daily__route_map");
+    const modal = document.getElementById("mapModal");
+    const closeModalBtn = document.querySelector(".close");
+    const mapContainer = document.getElementById("map");
+    let map = null; // 지도 객체
+    let routePath = null; // 경로 업데이트를 위한 변수
 
-    console.log("Django의 path 데이터:", djangoPathData);
-    let paths = djangoPathData;
-    sessionStorage.setItem("path", JSON.stringify(paths));
+    closeModalBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
 
-    console.log("sessionStorage 업데이트: ", paths);
+    // Google Maps API 로드 실행
+    function loadGoogleMaps(callback) {
+        callback();
+    }
+
+    // 지도 초기화 및 특정 기록의 경로 표시
+    function showMap(path) {
+        console.log("경로: ", path);
+
+        modal.style.display = "flex";
+
+        if (!map) {
+            // 지도 없으면 새롭게 생성
+            map = new google.maps.Map(mapContainer, {
+                center: { lat: path[0].latitude, lng: path[0].longitude },
+                zoom: 15,
+            });
+        } else {
+            // 지도 존재 시, 경로에 맞춰 세팅
+            map.setCenter({ lat: path[0].latitude, lng: path[0].longitude });
+        }
+
+        if (routePath) {
+            // 기존 경로 지우기
+            routePath.setMap(null);
+        }
+        routePath = new google.maps.Polyline({
+            path: path.map((point) => ({ lat: point.latitude, lng: point.longitude })),
+            geodesic: true,
+            strokeColor: "#ffa79d",
+            strokeOpacity: 1.0,
+            strokeWeight: 5,
+        });
+        routePath.setMap(map);
+    }
 
     if(mapButtons.length > 0) {
         mapButtons.forEach((mapBtn, index) => {
             mapBtn.addEventListener("click", function() {
-                let recordID = mapBtn.getAttribute("data-record-id");
+                let paths = djangoPathData;
+                sessionStorage.setItem("path", JSON.stringify(paths));
                 let path = paths[index];
 
                 if (!path) {
                     alert("저장된 경로 데이터 없음.");
                     return;
                 }
-    
-                let mapContainerID = `map-${recordID}`;
-                let map_exist = document.getElementById("map");
-                if (map_exist) {
-                    map_exist.remove();
-                }
-                let mapContainer = document.createElement("div");
-                mapContainer.id = mapContainerID;
-                mapContainer.style.width = "100%";
-                mapContainer.style.height = "500px";
-                document.body.appendChild(mapContainer);
-    
-                if (typeof google !== "undefined" && google.maps) {
-                    console.log(`initMap() 호출 직전 ${recordID} path 값:`, path);
-                    setTimeout(() => window.initMapForRecord(path, mapContainerID), 100);
-                }
+
+                loadGoogleMaps(() => showMap(path));
             });
         });
     }
 });
-
-window.initMap = function() {
-    console.log("기본 initMap 실행");
-};
-
-window.initMapForRecord = function(path, mapContainerID) {
-    console.log(`initMap()에서 받은 ${mapContainerID} path: `, path);
-
-    let map = new google.maps.Map(document.getElementById(mapContainerID), {
-        center: {lat: path[0].latitude, lng: path[0].longitude},
-        zoom: 15,
-    });
-
-    let routePath = new google.maps.Polyline({
-        path: path.map((point) => ({ lat:point.latitude, lng: point.longitude })),
-        geodesic: true,
-        strokeColor: "#ffa79d",
-        strokeOpacity: 1.0,
-        strokeWeight: 5,
-    });
-
-    routePath.setMap(map);
-}
