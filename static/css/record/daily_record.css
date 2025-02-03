@@ -39,7 +39,7 @@ body {
 .daily__time_info {
     color: var(--soft-red);
     font-family: "Kartrider Kor OTF";
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     padding: 5px;
     line-height: 28px;
@@ -62,21 +62,23 @@ body {
     flex-direction: column;
     gap: 5px;
 }
-.daily__route_info, .walkForm > label, .daily__empty_alert {
+.daily__route_info, .daily__empty_alert {
     color: var(--soft-red);
     font-family: "Kartrider Kor OTF";
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
 }
 .walkForm > label {
-    font-size: 14px;
+    font-size: 16px;
+    color: var(--soft-red);
+    font-family: "Kartrider Kor OTF";
 }
 .daily__empty_alert{
     width: 60%;
     margin-inline: auto;
 }
 .daily__user_register {
-    padding: 20px;
+    padding: 14px 20px;
     border: 2px var(--light-gray) solid;
     border-radius: 10px;
     background: var(--white);
@@ -86,7 +88,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    margin-top: 30px;
+    margin-top: 20px;
+}
+.walkForm__img_info {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--gray);
 }
 .walkForm > textarea {
     border-radius: 10px;
@@ -99,29 +106,85 @@ body {
     padding: 5px;
     width: 120px;
     margin-inline: auto;
-    margin-block: 15px;
+    margin-block: 8px;
     font-family: "Kartrider Kor OTF";
     font-weight: 500;
     font-size: 18px;
 }
 .daily__user_image{
-    width: 80%;
-    height: 255px;
+    width: 70%;
+    height: 220px;
     border: 2px var(--light-gray) solid;
     border-radius: 10px;
     margin-inline: auto;
     overflow: hidden;
 }
-.daily__user_image > img, .daily__user_comment {
+.daily__user_comment {
     font-family: "Kartrider Kor OTF";
     font-weight: 600;
     font-size: 20px;
     color: var(--deep-brown);
+    margin-top: 10px;
 }
 .daily__user_image > img {
     width: 100%;
     height: 100%;
 }
-.daily__user_comment {
-    margin-top: 10px;
+.comment__deco {
+    font-family: "Nanum OenSonJabIDoYeBbeo";
+    font-weight: 700;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 700px;
+    position: relative;
+}
+.gps__title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Kartrider Kor OTF";
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--soft-red);
+    margin-bottom: 10px;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 35px;
+    cursor: pointer;
+    color: var(--gray);
+}
+#map {
+    width: 100%;
+    height: 500px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+    color: var(--deep-brown);
+    font-family: "Kartrider Kor OTF";
+    font-size: 20px;
 }

@@ -1,36 +1,65 @@
-document.getElementById("walkForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
+document.addEventListener("DOMContentLoaded", function() {
+    const mapButton = document.querySelector(".daily__route_map");
+    const modal = document.getElementById("mapModal");
+    const closeModalBtn = document.querySelector(".close");
+    const mapContainer = document.getElementById("map");
 
-    let formData = new FormData();
-    formData.append("walkImage", document.getElementById("walkImage").files[0]);
-    formData.append("walkComment", document.getElementById("walkComment").value);
-
-    let response = await fetch("/save_record", {
-        method: "POST",
-        body: formData
+    const paginationLinks = document.querySelectorAll(".pagination a");
+    paginationLinks.forEach(link => {
+        link.addEventListener("click", function() {
+            window.scrollTo({ top:0, behavior: "smooth" });
+        });
     });
 
-    if(response.ok) {
-        alert("✅ 최종등록이 반영되었습니다.");
-        loadWalkData();
-    } else {
-        alert("최종등록에 문제가 생겼습니다. 다시 시도해주세요🥲");
+    let map = null; // 지도 객체
+    let routePath = null; // 경로 업데이트를 위한 변수
+
+    closeModalBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    // Google Maps API 로드 실행
+    function loadGoogleMaps(callback) {
+        callback();
+    }
+
+    sessionStorage.setItem("path", JSON.stringify(djangoPathData));
+
+    // 지도 초기화 및 특정 기록의 경로 표시
+    function showMap() {
+        let path = JSON.parse(sessionStorage.getItem("path"));
+        console.log("경로: ", path);
+
+        modal.style.display = "flex";
+
+        if (!map) {
+            // 지도 없으면 새롭게 생성
+            map = new google.maps.Map(mapContainer, {
+                center: { lat: path[0].latitude, lng: path[0].longitude },
+                zoom: 15,
+            });
+        } else {
+            // 지도 존재 시, 경로에 맞춰 세팅
+            map.setCenter({ lat: path[0].latitude, lng: path[0].longitude });
+        }
+
+        if (routePath) {
+            // 기존 경로 지우기
+            routePath.setMap(null);
+        }
+        routePath = new google.maps.Polyline({
+            path: path.map((point) => ({ lat: point.latitude, lng: point.longitude })),
+            geodesic: true,
+            strokeColor: "#ffa79d",
+            strokeOpacity: 1.0,
+            strokeWeight: 5,
+        });
+        routePath.setMap(map);
+    }
+
+    if(mapButton) {
+        mapButton.addEventListener("click", function() {
+            loadGoogleMaps(() => showMap());
+        });
     }
 });
-
-async function loadWalkData() {
-    let response = await fetch("/load_record");
-    let data = await response.json();
-
-    let walkDatas = document.getElementById("walkDatas");
-    walkDatas.innerHTML =`
-    <div class="daily__image">
-        <img src="" alt="오늘걸음 이미지">
-    </div>
-    <div class="daily__comment">
-        <p></p>
-    </div>
-    `;
-}
-
-window.onload = loadWalkData;

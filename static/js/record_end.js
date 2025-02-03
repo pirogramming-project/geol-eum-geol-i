@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let startTime = new Date(sessionStorage.getItem("startTime"));
     let totalDistance = 0;
     let caloriesBurned = 0;
+    let weight = 75;
 
     const showDistance = document.querySelector(".record__e_total_dist");
     const showCalories = document.querySelector(".record__e_total_cal");
@@ -49,10 +50,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateDisNCal() {
         totalDistance = calcDistance(path);
-        caloriesBurned = totalDistance * 50; // 식 수정필요
+        let durationSec = Math.floor((new Date() - startTime) / 1000);
+        let minutes = durationSec / 60;
+        caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
         showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
-        showCalories.textContent = `총 소비칼로리: ${caloriesBurned.toFixed(1)}kcal`;
+        showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
     }
 
     function updateTime() {
@@ -86,10 +89,26 @@ document.addEventListener("DOMContentLoaded", function() {
         return totalDistance;
     }
 
+    function calcCalories(dist, time, weight) {
+        let speed = dist / (time/60); // km/h 계산하기 위함
+        let METs;
+
+        if (speed < 5.5) {
+            METs = 3.8;
+        } else if (speed < 8.0) {
+            METs = 4.3;
+        } else {
+            METs = 7.0;
+        }
+        return parseInt(METs * weight * (time/60)); // 정수형으로 변환
+    }
+
     let timeUpdate = setInterval(updateTime, 1000);
 
     document.getElementById("stopBtn").addEventListener("click", function() {
-        let endTime = new Date().toISOString(); // ISO 형식 저장
+        let now = new Date();
+        now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
+        let endTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
 
         navigator.geolocation.clearWatch(watchID);
         clearInterval(timeUpdate);
@@ -109,8 +128,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // API에 보낼 데이터 구조
         let daily_record = {
-            start_time: startTime.toISOString(),
-            end_time: endTime,
+            //start_time: startTime.toISOString(),
+            start_time: sessionStorage.getItem("startTime"), // ✅ 프론트에서 KST로 변환한 값 사용
+            end_time: endTime, // ✅ KST로 변환된 값 전송
             distance: totalDistance.toFixed(2),
             time: durationSec,
             pace: pace,

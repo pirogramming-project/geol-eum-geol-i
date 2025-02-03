@@ -1,17 +1,14 @@
 @import url("./root.css");
 
 @font-face {
-  font-family: "Kartrider Kor OTF";
-  src: url("../../fonts/KartriderKorOTFMedium.otf") format("truetype"); /* TTF 파일 경로 */
-  font-weight: normal;
+  font-family: "VITRO INSPIRE OTF";
   font-style: normal;
+  src: url("../fonts/VITRO INSPIRE OTF.otf") format("truetype");
 }
-
 @font-face {
-  font-family: "Vitro Inspire OTF";
-  src: url("../../fonts/VITROINSPIREOTF.otf") format("truetype"); /* TTF 파일 경로 */
-  font-weight: normal;
+  font-family: "Kartrider Kor OTF";
   font-style: normal;
+  src: url("../fonts/NEXON Kart Gothic Kor OTF Bold.otf") format("truetype");
 }
 
 body {
@@ -77,6 +74,7 @@ body {
   align-items: center;
   gap: 5px;
   margin-top: 10px;
+  font-family: "Kartrider Kor OTF";
 }
 header {
   display: flex;
