@@ -474,3 +474,6 @@ def google_callback(request):
         "created": created,  # 새 유저인지 기존 유저인지 전달
     }
     return render(request, "main/main(afterLogin).html", context)
+
+def mypage_view(request):
+    return render(request, 'UserManage/mypage.html', {'user': request.user})
