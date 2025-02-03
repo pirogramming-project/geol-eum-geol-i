@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let daily_record = {
             //start_time: startTime.toISOString(),
             start_time: sessionStorage.getItem("startTime"), // ✅ 프론트에서 KST로 변환한 값 사용
-            //end_time: endTime,
             end_time: endTime, // ✅ KST로 변환된 값 전송
             distance: totalDistance.toFixed(2),
             time: durationSec,
