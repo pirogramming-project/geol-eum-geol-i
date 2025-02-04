@@ -130,7 +130,7 @@ def activate(request, uidb64, token):
         # 캐시에서 데이터 삭제
         cache.delete(cache_key)
 
-        return HttpResponse("이메일 인증이 완료되었습니다. 이제 로그인할 수 있습니다.")
+        return render(request, "UserManage/SignUp_confirm.html")
 
     except (ValueError, TypeError):
         return render(request, "UserManage/FindPassword/password_reset_invalid.html")
