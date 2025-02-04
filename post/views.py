@@ -38,6 +38,6 @@ def together_comment(request, post_id):
 
         if content:
             comment = PostComment.objects.create(post=post, user=request.user, content=content)
-            return JsonResponse({'success': True, 'comment': content, 'user': request.user.username})
+            return redirect('post:together_detail', post_id=post.id) 
     
     return JsonResponse({'success': False, 'error': '댓글 내용을 입력해주세요.'})
