@@ -94,7 +94,7 @@ input, button, textarea {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    height: 90%;
+    height: 80%;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -259,4 +259,13 @@ input, button, textarea {
 
 .hidden-footer {
     display: none;
+}
+
+.map-search-box {
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
