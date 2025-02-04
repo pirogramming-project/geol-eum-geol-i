@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     let path = [];
     let watchID;
-    let startTime = new Date(sessionStorage.getItem("startTime"));
+    let startTime = sessionStorage.getItem("startTime");
     let totalDistance = 0;
     let caloriesBurned = 0;
     let weight = 75;
@@ -9,6 +9,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const showDistance = document.querySelector(".record__e_total_dist");
     const showCalories = document.querySelector(".record__e_total_cal");
     const showTime = document.querySelector(".record__e_total_time");
+
+    if(!startTime) {
+        console.error("startTime 값이 존재하지 않음. 현재 시간 사용!");
+        let now = new Date();
+        now.setHours(now.getHours() + 9);
+        startTime = now.toString().slice(0, 19);
+        sessionStorage.setItem("startTime", startTime);
+    }
+
+    startTime = new Date(startTime);
 
     console.log("저장된 경로 데이터: ", path);
 
@@ -112,7 +122,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         navigator.geolocation.clearWatch(watchID);
         clearInterval(timeUpdate);
-        sessionStorage.clear();
+
+        let storedStartTime = sessionStorage.getItem("startTime");
 
         let durationSec = Math.floor((new Date(endTime) - startTime) / 1000); // 초 단위로 변환
         let minutes = durationSec / 60; // 분 단위
@@ -130,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // API에 보낼 데이터 구조
         let daily_record = {
             //start_time: startTime.toISOString(),
-            start_time: sessionStorage.getItem("startTime"), // ✅ 프론트에서 KST로 변환한 값 사용
+            start_time: storedStartTime, // ✅ 프론트에서 KST로 변환한 값 사용
             end_time: endTime, // ✅ KST로 변환된 값 전송
             distance: totalDistance.toFixed(2),
             time: durationSec,
@@ -152,6 +163,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             console.log("오늘걸음 기록 저장완료:", data);
             alert(`기록이 저장되었습니다.`);
+
+            sessionStorage.clear();
+
             window.location.href = `/record/history/${formattedDate}/`;
         })
         .catch(error => console.error("기록 저장에 실패했습니다.", error));
