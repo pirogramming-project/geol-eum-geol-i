@@ -405,15 +405,27 @@ svg {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .close-btn {
-  background: #a83232;
-  color: white;
-  padding: 5px;
-  border: none;
-  cursor: pointer;
-  display: block;
-  margin-top: 10px;
+    background: #a83232;
+    position: relative;
+    bottom: 100%;
+    left: 50%;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
 }
 
 .hidden-footer {
   display: none;
+}
+
+.map-search-box {
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
