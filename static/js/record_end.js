@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let path = JSON.parse(sessionStorage.getItem("path") || "[]");
+    let path = [];
     let watchID;
     let startTime = new Date(sessionStorage.getItem("startTime"));
     let totalDistance = 0;
@@ -112,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         navigator.geolocation.clearWatch(watchID);
         clearInterval(timeUpdate);
+        sessionStorage.clear();
 
         let durationSec = Math.floor((new Date(endTime) - startTime) / 1000); // 초 단위로 변환
         let minutes = durationSec / 60; // 분 단위
