@@ -1,0 +1,21 @@
+<h1>게시글 작성</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div>
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" required />
+  </div>
+
+  <div>
+    <label for="content">내용:</label>
+    <textarea id="content" name="content" rows="5" required></textarea>
+  </div>
+
+  <div>
+    <label for="picture">게시글 이미지 (선택):</label>
+    <input type="file" id="picture" name="picture" />
+  </div>
+
+  <button type="submit">작성 완료</button>
+</form>

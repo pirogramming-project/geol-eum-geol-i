@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>선택한 키워드 기반 코스 추천</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/root.css' %}" />
+  </head>
+  <body>
+    <h1>선택한 키워드 기반 추천 코스</h1>
+
+    <div class="selected-keywords">
+      <h3>선택된 키워드:</h3>
+      <ul>
+        {% for keyword in selected_keywords %}
+        <li>{{ keyword }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {% if sorted_course_groups %} {% for count, courses in sorted_course_groups %}
+    <h2>{{ count }}개의 키워드를 포함하는 코스</h2>
+    <div class="course-list">
+      {% for course in courses %}
+      <div class="course-card">
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.description|default:"설명이 없습니다." }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %} {% else %}
+    <p>선택한 키워드를 포함하는 코스가 없습니다.</p>
+    {% endif %}
+
+    <a href="{% url 'course:course_list' %}">코스 검색으로 돌아가기</a>
+  </body>
+</html>

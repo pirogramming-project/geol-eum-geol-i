@@ -8,6 +8,7 @@ from decimal import Decimal
 from .utils import calculate_distance
 from django.contrib.auth.decorators import login_required
 import json
+from collections import defaultdict
 
 def course_list(request):
     search_term = request.GET.get('search', '')  # URL에서 'search' 파라미터를 가져옵니다.
@@ -151,3 +152,30 @@ def submit_course(request):
             return JsonResponse({"error": f"잘못된 입력 값: {str(e)}"}, status=400)
 
     return JsonResponse({"error": "잘못된 요청"}, status=400)
+
+
+
+def select_keywords_view(request):
+    selected_keywords = request.GET.getlist("keywords") 
+
+    if not selected_keywords:
+        return render(request, 'wherewalk/course_selectKeywords.html', {'error': "키워드를 선택해주세요."})
+
+    all_courses = Course.objects.all()
+    course_groups = defaultdict(list)
+
+    for course in all_courses:
+        course_keywords = set(course.coursekeyword_set.values_list('keyword__name', flat=True))
+
+        matched_count = sum(1 for keyword in selected_keywords if keyword in course_keywords)
+
+        if matched_count > 0:
+            course_groups[matched_count].append(course)
+
+    # 내림차순 정렬(가장 많은 것부터 적은 순서로)
+    sorted_course_groups = sorted(course_groups.items(), key=lambda x: x[0], reverse=True)
+
+    return render(request, 'wherewalk/course_selectKeywords.html', {
+        'sorted_course_groups': sorted_course_groups,
+        'selected_keywords': selected_keywords
+    })

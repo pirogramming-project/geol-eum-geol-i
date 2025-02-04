@@ -1,0 +1,22 @@
+{% load static %}
+<h1>{{ post.title }}</h1>
+
+<!-- 사진이 있으면 사진을 표시하고, 없으면 기본 이미지를 표시 -->
+<img src="{% if post.picture %}{{ post.picture.url }}{% else %}{% static 'defaultimage/default-image.jpg' %}{% endif %}" alt="게시글 이미지" />
+
+<p>{{ post.content }}</p>
+
+<h2>댓글</h2>
+<ul>
+  {% if comments %} {% for comment in comments %}
+  <li>{{ comment.user.nickname }}: {{ comment.content }} ({{ comment.created_at|date:"Y-m-d H:i" }})</li>
+  {% endfor %} {% else %}
+  <p>댓글이 없습니다.</p>
+  {% endif %}
+</ul>
+
+<form method="post" action="{% url 'post:together_comment' post.id %}">
+  {% csrf_token %}
+  <textarea name="content" required></textarea>
+  <button type="submit">댓글 작성</button>
+</form>

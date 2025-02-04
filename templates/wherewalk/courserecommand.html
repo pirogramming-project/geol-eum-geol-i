@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>어디 걸음?</title>
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'css/root.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}">
-    <link rel="stylesheet" href="{% static 'css/wherewalk/courserecommand.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}">
-    <style>
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/root.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/wherewalk/courserecommand.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+    <style></style>
+  </head>
+  <body>
     <div class="landing__layout">
         <div class="container">
             <div class="courserecommand-page-header">
@@ -157,8 +156,8 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&libraries=places&callback=initMap" async defer></script>
     <script>
-        let map;
-        let marker;
+              let map;
+              let marker;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
@@ -183,43 +182,43 @@
                 placeMarker(place.geometry.location);
             });
 
-            map.addListener("click", (event) => {
-                placeMarker(event.latLng);
-            });
-        }
+                  map.addListener("click", (event) => {
+                      placeMarker(event.latLng);
+                  });
+              }
 
-        function placeMarker(location) {
-            if (marker) {
-                marker.setPosition(location);
-            } else {
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-            }
-            document.getElementById("latitude").value = location.lat();
-            document.getElementById("longitude").value = location.lng();
+              function placeMarker(location) {
+                  if (marker) {
+                      marker.setPosition(location);
+                  } else {
+                      marker = new google.maps.Marker({
+                          position: location,
+                          map: map
+                      });
+                  }
+                  document.getElementById("latitude").value = location.lat();
+                  document.getElementById("longitude").value = location.lng();
 
-            // 선택된 좌표로 지도 미리보기 업데이트
-            document.getElementById("map-preview").src =
-                `https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=${location.lat()},${location.lng()}&zoom=15`;
+                  // 선택된 좌표로 지도 미리보기 업데이트
+                  document.getElementById("map-preview").src =
+                      `https://www.google.com/maps/embed/v1/place?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&q=${location.lat()},${location.lng()}&zoom=15`;
 
-            // Geocoding API를 사용하여 주소 변환
-            fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat()},${location.lng()}&key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "OK" && data.results.length > 0) {
-                        document.getElementById("location-name").value = data.results[0].formatted_address;
-                    } else {
-                        document.getElementById("location-name").value = "선택된 위치";
-                    }
-                })
-                .catch(error => console.error("Error fetching address:", error));
-        }
+                  // Geocoding API를 사용하여 주소 변환
+                  fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat()},${location.lng()}&key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk`)
+                      .then(response => response.json())
+                      .then(data => {
+                          if (data.status === "OK" && data.results.length > 0) {
+                              document.getElementById("location-name").value = data.results[0].formatted_address;
+                          } else {
+                              document.getElementById("location-name").value = "선택된 위치";
+                          }
+                      })
+                      .catch(error => console.error("Error fetching address:", error));
+              }
 
-        document.getElementById("select-location").addEventListener("click", function() {
-            document.getElementById("map-popup").style.display = "block";
-        });
+              document.getElementById("select-location").addEventListener("click", function() {
+                  document.getElementById("map-popup").style.display = "block";
+              });
 
         function openMapPopup() {
             document.getElementById('map-popup').style.display = 'block';
@@ -231,142 +230,160 @@
             }, 300);  // 약간의 딜레이 추가
         }
 
-        function closeMapPopup() {
-            document.getElementById("map-popup").style.display = "none";
-            document.querySelector('footer').classList.remove('hidden-footer');  // 푸터 다시 보이게
-        }
+              function closeMapPopup() {
+                  document.getElementById("map-popup").style.display = "none";
+                  document.querySelector('footer').classList.remove('hidden-footer');  // 푸터 다시 보이게
+              }
 
-        document.getElementById("select-location").addEventListener("click", function() {
-    document.getElementById("map-popup").style.display = "block";
-});
+              document.getElementById("select-location").addEventListener("click", function() {
+          document.getElementById("map-popup").style.display = "block";
+      });
 
-// "확인" 버튼 클릭 시, 지도에서 선택된 위치 정보를 form에 넘겨주기
-function closeMapPopup() {
-    document.getElementById("map-popup").style.display = "none";
+      // "확인" 버튼 클릭 시, 지도에서 선택된 위치 정보를 form에 넘겨주기
+      function closeMapPopup() {
+          document.getElementById("map-popup").style.display = "none";
 
-    // latitude와 longitude 값 form에 넣어줌
-    if (marker) {
-        document.getElementById("latitude").value = marker.getPosition().lat();
-        document.getElementById("longitude").value = marker.getPosition().lng();
-    }
-}
+          // latitude와 longitude 값 form에 넣어줌
+          if (marker) {
+              document.getElementById("latitude").value = marker.getPosition().lat();
+              document.getElementById("longitude").value = marker.getPosition().lng();
+          }
+      }
 
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function() {
-                const courseId = this.getAttribute('data-id');
-                window.location.href = `/course/course/${courseId}/`;  // 상세 페이지로 이동
+              document.querySelectorAll('.card').forEach(card => {
+                  card.addEventListener('click', function() {
+                      const courseId = this.getAttribute('data-id');
+                      window.location.href = `/course/course/${courseId}/`;  // 상세 페이지로 이동
+                  });
+              });
+
+              const searchInput = document.querySelector('.search-box input');
+              const searchButton = document.querySelector('.search-box svg');
+              const courseCards = document.querySelectorAll('.recommendations .card');
+
+              searchButton.addEventListener('click', function() {
+                  const searchText = searchInput.value.trim().toLowerCase(); // 입력된 검색어를 소문자로 변환
+                  courseCards.forEach(card => {
+                      const title = card.textContent.trim().toLowerCase(); // 각 카드의 텍스트(제목)를 가져와서 소문자로 변환
+                      if (title.includes(searchText)) {
+                          card.style.display = 'block'; // 검색어가 포함된 경우 보이기
+                      } else {
+                          card.style.display = 'none'; // 검색어가 포함되지 않은 경우 숨기기
+                      }
+              });
+          });
+              const MAX_KEYWORDS = 5;
+              const loadMoreButton = document.getElementById('loadMoreKeywords');
+              const keywordsContainer = document.querySelector('.keywords');
+              const findButton = document.getElementById('findButton');
+
+              const moreKeywords = [
+              {% for keyword in keywords|slice:"3:" %}
+                  "{{ keyword.name }}"{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+              ];
+
+              let isExpanded = false;
+
+              // 키워드 버튼 클릭 시 active 클래스를 토글하여 선택/해제 처리
+              keywordsContainer.addEventListener('click', function(event) {
+                  if (event.target.classList.contains('keyword') && event.target !== loadMoreButton) {
+                      const activeKeywords = keywordsContainer.querySelectorAll('.keyword.active');
+
+                      // 선택을 해제하는 경우 그대로 허용
+                      if (event.target.classList.contains('active')) {
+                          event.target.classList.remove('active');
+                      } else {
+                          // 선택된 키워드가 5개 이상이면 추가 선택 방지
+                          if (activeKeywords.length >= MAX_KEYWORDS) {
+                              alert(`최대 ${MAX_KEYWORDS}개의 키워드만 선택할 수 있습니다.`);
+                              return;
+                          }
+                          event.target.classList.add('active');
+                      }
+
+                      // 기존 기능: 선택이 해제된 경우, 해당 키워드는 삭제 (단, 기본 키워드는 유지)
+                      if (!event.target.classList.contains('active') && !event.target.classList.contains('passive')) {
+                          if (!isExpanded) {
+                              event.target.remove();  // 추가된 키워드만 삭제
+                          }
+                      }
+                  }
+              });
+
+              // "더 보기 ▼" 클릭 시 추가 키워드 삽입
+              loadMoreButton.addEventListener('click', function () {
+                  if (!isExpanded) {
+                      moreKeywords.forEach(keyword => {
+                          // 기존 키워드 중에 같은 내용이 있으면 추가하지 않음
+                          const existingKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword')).map(btn => btn.textContent);
+                          if (!existingKeywords.includes(keyword)) {
+                              const newButton = document.createElement('button');
+                              newButton.classList.add('keyword');
+                              newButton.textContent = keyword;
+                              keywordsContainer.insertBefore(newButton, loadMoreButton);
+                          }
+                      });
+                      loadMoreButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="-4 0 38 31" fill="none"><path transform="rotate(180 19 15.5)" d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/></svg>';
+
+                      isExpanded = true;
+                  } else {
+                      // 추가된 키워드 중 선택되지 않은 키워드만 제거
+                      const addedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword'))
+                          .filter(button => button !== loadMoreButton && !button.classList.contains('active') && !button.classList.contains('passive'));
+
+                      addedKeywords.forEach(keyword => {
+                          keyword.remove();
+                      });
+
+                      loadMoreButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="5 0 38 31" fill="none"><path d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/></svg>';
+                      isExpanded = false;
+                  }
+              });
+
+              // "장소 찾기" 버튼 클릭 시 선택된 키워드를 서버로 전송
+              findButton.addEventListener('click', function() {
+                  // 선택된 키워드를 배열로 수집
+                  const selectedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword.active')).map(button => button.textContent);
+
+                  // 선택된 키워드를 콘솔에 출력 (이 부분을 서버로 전송하는 코드로 바꿀 수 있음)
+                  console.log("선택된 키워드들:", selectedKeywords);
+
+                  // 예시: 키워드를 서버로 전송 (fetch API 사용)
+                  fetch('/your-server-endpoint', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ keywords: selectedKeywords })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      console.log("서버 응답:", data);
+                  })
+                  .catch(error => {
+                      console.error("서버 에러:", error);
+                  });
+              });
+
+            document.getElementById("findButton").addEventListener("click", function() {
+                const selectedKeywords = Array.from(document.querySelectorAll(".keyword.active"))
+                    .map(button => encodeURIComponent(button.textContent));
+
+                if (selectedKeywords.length === 0) {
+                    alert("최소 하나의 키워드를 선택하세요!");
+                    return;
+                }
+
+                if (selectedKeywords.length > 5) {
+                    alert("최대 5개의 키워드만 선택할 수 있습니다.");
+                    return;
+                }
+
+                // 선택한 키워드를 URL 파라미터로 추가하여 이동
+                const queryString = selectedKeywords.map(keyword => `keywords=${keyword}`).join("&");
+                window.location.href = `/course/selectKeyWords/?${queryString}`;
             });
-        });
-
-        const searchInput = document.querySelector('.search-box input');
-        const searchButton = document.querySelector('.search-box svg');
-        const courseCards = document.querySelectorAll('.recommendations .card');
-
-        searchButton.addEventListener('click', function() {
-            const searchText = searchInput.value.trim().toLowerCase(); // 입력된 검색어를 소문자로 변환
-            courseCards.forEach(card => {
-                const title = card.textContent.trim().toLowerCase(); // 각 카드의 텍스트(제목)를 가져와서 소문자로 변환
-                if (title.includes(searchText)) {
-                    card.style.display = 'block'; // 검색어가 포함된 경우 보이기
-                } else {
-                    card.style.display = 'none'; // 검색어가 포함되지 않은 경우 숨기기
-                }
-        });
-    });
-        const MAX_KEYWORDS = 5;
-        const loadMoreButton = document.getElementById('loadMoreKeywords');
-        const keywordsContainer = document.querySelector('.keywords');
-        const findButton = document.getElementById('findButton');
-
-        const moreKeywords = [
-        {% for keyword in keywords|slice:"3:" %}
-            "{{ keyword.name }}"{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-        ];
-
-        let isExpanded = false;
-
-        // 키워드 버튼 클릭 시 active 클래스를 토글하여 선택/해제 처리
-        keywordsContainer.addEventListener('click', function(event) {
-            if (event.target.classList.contains('keyword') && event.target !== loadMoreButton) {
-                const activeKeywords = keywordsContainer.querySelectorAll('.keyword.active');
-        
-                // 선택을 해제하는 경우 그대로 허용
-                if (event.target.classList.contains('active')) {
-                    event.target.classList.remove('active');
-                } else {
-                    // 선택된 키워드가 5개 이상이면 추가 선택 방지
-                    if (activeKeywords.length >= MAX_KEYWORDS) {
-                        alert(`최대 ${MAX_KEYWORDS}개의 키워드만 선택할 수 있습니다.`);
-                        return;
-                    }
-                    event.target.classList.add('active');
-                }
-        
-                // 기존 기능: 선택이 해제된 경우, 해당 키워드는 삭제 (단, 기본 키워드는 유지)
-                if (!event.target.classList.contains('active') && !event.target.classList.contains('passive')) {
-                    if (!isExpanded) {
-                        event.target.remove();  // 추가된 키워드만 삭제
-                    }
-                }
-            }
-        });
-
-        // "더 보기 ▼" 클릭 시 추가 키워드 삽입
-        loadMoreButton.addEventListener('click', function () {
-            if (!isExpanded) {
-                moreKeywords.forEach(keyword => {
-                    // 기존 키워드 중에 같은 내용이 있으면 추가하지 않음
-                    const existingKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword')).map(btn => btn.textContent);
-                    if (!existingKeywords.includes(keyword)) {
-                        const newButton = document.createElement('button');
-                        newButton.classList.add('keyword');
-                        newButton.textContent = keyword;
-                        keywordsContainer.insertBefore(newButton, loadMoreButton);
-                    }
-                });
-                loadMoreButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="-4 0 38 31" fill="none"><path transform="rotate(180 19 15.5)" d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/></svg>';
-            
-                isExpanded = true;
-            } else {
-                // 추가된 키워드 중 선택되지 않은 키워드만 제거
-                const addedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword'))
-                    .filter(button => button !== loadMoreButton && !button.classList.contains('active') && !button.classList.contains('passive'));
-        
-                addedKeywords.forEach(keyword => {
-                    keyword.remove();
-                });
-        
-                loadMoreButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="38" height="31" viewBox="5 0 38 31" fill="none"><path d="M23.7281 20.1412L33.6978 11.8304C34.1109 11.4866 34.1668 10.8716 33.8218 10.4588C33.4762 10.045 32.8636 9.9891 32.4502 10.3335L23.104 18.1247L13.7584 10.3335C13.3441 9.98971 12.7312 10.0456 12.3862 10.4588C12.0411 10.8713 12.097 11.4866 12.5102 11.8304L22.4793 20.1412C22.6604 20.2926 22.8824 20.368 23.104 20.368C23.3259 20.368 23.5475 20.2926 23.7281 20.1412Z" fill="#76453B"/></svg>';
-                isExpanded = false;
-            }
-        });
-
-        // "장소 찾기" 버튼 클릭 시 선택된 키워드를 서버로 전송
-        findButton.addEventListener('click', function() {
-            // 선택된 키워드를 배열로 수집
-            const selectedKeywords = Array.from(keywordsContainer.querySelectorAll('.keyword.active')).map(button => button.textContent);
-            
-            // 선택된 키워드를 콘솔에 출력 (이 부분을 서버로 전송하는 코드로 바꿀 수 있음)
-            console.log("선택된 키워드들:", selectedKeywords);
-
-            // 예시: 키워드를 서버로 전송 (fetch API 사용)
-            fetch('/your-server-endpoint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ keywords: selectedKeywords })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("서버 응답:", data);
-            })
-            .catch(error => {
-                console.error("서버 에러:", error);
-            });
-        });
     </script>
-
-</body>
+  </body>
 </html>
