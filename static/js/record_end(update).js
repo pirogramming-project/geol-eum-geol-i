@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             } else {
                                 console.log(`⚠️ 이동 거리 너무 작음 (${(distance * 1000).toFixed(2)}m) → 무시됨`);
                             }
+
                         } else {
                             // ✅ 첫 번째 위치는 무조건 추가
                             path.push(newPosition);
@@ -113,6 +114,16 @@ document.addEventListener("DOMContentLoaded", function () {
         showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
     }
 
+    function updateTime() {
+        let now = new Date();
+        let durationSec = Math.floor((now-startTime)/1000); // 초 단위변환
+        let hours = Math.floor(durationSec/3600);
+        let min = Math.floor((durationSec % 3600)/60);
+        let sec = durationSec % 60;
+
+        showTime.textContent = `${hours.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+    }
+
     function calcDistance(coords) {
         let totalDistance = 0;
         for (let i = 1; i < coords.length; i++) {
@@ -122,5 +133,92 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         }
         return totalDistance;
+    }
+
+    function calcCalories(dist, time, weight) {
+        let speed = dist / (time/60); // km/h 계산하기 위함
+        let METs;
+
+        if (speed < 5.5) {
+            METs = 3.8;
+        } else if (speed < 8.0) {
+            METs = 4.3;
+        } else {
+            METs = 7.0;
+        }
+        return parseInt(METs * weight * (time/60)); // 정수형으로 변환
+    }
+
+    let timeUpdate = setInterval(updateTime, 1000);
+
+    document.getElementById("stopBtn").addEventListener("click", function() {
+        let now = new Date();
+        now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
+        let endTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
+
+        navigator.geolocation.clearWatch(watchID);
+        clearInterval(timeUpdate);
+
+        let storedStartTime = sessionStorage.getItem("startTime");
+
+        let durationSec = Math.floor((new Date(endTime) - startTime) / 1000); // 초 단위로 변환
+        let minutes = durationSec / 60; // 분 단위
+        let pace = 0.00;
+        if (totalDistance > 0) {
+            pace = (minutes/totalDistance).toFixed(2);
+        }
+
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = String(today.getMonth()+1).padStart(2, "0"); // getMonth(0~11) 이므로 범위 보정
+        let day = String(today.getDate()).padStart(2, "0");
+        let formattedDate = `${year}-${month}-${day}`;
+
+        // API에 보낼 데이터 구조
+        let daily_record = {
+            //start_time: startTime.toISOString(),
+            start_time: storedStartTime, // ✅ 프론트에서 KST로 변환한 값 사용
+            end_time: endTime, // ✅ KST로 변환된 값 전송
+            distance: totalDistance.toFixed(2),
+            time: durationSec,
+            pace: pace,
+            calories: caloriesBurned.toFixed(1),
+            path: path
+        };
+
+        // 서버로 데이터 전송
+        fetch("/record/save_walk_record/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: JSON.stringify(daily_record)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("오늘걸음 기록 저장완료:", data);
+            alert(`기록이 저장되었습니다.`);
+
+            sessionStorage.clear();
+
+            window.location.href = `/record/history/${formattedDate}/`;
+        })
+        .catch(error => console.error("기록 저장에 실패했습니다.", error));
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if(document.cookie && document.cookie != "") {
+            let cookies = document.cookie.split(";");
+            for (let i=0; i<cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === name+"=") {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 });

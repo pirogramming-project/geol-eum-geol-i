@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
         routePath = new google.maps.Polyline({
             path: path.map((point) => ({ lat: point.latitude, lng: point.longitude })),
             geodesic: true,
-            strokeColor: "#ffa79d",
+            strokeColor: "#7200FF",
             strokeOpacity: 1.0,
             strokeWeight: 5,
         });
@@ -62,4 +62,10 @@ document.addEventListener("DOMContentLoaded", function() {
             loadGoogleMaps(() => showMap());
         });
     }
+});
+
+// 파일 선택 후 파일 이름 표시
+document.getElementById("file-upload").addEventListener("change", function(event) {
+    const fileName = event.target.files[0] ? event.target.files[0].name : "선택된 파일 없음";
+    document.getElementById("file-name").textContent = fileName;
 });

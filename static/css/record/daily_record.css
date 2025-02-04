@@ -111,6 +111,37 @@ body {
     font-weight: 500;
     font-size: 18px;
 }
+.daily__img_container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.image-input {
+    display: none;
+}
+#file-name {
+    display: flex;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    height: 43px;
+    color: #555;
+    border-radius: 10.61px;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
+    font-family: "Kartrider Kor OTF";
+    border: 2px var(--light-gray) solid;
+}
+.custom-file-btn {
+    padding: 10px 16px;
+    font-family: 'Kartrider Kor OTF';
+    font-size: 20px;
+    font-weight: 400;
+    background-color: var(--deep-brown);
+    color: var(--white);
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
 .daily__user_image{
     width: 70%;
     height: 220px;

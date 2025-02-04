@@ -67,7 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
         showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
         showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
     }
-
     function updateTime() {
         let now = new Date();
         let durationSec = Math.floor((now-startTime)/1000); // 초 단위변환
@@ -77,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         showTime.textContent = `${hours.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
     }
-
     function calcDistance(coords) {
         let totalDistance = 0;
         function haversine(lat1, lon1, lat2, lon2) {
@@ -98,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         return totalDistance;
     }
-
     function calcCalories(dist, time, weight) {
         let speed = dist / (time/60); // km/h 계산하기 위함
         let METs;
