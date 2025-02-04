@@ -169,3 +169,22 @@ body {
   margin-right: 10px;
   margin-left: 10px;
 }
+
+.link-ranking {
+  position: absolute;
+  left: 80%;
+  top: 2%;
+  z-index: 10;
+}
+
+.ranking-word {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--red);
+  position: relative;
+  top: -9px;
+  right: 7px;
+}
