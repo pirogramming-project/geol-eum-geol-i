@@ -1,0 +1,80 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.landing__layout {
+  background: var(--background_beige, #fff3e9);
+}
+
+.home-icon {
+  position: relative;
+  top: 7px;
+}
+
+.mypage_title_text {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
+.center_1_box {
+  display: flex;
+  flex-direction: row;
+}
+
+.center_1,
+.center_2 {
+  display: flex;
+  flex-direction: column;
+
+  margin: 20px;
+}
+
+.center_1_img,
+.center_2_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_1_profile {
+  width: 87px;
+  height: 87px;
+  flex-shrink: 0;
+
+  border-radius: 87px;
+  border: 3px solid var(--light_gray, #e6e6e6);
+  background: lightgray 50% / cover no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.center_1_text1,
+.center_1_text2,
+.center_1_text3,
+.center_2_text1,
+.center_2_text2,
+.center_2_text3 {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  padding: 10px;
+}
+
+.center_text_red {
+  color: var(--soft_red, #d2665a);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}

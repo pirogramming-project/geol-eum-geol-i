@@ -1,1 +1,109 @@
-MYPAGE입니다.
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이걸음</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/root.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/mypage.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+  </head>
+  <body>
+    <div class="landing__layout">
+      <div class="mypage_header">
+        <div class="mypage_title">
+          <a href="{% url 'users:success' %}" class="home-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -13 47 57" fill="none">
+              <path
+                d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z"
+                fill="#B82132"
+              />
+            </svg>
+          </a>
+          <div class="mypage_title_text">마이걸음 로그</div>
+        </div>
+      </div>
+
+      <div class="center_1">
+        <div class="center_1_img">
+            <svg xmlns="http://www.w3.org/2000/svg" width="43" height="53" viewBox="0 0 43 53" fill="none">
+                <path d="M21.5001 5.13062C11.3975 5.13062 3.17627 13.3518 3.17627 23.4545C3.17627 33.5571 11.3975 41.7783 21.5001 41.7783C31.6028 41.7783 39.824 33.5571 39.824 23.4545C39.824 13.3518 31.6028 5.13062 21.5001 5.13062ZM21.5001 33.6181C17.1759 33.6181 13.0835 33.6181 13.0835 30.2832C13.0835 26.7406 15.2823 23.6987 18.3975 22.465C17.1759 21.5366 16.3819 20.0585 16.3819 18.4093C16.3819 15.5874 18.6785 13.2908 21.5004 13.2908C24.3224 13.2908 26.619 15.5874 26.619 18.4093C26.619 20.0585 25.825 21.5366 24.6034 22.465C27.7185 23.6988 29.9174 26.7408 29.9174 30.2832C29.9174 33.6181 25.2507 33.6181 21.5008 33.6181H21.5001Z" fill="#76453B"/>
+                <path d="M24.1757 18.4094C24.1757 19.8875 22.9785 21.0847 21.5004 21.0847C20.0222 21.0847 18.8251 19.8876 18.8251 18.4094C18.8251 16.9313 20.0222 15.7341 21.5004 15.7341C22.9785 15.7341 24.1757 16.9313 24.1757 18.4094Z" fill="#76453B"/>
+                <path d="M21.5 24.3098C18.2139 24.3098 15.5265 26.9973 15.5265 30.2833C15.5265 31.175 18.9836 31.175 21.5 31.175C26.4352 31.175 27.4735 30.6864 27.4735 30.2833C27.4735 26.9972 24.786 24.3098 21.5 24.3098Z" fill="#76453B"/>
+              </svg>
+        </div>
+
+        <div class="center_1_box">
+          <div class="center_1_profile">
+            <div class="center_1_profile_img">
+              <img src= "{% static 'defaultimage/default-image.jpg' %}" width="87" height="87">
+            </div>
+            <div class="center_1_profile_change"><a href="#">프로필 변경</div>
+          </div>
+          <div class="center_1_text">
+              <div class="center_1_text1">닉네임: <span class="center_text_red"> 경민 </span></div>
+              <div class="center_1_text2">아이디: <span class="center_text_red"> 아이디ㅇ에용 </span></div>
+              <div class="center_1_text3">이메일: <span class="center_text_red"> 이메일이에옹 </span></div>
+          </div> 
+      </div>
+
+
+
+
+        <div class="center_2">
+          <div class="center_2_img">
+            <svg xmlns="http://www.w3.org/2000/svg" width="33" height="39" viewBox="0 0 33 39" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M16.4 2.73333H13.6667V19.1333H10.9333V21.8667H8.2V24.6H5.46667V27.3333H2.73333V30.0667H0V35.5333H2.73333V38.2667H19.1333V35.5333H21.8667V32.8H24.6V30.0667H27.3333V27.3333H30.0667V24.6H32.8V16.4H30.0667V2.73333H27.3333V0H16.4V2.73333ZM16.4 2.73333H19.1333V5.46667H24.6V2.73333H27.3333V16.4H30.0667V24.6H27.3333V27.3333H24.6V30.0667H21.8667V32.8H19.1333V35.5333H16.4V32.8H13.6667V35.5333H10.9333V32.8H8.2V35.5333H2.73333V30.0667H5.46667V27.3333H8.2V24.6H10.9333V21.8667H13.6667V19.1333H16.4V2.73333Z" fill="#76453B"/>
+            </svg>
+          </div>
+          <div class="center_2_text">
+              <div class="center_2_text1">걸음걸이와 <span class="center_text_red">32</span>번 함께 걸었어요!</div>
+              <div class="center_2_text2">지금까지 얼마걸음: <span class="center_text_red"> 3,929</span>km</div>
+              <div class="center_2_text3">지금까지 소비 칼로리: <span class="center_text_red">1,712 </span>kcal</div>
+          </div>
+
+
+          <div class="logout_button">
+            <a href=" {% url 'users:logout_view' %}">로그아웃</a>
+          </div>
+
+
+          
+
+    </div>
+
+    <footer>
+      <nav class="bottom_nav">
+        <div class="nav_item">
+          <a href="{% url 'post:together_main' %}">
+            <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+            <span>함께걸음!</span>
+          </a>
+        </div>
+        <div class="nav_item">
+          <a href="{% url 'course:course_list' %}">
+            <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+            <span>어디걸음?</span>
+          </a>
+        </div>
+        <div class="nav_item">
+          <a href="{% url 'course:calendar_view' %}">
+            <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+            <span>걸음캘린더</span>
+          </a>
+        </div>
+        <div class="nav_item">
+          <a href="{% url 'users:mypage_view' %}">
+            <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+            <span>마이걸음</span>
+          </a>
+        </div>
+      </nav>
+    </footer>
+    
+  </body>
+</html>
