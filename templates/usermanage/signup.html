@@ -13,7 +13,8 @@
     <div class="daily__layout">
         <div class="signup__container">
             <h1>Sign Up</h1>
-            <form method="post">
+            <div id="message-box"></div>
+            <form id="signup-form" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="signup__btn">Sign Up</button>
@@ -21,6 +22,38 @@
                 back to login in
             </a>
             </form>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const form = document.getElementById("signup-form");
+                    const messageBox = document.getElementById("message-box");
+                
+                    form.addEventListener("submit", function (event) {
+                        event.preventDefault(); // 폼 기본 제출 막기
+                
+                        const formData = new FormData(form);
+                
+                        fetch(form.action, {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                messageBox.innerHTML = `<p style="color: red;">${Object.values(data.error).join("<br>")}</p>`;
+                            } else {
+                                messageBox.innerHTML = `<p style="color: green;">${data.message}</p>`;
+                                form.reset(); // 성공하면 폼 초기화
+                            }
+                        })
+                        .catch(error => {
+                            messageBox.innerHTML = `<p style="color: red;">오류가 발생했습니다. 다시 시도해주세요.</p>`;
+                        });
+                    });
+                });
+                </script>
         </div>
     </div>
 </body>
