@@ -95,11 +95,13 @@ def signup(request):
                 fail_silently=False,
             )
 
-            return HttpResponse('Please confirm your email address to complete the registration.')
+            return JsonResponse({"message": "이메일이 전송되었습니다! 이메일을 확인해주세요!"})
 
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'UserManage/signup.html', {'form': form})
+        # 유효성 검사 실패 시 오류 메시지 반환
+        return JsonResponse({"error": form.errors}, status=400)
+
+    return render(request, 'UserManage/signup.html', {'form': CustomUserCreationForm()})
+
 
 
 def activate(request, uidb64, token):
@@ -109,13 +111,13 @@ def activate(request, uidb64, token):
         temp_user_data_json = cache.get(cache_key)
 
         if not temp_user_data_json:
-            return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
+            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
         temp_user_data = json.loads(temp_user_data_json)
 
         # 이메일 인증을 위한 유효성 검사
         if not default_token_generator.check_token(User(email=email), token):
-            return HttpResponse("이메일 인증 링크가 만료되었거나 유효하지 않습니다.")
+            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
         # 인증 성공 후 계정 생성
         user = User.objects.create_user(
@@ -131,7 +133,7 @@ def activate(request, uidb64, token):
         return HttpResponse("이메일 인증이 완료되었습니다. 이제 로그인할 수 있습니다.")
 
     except (ValueError, TypeError):
-        return HttpResponse("잘못된 인증 링크입니다.")
+        return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
 def password_reset_request(request):
     if request.method == "POST":
@@ -169,21 +171,21 @@ def password_reset_confirm(request, uidb64, token):
 
         # **토큰 검증**
         if not default_token_generator.check_token(user, token):
-            return HttpResponse("비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다.")
+            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
         # **캐시에서 토큰 생성 시간 가져오기**
         cache_key = f"password_reset_{user.pk}"
         token_created_at_str = cache.get(cache_key)
 
         if not token_created_at_str:
-            return HttpResponse("비밀번호 재설정 링크가 만료되었습니다. 다시 요청해주세요.")
+            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
         # **토큰 생성 시간을 datetime으로 변환 후 10분 초과 확인**
         token_created_at = datetime.fromisoformat(token_created_at_str)
         token_valid_duration = timedelta(minutes=1)
 
         if now() - token_created_at > token_valid_duration:
-            return HttpResponse("비밀번호 재설정 링크가 만료되었습니다. 다시 요청해주세요.")
+            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
         if request.method == "POST":
             new_password = request.POST.get("new_password1")
@@ -207,7 +209,7 @@ def password_reset_confirm(request, uidb64, token):
         return render(request, "UserManage/FindPassword/password_reset_confirm.html", {"uid": uidb64, "token": token})
 
     except (User.DoesNotExist, ValueError, TypeError):
-        return HttpResponse("잘못된 링크입니다.")
+        return render(request, "UserManage/FindPassword/password_reset_invalid.html")
 
 
 def logout_view(request):
