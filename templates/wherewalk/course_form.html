@@ -99,6 +99,7 @@
             <!-- 구글맵 팝업 -->
             <div class="map-popup" id="map-popup">
                 <div class="map-popup-content">
+                    <input id="search-location" type="text" placeholder="장소 검색" class="map-search-box">
                     <div id="map"></div>
                     <button class="close-btn" onclick="closeMapPopup()">확인</button>
                 </div>
@@ -134,7 +135,7 @@
         </footer>
     </div>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBee6FEr_x2fj9EqPDmktobzcQ6dPkAouk&libraries=places&callback=initMap" async defer></script>
 <script>
 
     // 파일 선택 후 파일 이름 표시
@@ -150,6 +151,23 @@
         map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: 37.5665, lng: 126.9780 },
             zoom: 13
+        });
+
+        const input = document.getElementById("search-location");
+        autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo("bounds", map);
+
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            if (!place.geometry || !place.geometry.location) {
+                alert("장소를 찾을 수 없습니다.");
+                return;
+            }
+    
+            // 지도 이동 및 마커 추가
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+            placeMarker(place.geometry.location);
         });
 
         map.addListener("click", (event) => {
@@ -194,6 +212,11 @@
     function openMapPopup() {
         document.getElementById('map-popup').style.display = 'block';
         document.querySelector('footer').classList.add('hidden-footer');  // 푸터 숨기기
+
+        // 지도가 하얗게 되는 문제 해결을 위해 resize 트리거
+        setTimeout(() => {
+            google.maps.event.trigger(map, 'resize');
+        }, 300);  // 약간의 딜레이 추가
     }
 
     function closeMapPopup() {

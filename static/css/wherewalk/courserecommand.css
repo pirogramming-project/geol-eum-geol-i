@@ -406,6 +406,9 @@ svg {
 }
 .close-btn {
     background: #a83232;
+    position: relative;
+    bottom: 100%;
+    left: 50%;
     color: white;
     padding: 5px;
     border: none;
@@ -416,4 +419,13 @@ svg {
 
 .hidden-footer {
     display: none;
+}
+
+.map-search-box {
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
