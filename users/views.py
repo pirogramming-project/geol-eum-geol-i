@@ -139,7 +139,7 @@ def password_reset_request(request):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return render(request, "UserManage/FindPassWord/password_reset.html", {"error": "해당 이메일이 존재하지 않습니다."})
+            return JsonResponse({"error": "해당 이메일이 존재하지 않습니다."}, status=400)
 
         # **토큰 및 UID 생성**
         token = default_token_generator.make_token(user)
@@ -158,8 +158,8 @@ def password_reset_request(request):
         })
         send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [email])
 
-        return HttpResponse("비밀번호 재설정 링크가 이메일로 전송되었습니다.")
-    
+        return JsonResponse({"message": "비밀번호 재설정 링크가 이메일로 전송되었습니다!"})
+
     return render(request, "UserManage/FindPassWord/password_reset.html")
 
 def password_reset_confirm(request, uidb64, token):
