@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/root.css' %}">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/record/daily_record.css' %}">
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="{% static 'image/favicon.ico' %}">
     <title>걸음걸이</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5qxdgHtQEaaRKI9zP9_tTjZRXQOXPFiU" async defer></script>
 </head>
@@ -106,13 +107,17 @@
                         <form class="walkForm" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="hidden" name="record_id" value="{{ record.id }}">
-                            <label for="image">
-                                사진 등록 및 변경하기
-                                {% if record.image %}
-                                    <p class="walkForm__img_info">기존: {{ record.image.name }}</p>
-                                {% endif %}
-                            </label>
-                            <input type="file" name="image">
+                                <label for="image">
+                                    사진 등록 및 변경하기
+                                    {% if record.image %}
+                                        <p class="walkForm__img_info">기존: {{ record.image.name }}</p>
+                                    {% endif %}
+                                </label>
+                                <div class="daily__img_container">
+                                    <input type="file" name="image" id="file-upload" class="image-input">
+                                    <span id="file-name">선택된 파일 없음</span>
+                                    <label for="file-upload" class="custom-file-btn">등록</label>
+                                </div>
                             <label for="memo">코멘트 등록 및 변경하기</label>
                             <textarea name="memo">{{ record.memo }}</textarea>
                             <button type="submit">변경사항 저장</button>
