@@ -1,6 +1,12 @@
 .daily__layout {
     display: flex;
     align-items: center;
+    width: 400px;
+    height: 100dvh;
+    background: var(--background-beige);
+    margin-inline: auto;
+    font-family: 'VITRO INSPIRE OTF';
+    position: relative;
 }
 .signup__container {
     background: var(--white);
@@ -9,7 +15,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-inline: auto;
     width: 90%;
-    height: 600px;
+    height: 630px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,7 +70,7 @@ form > p > input:focus {
     outline: none;
     border-color: var(--soft-red);
 }
-.signup__btn {
+.signup__btn, a:visited {
     margin-top: 10px;
     width: 100%;
     padding: 10px;
@@ -72,9 +78,10 @@ form > p > input:focus {
     color: var(--white);
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 20px;
     cursor: pointer;
     font-family: "VITRO INSPIRE OTF";
+    text-align: center;
 }
 .signup__btn:hover {
     background-color: var(--white);

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/root.css' %}">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    <link rel="stylesheet" href="{% static 'css/record/daily_record.css' %}">
     <link rel="stylesheet" href="{% static 'css/user/signup.css' %}">
     <title>걸음걸이</title>
 </head>
@@ -18,6 +17,9 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="signup__btn">Sign Up</button>
+            <a href="{% url 'users:login' %}" class="signup__btn">
+                back to login in
+            </a>
             </form>
         </div>
     </div>
