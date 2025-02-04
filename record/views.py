@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.response import Response
+from django.db.models import Sum
 from datetime import datetime
 from .models import *
 from .serializers import DetailSerializer
@@ -145,10 +146,13 @@ def check_record(request, date):
         logger.error(f"잘못된 날짜 값: {date}")
         return JsonResponse({"error": "Invalid date format"}, status=400)
 
-    record_exists = Detail.objects.filter(user=user, created_at=date).exists()
+    records = Detail.objects.filter(user=user, created_at=date)
+    record_exists = records.exists()
+
+    total_distance = records.aggregate(total_distance=Sum('distance'))['total_distance'] or 0
     
     logger.info(f"기록 여부: {record_exists}")
-    return JsonResponse({"has_record": record_exists})
+    return JsonResponse({"has_record": record_exists, "total_distance": float(total_distance)})
 
 from .utils import update_monthly_record  # 새로 만든 함수 가져오기
 
