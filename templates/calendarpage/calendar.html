@@ -192,11 +192,11 @@
 
               let opacityClass = "";
 
-              if (0 < data.distance && data.distance <= 1) {
+              if (0 < data.total_distance && data.total_distance <= 1) {
                 opacityClass = "opacity-0-25";
-              } else if (1 < data.distance && data.distance <= 3) {
+              } else if (1 < data.total_distance && data.total_distance <= 3) {
                 opacityClass = "opacity-0-50";
-              } else if (3 < data.distance && data.distance <= 5) {
+              } else if (3 < data.total_distance && data.total_distance <= 5) {
                 opacityClass = "opacity-0-75";
               } else {
                 opacityClass = "opacity-1";
@@ -204,7 +204,7 @@
 
               svgIcon.classList.add(opacityClass);
 
-              console.log(`날짜: ${date}, 거리: ${data.distance}, 설정된 opacity: ${opacityClass}`);
+              console.log(`날짜: ${date}, 거리: ${data.total_distance}, 설정된 opacity: ${opacityClass}`);
               
               svgIcon.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="65" height="78" viewBox="0 0 65 78" fill="none">
