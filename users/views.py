@@ -21,7 +21,7 @@ import json
 import uuid
 from django.core.cache import cache
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 
 def landing_view(request):
@@ -141,11 +141,15 @@ def password_reset_request(request):
         except User.DoesNotExist:
             return render(request, "UserManage/FindPassWord/password_reset.html", {"error": "해당 이메일이 존재하지 않습니다."})
 
-        # 토큰 및 UID 생성
+        # **토큰 및 UID 생성**
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-        # 이메일 보내기
+        # **토큰 생성 시간 저장 (10분 동안 유지)**
+        cache_key = f"password_reset_{user.pk}"
+        cache.set(cache_key, now().isoformat(), timeout=600)  # 600초 = 10분
+
+        # **이메일 보내기**
         mail_subject = "비밀번호 재설정 링크"
         message = render_to_string("UserManage/FindPassWord/password_reset_email.html", {
             "uid": uid,
@@ -163,15 +167,22 @@ def password_reset_confirm(request, uidb64, token):
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
 
-        # 토큰 검증을 먼저 수행
+        # **토큰 검증**
         if not default_token_generator.check_token(user, token):
             return HttpResponse("비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다.")
 
-        # 토큰이 생성된 시간을 가져와서 10분 이상 지났는지 확인
-        token_age = timedelta(minutes=10)
-        last_login_time = user.last_login if user.last_login else user.date_joined  # 최근 인증 시간 사용
+        # **캐시에서 토큰 생성 시간 가져오기**
+        cache_key = f"password_reset_{user.pk}"
+        token_created_at_str = cache.get(cache_key)
 
-        if now() - last_login_time > token_age:
+        if not token_created_at_str:
+            return HttpResponse("비밀번호 재설정 링크가 만료되었습니다. 다시 요청해주세요.")
+
+        # **토큰 생성 시간을 datetime으로 변환 후 10분 초과 확인**
+        token_created_at = datetime.fromisoformat(token_created_at_str)
+        token_valid_duration = timedelta(minutes=1)
+
+        if now() - token_created_at > token_valid_duration:
             return HttpResponse("비밀번호 재설정 링크가 만료되었습니다. 다시 요청해주세요.")
 
         if request.method == "POST":
@@ -187,6 +198,9 @@ def password_reset_confirm(request, uidb64, token):
 
             user.set_password(new_password)
             user.save()
+
+            # **사용 후 캐시에서 토큰 삭제**
+            cache.delete(cache_key)
 
             return redirect("users:login")
 
