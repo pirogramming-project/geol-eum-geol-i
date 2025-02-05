@@ -430,8 +430,8 @@ svg {
 }
 
 .link-ranking {
-  position: fixed;
-  left: 63%;
+  position: absolute;
+  left: 80%;
   top: 2%;
   z-index: 10;
 }
