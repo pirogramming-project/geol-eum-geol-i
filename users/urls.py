@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'users'
 
@@ -19,3 +21,5 @@ urlpatterns = [
     path('google/callback/', google_callback, name='google_callback'),  # 네이버에서 리디렉션
     path('mypage/', mypage_view, name='mypage_view'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

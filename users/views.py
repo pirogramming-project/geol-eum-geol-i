@@ -23,6 +23,11 @@ from django.core.cache import cache
 from django.utils.timezone import now
 from datetime import datetime, timedelta
 
+# 마이페이지
+from django.db import connection
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileImageForm
+
 
 def landing_view(request):
     return render(request, 'main/landing.html')
@@ -523,5 +528,44 @@ def google_callback(request):
     }
     return render(request, "main/main(afterLogin).html", context)
 
+# 마이페이지
+@login_required
 def mypage_view(request):
-    return render(request, 'UserManage/mypage.html', {'user': request.user})
+    user_id = request.user.id  
+
+    # 🔹 총 기록 조회 SQL 실행
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT 
+                COUNT(id) AS total_records, 
+                COALESCE(SUM(distance), 0) AS total_distance, 
+                COALESCE(SUM(calories), 0) AS total_calories
+            FROM record_detail
+            WHERE user_id = %s;
+        """, [user_id])
+        row = cursor.fetchone()
+
+    total_records = row[0] if row else 0
+    total_distance = row[1] if row else 0
+    total_calories = row[2] if row else 0
+
+    # 프로필 이미지 변경 처리
+    if request.method == "POST" and "profile_image" in request.FILES:
+        form = ProfileImageForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)  # DB 저장 전 user 객체만 가져오기
+            user.profile_image = request.FILES["profile_image"]  # 새로운 이미지 설정
+            user.save()  # 변경 사항 저장
+            return redirect('users:mypage_view')  # 변경 후 마이페이지로 리디렉션
+
+    else:
+        form = ProfileImageForm(instance=request.user)
+
+    context = {
+        "user": request.user,
+        "total_records": total_records,
+        "total_distance": total_distance,
+        "total_calories": total_calories,
+        "form": form,
+    }
+    return render(request, "UserManage/mypage.html", context)

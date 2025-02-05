@@ -68,9 +68,26 @@
                 <img src="{{ user.profile_image }}" alt="프로필 사진" width="87" height="87" />
               </div>
               <div class="center_1_profile_change">
-                <a href="#"><span class="box_text">프로필 변경</span></a>
+                <a href="#" id="open-modal"><span class="box_text">프로필 변경</span></a>
               </div>
             </div>
+            <!-- 프로필 변경 팝업-->
+            <div id="profile-modal" class="modal">
+              <div class="modal-content">
+                  <span class="close-modal">&times;</span>
+                  <h2>프로필 변경</h2>
+                  <form id="profile-form" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="profile-preview-box">
+                          <img id="modal-profile-preview" src="{{ user.profile_image }}" alt="프로필 미리보기" width="100">
+                      </div>
+                      <input type="file" name="profile_image" id="profile-upload" class="hidden-input">
+                      <label for="profile-upload" class="custom-file-btn">사진 선택</label>
+                      <button type="submit" class="profile-upload-btn center_1_profile_change box_text">변경</button>
+                  </form>
+              </div>
+            </div>
+
             <div class="center_1_text">
               <div class="center_1_text1">닉네임: <span class="center_text_red">{{ user.nickname }}</span></div>
               <div class="center_1_text3">이메일: <span class="center_text_red">{{ user.email }}</span></div>
@@ -90,9 +107,9 @@
             </svg>
           </div>
           <div class="center_2_text">
-            <div class="center_2_text1">걸음걸이와 <span class="center_text_red">32</span>번 함께 걸었어요!</div>
-            <div class="center_2_text2">지금까지 얼마걸음: <span class="center_text_red"> 3,929</span>km</div>
-            <div class="center_2_text3">지금까지 소비 칼로리: <span class="center_text_red">1,712 </span>kcal</div>
+            <div class="center_2_text1">걸음걸이와 <span class="center_text_red">{{ total_records }}</span>번 함께 걸었어요!</div>
+            <div class="center_2_text2">지금까지 얼마걸음: <span class="center_text_red">{{ total_distance|floatformat:2 }}</span>km</div>
+            <div class="center_2_text3">지금까지 소비 칼로리: <span class="center_text_red">{{ total_calories }}</span>kcal</div>
           </div>
         </div>
 
@@ -129,5 +146,6 @@
         </nav>
       </footer>
     </div>
+    <script src="{% static 'js/mypage.js' %}"></script>
   </body>
 </html>
