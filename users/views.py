@@ -23,6 +23,11 @@ from django.core.cache import cache
 from django.utils.timezone import now
 from datetime import datetime, timedelta
 
+# 마이페이지
+from django.db import connection
+from django.contrib.auth.decorators import login_required
+
+
 
 def landing_view(request):
     return render(request, 'main/landing.html')
@@ -523,5 +528,31 @@ def google_callback(request):
     }
     return render(request, "main/main(afterLogin).html", context)
 
+@login_required
 def mypage_view(request):
-    return render(request, 'UserManage/mypage.html', {'user': request.user})
+    user_id = request.user.id  # 현재 로그인한 사용자 ID
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT 
+                COUNT(id) AS total_records, 
+                COALESCE(SUM(distance), 0) AS total_distance, 
+                COALESCE(SUM(calories), 0) AS total_calories
+            FROM record_detail
+            WHERE user_id = %s;
+        """, [user_id])
+        row = cursor.fetchone()
+
+    # 결과 데이터 저장
+    total_records = row[0] if row else 0
+    total_distance = row[1] if row else 0
+    total_calories = row[2] if row else 0
+
+    context = {
+        "user": request.user,
+        "total_records": total_records,
+        "total_distance": total_distance,
+        "total_calories": total_calories,
+    }
+
+    return render(request, "UserManage/mypage.html", context)

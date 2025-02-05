@@ -90,9 +90,9 @@
             </svg>
           </div>
           <div class="center_2_text">
-            <div class="center_2_text1">걸음걸이와 <span class="center_text_red">32</span>번 함께 걸었어요!</div>
-            <div class="center_2_text2">지금까지 얼마걸음: <span class="center_text_red"> 3,929</span>km</div>
-            <div class="center_2_text3">지금까지 소비 칼로리: <span class="center_text_red">1,712 </span>kcal</div>
+            <div class="center_2_text1">걸음걸이와 <span class="center_text_red">{{ total_records }}</span>번 함께 걸었어요!</div>
+            <div class="center_2_text2">지금까지 얼마걸음: <span class="center_text_red">{{ total_distance|floatformat:2 }}</span>km</div>
+            <div class="center_2_text3">지금까지 소비 칼로리: <span class="center_text_red">{{ total_calories }}</span>kcal</div>
           </div>
         </div>
 
