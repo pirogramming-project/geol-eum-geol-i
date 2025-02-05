@@ -48,7 +48,7 @@
         <div class="course-introduction"><strong class="course-introduction-start">장소설명: </strong>{{ course.description }}</div>
       </div>
       <div class="gotohome-btn">
-        <a href="/" class="home-btn">추천 목록으로 가기</a>
+        <a href="{% url 'course:course_list' %}" class="home-btn">추천 목록으로 가기</a>
       </div>
       <footer>
         <nav class="bottom_nav">
