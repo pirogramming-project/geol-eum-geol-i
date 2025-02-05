@@ -257,3 +257,13 @@ body {
   position: relative;
   top: 3px;
 }
+
+
+.together__layout {
+  position: relative;
+}
+
+.together__navBar {
+  position: absolute;
+  left: 0;
+}
