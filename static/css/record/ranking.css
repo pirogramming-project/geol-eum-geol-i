@@ -1,0 +1,137 @@
+@import url("../root.css");
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: var(--white);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.ranking_layout{
+    /* background: var(--background-beige); */
+    width: 400px;
+    height: 100dvh;
+    font-family: 'VITRO INSPIRE OTF';
+    position: relative;
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+.crown {
+    position: absolute;
+    width: 37.6px;
+    height: 47px;
+    left: 194px;
+    top: 25px;
+}
+.ranking_title {
+    font-size: 37px;
+    display: flex;
+    padding-bottom: 10px;
+}
+.ranking_title_firstword {
+    color: var(--soft-red);
+}
+.ranking_title_secondword {
+    color: var(--red);
+}
+
+.ranking_header {
+    display: flex;
+    align-items: center;
+    padding: 50px 0 10px 20px;
+}
+
+.ranking_container_header {
+    color: var(--deep-brown);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.ranking_container_header_text {
+    font-size: 24px;
+}
+.ranking_date {
+    font-size: 18px;
+    font-family: 'Kartrider Kor OTF', sans-serif;
+}
+
+.ranking_container_main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.ranking_card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.ranking_cardImage img {
+    width: 55px;
+    height: 55px;
+    left: 40px;
+    top: 191px;
+    border: 1.82759px solid #E6E6E6;
+    filter: drop-shadow(0px 2.43678px 2.43678px rgba(0, 0, 0, 0.25));
+    border-radius: 50px;
+}
+
+.ranking {
+    width: 270px;
+    height: 55px;
+    left: 108px;
+    top: 193px;
+    background: #FFFFFF;
+    border: 4px solid #E6E6E6;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    display: flex;
+    align-items: center;
+    color: var(--gray);
+    font-size: 18px;
+}
+
+.ranking_top {
+    color: var(--deep-brown);
+    font-size: 22px;
+    padding-right: 15px;
+    padding-left: 45px;
+}
+
+.ranking_username {
+    width: 90px;
+    padding-right: 10px;
+}
+
+.medal{
+    position: absolute;
+    width: 52px;
+    height: 65px;
+    left: 98.8px;
+    top: 201px;
+}
+
+.medal2{
+    position: absolute;
+    width: 52px;
+    height: 65px;
+    left: 98.8px;
+    top: 279px;
+}
+
+.medal3 {
+    position: absolute;
+    width: 52px;
+    height: 65px;
+    left: 98.8px;
+    top: 358px;
+}
+
+
