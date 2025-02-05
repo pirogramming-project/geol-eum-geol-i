@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.response import Response
 from django.db.models import Sum
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import *
 from .serializers import DetailSerializer
 from django.contrib.auth.decorators import login_required
@@ -206,3 +206,45 @@ def save_monthly_record(request):
     except Exception as e:
         print("서버 오류:", str(e))
         return Response({"error": str(e)}, status=400)
+
+
+# 랭킹 
+@login_required
+def ranking_view(request):
+    
+    today = datetime.now() # 현재
+    year = int(request.GET.get("year", today.year)) 
+    month = int(request.GET.get("month", today.month))
+     
+    # 선택된 월의 전체 랭킹 조회 (정렬된 상태)
+    all_rankings = list(
+        Record.objects.filter(date__year=year, date__month=month)
+        .select_related('user')
+        .order_by('-total_distance')
+    )
+    
+    # 상위 5명의 랭킹 리스트 생성 (순위 포함)
+    rankings = [
+        {"rank": index + 1, "record": record}
+        for index, record in enumerate(all_rankings[:5])
+    ]
+
+    #현재 로그인한 유저의 순위 찾기
+    user_rank = None
+    for index, record in enumerate(all_rankings, start=1):
+        if record.user == request.user:
+            user_rank = index
+            break
+    
+    selected_date = datetime(year,month,1) # 선택된 월의 첫날
+    prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
+    
+    return render(request, 'record/ranking.html', {
+        'rankings': rankings,
+        'user_rank': user_rank,
+        'selected_year': year,
+        'selected_month': month,
+        'prev_year': prev_date.year,
+        'prev_month': prev_date.month,
+    })
+    
