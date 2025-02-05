@@ -134,3 +134,31 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # 이미지
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "debug.log",  # 로그 저장할 파일 (프로젝트 루트 디렉토리에 생성됨)
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console"],  # 파일과 콘솔에 로그 출력
+            "level": "INFO",
+            "propagate": True,
+        },
+        "users": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
