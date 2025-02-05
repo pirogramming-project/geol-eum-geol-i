@@ -8,12 +8,47 @@ a:hover {
 }
 
 .landing__layout {
-  background: var(--background_beige, #fff3e9);
+  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+}
+
+.body_container {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px 20px;
+}
+
+.link-ranking {
+  position: absolute;
+  left: 80%;
+  top: 2%;
+  z-index: 10;
+}
+
+.ranking-word {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--red);
+  position: relative;
+  top: -9px;
+  right: 7px;
+}
+
+.mypage_header {
+  width: 317px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
 }
 
 .home-icon {
   position: relative;
   top: 7px;
+  margin-bottom: 3px;
 }
 
 .mypage_title_text {
@@ -23,6 +58,9 @@ a:hover {
   font-style: normal;
   font-weight: 900;
   line-height: normal;
+
+  margin-top: 5px;
+  padding-left: 3px;
 }
 
 .center_1_box {
@@ -34,8 +72,14 @@ a:hover {
 .center_2 {
   display: flex;
   flex-direction: column;
+}
 
-  margin: 20px;
+.center_1 {
+  margin-top: 40px;
+}
+
+.center_2 {
+  margin-top: 40px;
 }
 
 .center_1_img,
@@ -45,7 +89,17 @@ a:hover {
   align-items: center;
 }
 
+.center_2_img {
+  margin-bottom: 8px;
+}
+
 .center_1_profile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.center_1_profile_img {
   width: 87px;
   height: 87px;
   flex-shrink: 0;
@@ -54,6 +108,39 @@ a:hover {
   border: 3px solid var(--light_gray, #e6e6e6);
   background: lightgray 50% / cover no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+}
+
+.center_1_profile img {
+  width: 100%; /* 프로필 박스를 꽉 채우도록 */
+  height: 100%;
+  object-fit: cover; /* 이미지를 잘라서 꽉 차도록 */
+  border-radius: 50%; /* 원형 유지 */
+}
+
+.center_1_profile_change {
+  width: 78px;
+  height: 32px;
+
+  border-radius: 12.522px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 2.783px 2.783px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 4px;
+}
+
+.box_text {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .center_1_text1,
@@ -73,6 +160,28 @@ a:hover {
 
 .center_text_red {
   color: var(--soft_red, #d2665a);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.logout_button {
+  width: 100px;
+  height: 46px;
+  border-radius: 18px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 60px auto;
+}
+
+.logout_button_text {
+  color: var(--white, #fff);
   font-family: "Kartrider Kor OTF";
   font-size: 24px;
   font-style: normal;
