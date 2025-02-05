@@ -12,4 +12,5 @@ urlpatterns = [
     path('daily/', daily_record, name='daily_record'),
     path('daily/', daily_record, name='daily_record'),
     path("check/<str:date>/", check_record, name="check_record"), # 기록 존재 여부 확인 페이지(김규일)
+    path('ranking/', ranking_view, name='ranking'), # 랭킹 페이지 (김선주)
 ]

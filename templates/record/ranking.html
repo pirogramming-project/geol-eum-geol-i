@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="rangking_container">
+        <h1>🏆 {{ selected_year }}년 {{ selected_month }}월 랭킹</h1>
+
+        <ul class="ranking_list">
+            {% for item in rankings %}
+                <li>
+                    {% if item.record.user.profile.image %}
+                        <img src="{{ item.record.user.profile.image.url }}" alt="{{ item.record.user.username }}">
+                    {% else %}
+                        <img src="/static/geoleum.jpg" alt="기본 이미지">
+                    {% endif %}
+                    
+                    <strong>#{{ item.rank }}</strong>
+                    <span>{{ item.record.user.nickname }} - {{ item.record.total_distance }} km</span>
+                </li>
+            {% empty %}
+                <li>🏃 해당 월의 기록이 없습니다!</li>
+            {% endfor %}
+        </ul>
+
+        <p class="highlight-user">👤 내 순위: <strong>#{{ user_rank|default:"순위 없음" }}</strong></p>
+
+        <a class="prev-button" href="?year={{ prev_year }}&month={{ prev_month }}">
+            ← {{ prev_year }}년 {{ prev_month }}월
+        </a>
+
+        
+    </div>
+</body>
+</html>
