@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/root.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/together/together_post.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/together/together_post.css' %}" />
   </head>
 
   <body>
-    <div class="landing__layout">
+    <div class="landing__layout together__layout">
       <div class="body_container">
         <a href="#" class="link-ranking">
           <div class="to-ranking">
@@ -91,7 +91,7 @@
 
       </div>
       <footer>
-        <nav class="bottom_nav">
+        <nav class="bottom_nav together__navBar">
           <div class="nav_item">
             <a href="{% url 'post:together_main' %}">
               <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />

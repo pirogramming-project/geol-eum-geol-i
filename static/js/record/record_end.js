@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     let path = [];
     let watchID;
-    let startTime = sessionStorage.getItem("startTime");
+    let now = new Date();
+    now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
+    let startTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
+    sessionStorage.setItem("startTime", startTime);
     let totalDistance = 0;
     let caloriesBurned = 0;
     let weight = 75;
@@ -9,16 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const showDistance = document.querySelector(".record__e_total_dist");
     const showCalories = document.querySelector(".record__e_total_cal");
     const showTime = document.querySelector(".record__e_total_time");
-
-    if(!startTime) {
-        console.error("startTime 값이 존재하지 않음. 현재 시간 사용!");
-        let now = new Date();
-        now.setHours(now.getHours() + 9);
-        startTime = now.toString().slice(0, 19);
-        sessionStorage.setItem("startTime", startTime);
-    }
-
-    startTime = new Date(startTime);
 
     console.log("저장된 경로 데이터: ", path);
 
