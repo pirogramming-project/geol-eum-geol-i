@@ -113,10 +113,10 @@ a:hover {
 }
 
 .center_1_profile img {
-  width: 100%; /* 프로필 박스를 꽉 채우도록 */
+  width: 100%;
   height: 100%;
-  object-fit: cover; /* 이미지를 잘라서 꽉 차도록 */
-  border-radius: 50%; /* 원형 유지 */
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .center_1_profile_change {

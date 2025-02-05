@@ -1,0 +1,149 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.landing__layout {
+  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+}
+
+.body_container {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px 20px;
+}
+
+.link-ranking {
+  position: absolute;
+  left: 80%;
+  top: 2%;
+  z-index: 10;
+}
+
+.ranking-word {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--red);
+  position: relative;
+  top: -9px;
+  right: 7px;
+}
+
+.together_header {
+  width: 317px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.home-icon {
+  position: relative;
+  top: 7px;
+  margin-bottom: 3px;
+}
+
+.together_title_text_all {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 5px;
+  padding-left: 3px;
+}
+
+.together_title_text_red {
+  color: var(--red, #b82132);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.together_title_text {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.center {
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+}
+
+.post_box {
+  width: 328px;
+  height: 101px;
+  flex-shrink: 0;
+
+  border-radius: 10px;
+  border: 4px solid var(--light_gray, #e6e6e6);
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: row;
+}
+
+.post_text {
+  display: flex;
+  flex-direction: row;
+}
+
+.post_title_and_writer {
+  display: flex;
+  flex-direction: column;
+}
+
+.post_title {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.post_writer {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.post_content {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.post_img {
+  width: 78px;
+  height: 75.111px;
+  flex-shrink: 0;
+
+  border-radius: 13.684px;
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  box-shadow: 0px 2.737px 2.737px 0px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+}
+
+.post_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 13.684px;
+}
