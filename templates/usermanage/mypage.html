@@ -65,16 +65,15 @@
           <div class="center_1_box">
             <div class="center_1_profile">
               <div class="center_1_profile_img">
-                <img src="{% static 'defaultimage/default-image.jpg' %}" width="87" height="87" />
+                <img src="{{ user.profile_image }}" alt="프로필 사진" width="87" height="87" />
               </div>
               <div class="center_1_profile_change">
                 <a href="#"><span class="box_text">프로필 변경</span></a>
               </div>
             </div>
             <div class="center_1_text">
-              <div class="center_1_text1">닉네임: <span class="center_text_red"> 경민 </span></div>
-              <div class="center_1_text2">아이디: <span class="center_text_red"> 아이디ㅇ에용 </span></div>
-              <div class="center_1_text3">이메일: <span class="center_text_red"> 이메일이에옹 </span></div>
+              <div class="center_1_text1">닉네임: <span class="center_text_red">{{ user.nickname }}</span></div>
+              <div class="center_1_text3">이메일: <span class="center_text_red">{{ user.email }}</span></div>
             </div>
           </div>
         </div>

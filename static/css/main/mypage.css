@@ -112,7 +112,7 @@ a:hover {
   overflow: hidden;
 }
 
-.center_1_profile img {
+.center_1_profile_img img {
   width: 100%; /* 프로필 박스를 꽉 채우도록 */
   height: 100%;
   object-fit: cover; /* 이미지를 잘라서 꽉 차도록 */

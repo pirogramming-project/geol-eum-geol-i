@@ -1,6 +1,7 @@
 import uuid
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.conf import settings
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, nickname=None, **extra_fields):
@@ -10,7 +11,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Nickname field must be set')
 
         email = self.normalize_email(email)
-        extra_fields.setdefault('user_id', str(uuid.uuid4())[:8])  # 🔥 user_id 자동 생성
+        extra_fields.setdefault('user_id', str(uuid.uuid4())[:8])  # user_id 자동 생성
 
         user = self.model(email=email, nickname=nickname, **extra_fields)
         user.set_password(password)
@@ -20,16 +21,23 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, nickname=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
         return self.create_user(email, password, nickname, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    user_id = models.CharField(max_length=100, unique=True, editable=False, default=str(uuid.uuid4())[:8])  # 🔥 자동 생성
+    user_id = models.CharField(max_length=100, unique=True, editable=False, default=str(uuid.uuid4())[:8])  # 자동 생성
     email = models.EmailField(unique=True, blank=False, null=False)
     nickname = models.CharField(max_length=50, blank=False, null=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
+
+    # 프로필 이미지 필드
+    profile_image = models.URLField(
+        max_length=500, 
+        blank=True, 
+        null=True,
+        default=f"{settings.STATIC_URL}defaultimage/default-image.jpg"
+    )
 
     objects = CustomUserManager()
 
