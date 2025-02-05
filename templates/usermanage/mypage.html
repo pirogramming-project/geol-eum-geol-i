@@ -68,9 +68,26 @@
                 <img src="{{ user.profile_image }}" alt="프로필 사진" width="87" height="87" />
               </div>
               <div class="center_1_profile_change">
-                <a href="#"><span class="box_text">프로필 변경</span></a>
+                <a href="#" id="open-modal"><span class="box_text">프로필 변경</span></a>
               </div>
             </div>
+            <!-- 프로필 변경 팝업-->
+            <div id="profile-modal" class="modal">
+              <div class="modal-content">
+                  <span class="close-modal">&times;</span>
+                  <h2>프로필 변경</h2>
+                  <form id="profile-form" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="profile-preview-box">
+                          <img id="modal-profile-preview" src="{{ user.profile_image }}" alt="프로필 미리보기" width="100">
+                      </div>
+                      <input type="file" name="profile_image" id="profile-upload" class="hidden-input">
+                      <label for="profile-upload" class="custom-file-btn">사진 선택</label>
+                      <button type="submit" class="profile-upload-btn center_1_profile_change box_text">변경</button>
+                  </form>
+              </div>
+            </div>
+
             <div class="center_1_text">
               <div class="center_1_text1">닉네임: <span class="center_text_red">{{ user.nickname }}</span></div>
               <div class="center_1_text3">이메일: <span class="center_text_red">{{ user.email }}</span></div>
@@ -129,5 +146,6 @@
         </nav>
       </footer>
     </div>
+    <script src="{% static 'js/mypage.js' %}"></script>
   </body>
 </html>
