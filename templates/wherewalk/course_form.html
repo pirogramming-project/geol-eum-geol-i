@@ -52,7 +52,7 @@
             {% csrf_token %}
             <p class="form-keyword-title">코스 제목</p>
             <!-- 코스 제목 입력 -->
-            <input class="title-input-form" type="text" name="title" required />
+            <input class="title-input-form" type="text" name="title" maxlength="14" required />
             <p class="form-keyword-title">이미지</p>
             <!-- 사진 업로드 -->
             <div class="image-container">
@@ -61,7 +61,7 @@
               <label for="file-upload" class="custom-file-btn">등록</label>
             </div>
             <p class="form-keyword-title">장소</p>
-            <textarea name="description" rows="4" cols="50" required></textarea>
+            <textarea name="description" rows="4" cols="50" maxlength="70" required></textarea>
             <p class="form-keyword-title">거리</p>
             <!-- 총 거리 입력 (km) -->
             <input type="number" name="distance" step="0.01" required />
