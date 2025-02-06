@@ -4,7 +4,7 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     # 사용자 목록에 표시할 필드 설정
-    list_display = ('email', 'nickname', 'is_active', 'is_staff', 'date_joined')  # ✅ user_id 제거
+    list_display = ('email', 'nickname', 'profile_image_url', 'profile_image_file', 'is_active', 'is_staff', 'date_joined')  # ✅ user_id 제거
     list_filter = ('is_staff', 'is_active', 'date_joined')  # 필터링 옵션
     ordering = ('date_joined',)  # 정렬 기준
     search_fields = ('email', 'nickname')  # ✅ user_id 제거
@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     # 사용자 상세 화면에서 편집할 필드 설정
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal Info', {'fields': ('nickname',)}),  # ✅ user_id 제거
+        ('Personal Info', {'fields': ('nickname', 'profile_image_url', 'profile_image_file')}),  # ✅ user_id 제거
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),  
         ('Important Dates', {'fields': ('last_login', 'date_joined')}),  
     )
