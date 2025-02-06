@@ -77,10 +77,10 @@
                 <div class="ranking_card">
                     {% if item.rank == 1%}
                     <div class="ranking_cardImage">
-                        {% if item.record.user.profile_image_file %}
-                            <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                        {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                            <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
                         {% elif item.record.user.profile_image_url %}
-                            <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                            <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
                         {% else %}
                             <img src="/static/geoleum.jpg" alt="기본 이미지">
                         {% endif %}
@@ -106,10 +106,10 @@
                     </div>
                     {% elif item.rank == 2%}
                     <div class="ranking_cardImage">
-                        {% if item.record.user.profile_image_file %}
-                            <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                        {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                            <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
                         {% elif item.record.user.profile_image_url %}
-                            <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                            <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
                         {% else %}
                             <img src="/static/geoleum.jpg" alt="기본 이미지">
                         {% endif %}
@@ -136,10 +136,10 @@
                     </div>
                     {% elif item.rank == 3%}
                     <div class="ranking_cardImage">
-                        {% if item.record.user.profile_image_file %}
-                            <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                        {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                            <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
                         {% elif item.record.user.profile_image_url %}
-                            <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                            <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
                         {% else %}
                             <img src="/static/geoleum.jpg" alt="기본 이미지">
                         {% endif %}
@@ -167,10 +167,10 @@
                     
                     {% else %}
                     <div class="ranking_cardImage">
-                        {% if item.record.user.profile_image_file %}
-                            <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                        {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                            <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
                         {% elif item.record.user.profile_image_url %}
-                            <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                            <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
                         {% else %}
                             <img src="/static/geoleum.jpg" alt="기본 이미지">
                         {% endif %}
