@@ -22,7 +22,7 @@ class Detail(models.Model):
     end_time = models.TimeField(null=True, blank=True)  # 운동 종료 시간
     
     distance = models.DecimalField(max_digits=5, decimal_places=2)  # 이동 거리 (KM)
-    time = models.CharField(max_length=10)  # "시:분:초" 형식으로 저장
+    time = models.CharField(max_length=15, default='00:00:00')  # ✅ 기본값 추가
     pace = models.DecimalField(max_digits=4, decimal_places=2)  # 페이스 (분/km)
     calories = models.PositiveIntegerField()  # 소모 칼로리
     image =  models.ImageField(upload_to='record_images/%Y%m%d', null=True, blank=True)
