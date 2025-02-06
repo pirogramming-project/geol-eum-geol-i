@@ -15,7 +15,11 @@ class CustomUserCreationForm(UserCreationForm):
     
 
 # 마이페이지 프로필 수정
-class ProfileImageForm(forms.ModelForm):
+class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['profile_image']
+        fields = ['nickname', 'profile_image_file']
+        widgets = {
+            'nickname': forms.TextInput(attrs={'class': 'nickname-input', 'placeholder': '새 닉네임 입력'}),
+        }
+
