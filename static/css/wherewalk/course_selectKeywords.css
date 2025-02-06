@@ -1,10 +1,7 @@
-button {
-  all: unset;
-}
-
 .container {
   padding: 0px;
   padding-left: 20px;
+  position: relative;
 }
 
 .course-recommand-introduction {
@@ -55,11 +52,11 @@ button {
 }
 
 .center_post_box_all {
-  display: flex;
+  grid-template-columns: repeat(3, 1fr);
+  display: grid;
   flex-direction: row;
-
-  justify-content: space-around;
-  padding: 15px;
+  padding: 15px 15px 15px 0px;
+  gap: 14px;
 }
 
 .center_post_box {
@@ -222,4 +219,21 @@ button {
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
+}
+
+
+.select__keyword_container {
+  display: flex;
+  gap: 10px;
+  margin-block: 10px 20px;
+}
+footer {
+  position: absolute;
+  left: 0px;
+}
+.select__keyword_info {
+  width: fit-content;
+  margin-left: 10px;
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF";
 }
