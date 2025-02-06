@@ -2,7 +2,7 @@ import uuid
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.conf import settings
-
+from django.core.files.storage import default_storage
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, nickname=None, **extra_fields):
         if not email:
@@ -66,3 +66,20 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         elif self.profile_image_url:
             return self.profile_image_url
         return f"{settings.STATIC_URL}defaultimage/default-image.jpg"
+    
+    def save(self, *args, **kwargs):
+        """
+        새로운 프로필 이미지가 업로드될 경우, 기존 이미지 파일을 자동 삭제.
+        """
+        try:
+            old_user = CustomUser.objects.get(id=self.id)
+            old_image = old_user.profile_image_file
+        except CustomUser.DoesNotExist:
+            old_image = None
+
+        super().save(*args, **kwargs)
+
+        # 기존 이미지 삭제 (새로운 이미지가 업로드되었고, 기존 이미지와 다를 경우)
+        if old_image and self.profile_image_file and old_image != self.profile_image_file:
+            if default_storage.exists(old_image.path):
+                default_storage.delete(old_image.path)
