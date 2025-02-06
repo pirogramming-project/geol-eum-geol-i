@@ -23,6 +23,11 @@ from django.core.cache import cache
 from django.utils.timezone import now
 from datetime import datetime, timedelta
 
+# 마이페이지
+from django.db import connection
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileUpdateForm
+
 
 def landing_view(request):
     return render(request, 'main/landing.html')
@@ -300,59 +305,9 @@ def naver_login(request):
     request_url = f"{base_url}?{'&'.join([f'{key}={value}' for key, value in params.items()])}"
     return redirect(request_url)
 
-def naver_callback(request):
-    # 네이버에서 전달받은 인증 코드와 state 값
-    code = request.GET.get("code")
-    state = request.GET.get("state")
+import logging
 
-    # 액세스 토큰 요청
-    token_url = "https://nid.naver.com/oauth2.0/token"
-    payload = {
-        "grant_type": "authorization_code",
-        "client_id": settings.NAVER_CLIENT_ID,
-        "client_secret": settings.NAVER_CLIENT_SECRET,
-        "code": code,
-        "state": state,
-    }
-    response = requests.post(token_url, data=payload)
-    token_data = response.json()
-
-    access_token = token_data.get("access_token")
-    if access_token:
-        request.session['naver_access_token'] = access_token  # 세션 저장
-    else:
-        return redirect('/?error=token_error')   # 오류 처리
-
-    # 사용자 정보 요청
-    user_info_url = "https://openapi.naver.com/v1/nid/me"
-    headers = {"Authorization": f"Bearer {access_token}"}
-    user_response = requests.get(user_info_url, headers=headers)
-    user_info = user_response.json().get("response")
-
-    # 사용자 정보 추출
-    email = user_info.get("email")
-    nickname = user_info.get("nickname")
-    user_id = user_info.get("id")
-
-
-    # 사용자 정보를 데이터베이스에 저장
-    user, created = CustomUser.objects.get_or_create(
-        user_id=user_id,
-        defaults={
-            "email": email.split('@')[0]+'@naver.com',
-            "nickname": nickname,
-            "is_active": True,  # 네이버 로그인은 바로 활성화
-        },
-    )
-
-    # 사용자 세션 로그인
-    login(request, user)
-
-    # success.html 렌더링
-    context = {
-        "user": user,  # user 객체를 템플릿에 전달
-    }
-    return render(request, "main/main(afterLogin).html", context)
+logger = logging.getLogger(__name__)
 
 def naver_callback(request):
     # 네이버에서 전달받은 인증 코드와 state 값
@@ -375,6 +330,7 @@ def naver_callback(request):
     if access_token:
         request.session['naver_access_token'] = access_token  # 세션 저장
     else:
+        logger.error("네이버 로그인 실패: 액세스 토큰 없음")
         return redirect('/?error=token_error')   # 오류 처리
 
     # 사용자 정보 요청
@@ -383,34 +339,47 @@ def naver_callback(request):
     user_response = requests.get(user_info_url, headers=headers)
     user_info = user_response.json().get("response")
 
+    # 네이버에서 받아온 사용자 정보 로그 출력
+    logger.info(f"Naver User Info: {user_info}")
+
     # 사용자 정보 추출
     email = user_info.get("email")
     nickname = user_info.get("nickname")
     user_id = user_info.get("id")
+    profile_image_url = user_info.get("profile_image", f"{settings.STATIC_URL}defaultimage/default-image.jpg")  # 기본값 설정
+
+    # 로그로 프로필 이미지 확인
+    logger.info(f"Naver Profile Image URL: {profile_image_url}")
+
     naver_email = email.split('@')[0]+'@naver.com'
+
     try:
-        # 이메일이 기존 유저에 있으면 그 유저로 로그인
+        # 기존 유저 확인
         user = CustomUser.objects.get(email=naver_email)
+        user.profile_image_url = profile_image_url  # 프로필 이미지 업데이트
         user.save()
         created = False
-
+        logger.info(f"기존 사용자 로그인: {user.email} / 프로필 이미지 업데이트됨")
     except CustomUser.DoesNotExist:
-        # 이메일이 없으면 새로 생성
+        # 신규 사용자 생성
         user = CustomUser.objects.create(
             user_id=user_id,
             email=naver_email,
             nickname=nickname,
-            is_active=True,  # 네이버 로그인은 바로 활성화
+            profile_image_url=profile_image_url,  # 프로필 이미지 저장
+            is_active=True,
         )
         created = True
+        logger.info(f"신규 사용자 생성: {user.email} / 프로필 이미지 저장됨")
 
-    # 사용자 세션 로그인
+    # 로그인 처리
     login(request, user)
+    logger.info(f"로그인 성공: {user.email}")
 
     # 성공 페이지 렌더링
     context = {
         "user": user,
-        "created": created,  # 새 유저인지 기존 유저인지 전달
+        "created": created,
     }
     return render(request, "main/main(afterLogin).html", context)
 
@@ -437,13 +406,14 @@ def google_callback(request):
     user_info_url = "https://www.googleapis.com/oauth2/v1/userinfo"
 
     if not code:
+        logger.error("Google 로그인 실패: 인증 코드 없음")
         return JsonResponse({'error': '인증 코드가 없습니다.'}, status=400)
 
-    # Access Token 요청
+    # 🔹 Access Token 요청
     data = {
         'code': code,
-        'client_id': settings.GOOGLE_CLIENT_ID,  # 환경 변수에서 값 가져오기
-        'client_secret': settings.GOOGLE_CLIENT_SECRET,  # 환경 변수에서 값 가져오기
+        'client_id': settings.GOOGLE_CLIENT_ID,
+        'client_secret': settings.GOOGLE_CLIENT_SECRET,
         'redirect_uri': settings.GOOGLE_REDIRECT_URI,
         'grant_type': 'authorization_code',
     }
@@ -452,44 +422,101 @@ def google_callback(request):
     access_token = token_json.get('access_token')
 
     if not access_token:
+        logger.error("Google 로그인 실패: Access Token 요청 실패")
         return JsonResponse({'error': 'Access Token 요청 실패'}, status=400)
 
-    # 사용자 정보 가져오기
+    # 🔹 사용자 정보 가져오기
     headers = {'Authorization': f'Bearer {access_token}'}
     user_info_response = requests.get(user_info_url, headers=headers)
     user_info = user_info_response.json()
 
-    # Google API 응답에서 필요한 정보 추출
+    # Google API 응답 로그 출력
+    logger.info(f"Google User Info: {user_info}")
+
+    # 🔹 Google API 응답에서 필요한 정보 추출
     google_id = user_info.get('id')  # Google 고유 사용자 ID
     name = user_info.get('name')
     email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
+    profile_image_url = user_info.get("picture", f"{settings.STATIC_URL}defaultimage/default-image.jpg")    # 프로필 이미지 기본값 설정
+
+
+    logger.info(f"Google People API Response: {user_info}")
+    # 프로필 이미지 로그 출력
+    logger.info(f"Google Profile Image URL: {profile_image_url}")
 
     try:
-        # 이메일이 기존 유저에 있으면 그 유저로 로그인
+        # 이메일이 기존 유저에 있으면 업데이트
         user = CustomUser.objects.get(email=email)
+        user.profile_image_url = profile_image_url  # 기존 사용자 프로필 이미지 업데이트
         user.save()
         created = False
-
+        logger.info(f"기존 사용자 로그인: {user.email} / 프로필 이미지 업데이트됨: {user.profile_image}")
     except CustomUser.DoesNotExist:
         # 이메일이 없으면 새로 생성
         user = CustomUser.objects.create(
             user_id=google_id,
             email=email,
             nickname=name,
+            profile_image_url=profile_image_url,  # 프로필 이미지 저장
             is_active=True,
         )
-        user.set_unusable_password()
+        user.set_unusable_password()  # 구글 로그인 유저는 비밀번호 설정 X
         created = True
+        logger.info(f"신규 사용자 생성: {user.email} / 프로필 이미지 저장됨")
 
-    # 사용자 세션 로그인
+    # 🔹 사용자 세션 로그인
     login(request, user)
-
-    # 성공 페이지 렌더링
+    logger.info(f"로그인 성공: {user.email}")
+    # 🔹 성공 페이지 렌더링
     context = {
         "user": user,
-        "created": created,  # 새 유저인지 기존 유저인지 전달
+        "created": created,
     }
     return render(request, "main/main(afterLogin).html", context)
 
+# 마이페이지
+@login_required
 def mypage_view(request):
-    return render(request, 'UserManage/mypage.html', {'user': request.user})
+    user_id = request.user.id  
+
+    # 총 기록 조회 SQL 실행
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT 
+                COUNT(id) AS total_records, 
+                COALESCE(SUM(distance), 0) AS total_distance, 
+                COALESCE(SUM(calories), 0) AS total_calories
+            FROM record_detail
+            WHERE user_id = %s;
+        """, [user_id])
+        row = cursor.fetchone()
+
+    total_records = row[0] if row else 0
+    total_distance = row[1] if row else 0
+    total_calories = row[2] if row else 0
+
+    # GET 요청에서 form을 초기화 (닉네임 + 프로필 사진)
+    profile_update_form = ProfileUpdateForm(instance=request.user)
+
+    if request.method == "POST":
+        profile_update_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+
+        if profile_update_form.is_valid():
+            user = profile_update_form.save(commit=False)
+            
+            # 🔹 프로필 이미지 파일이 업로드되었을 경우 업데이트
+            if "profile_image" in request.FILES:
+                user.profile_image_file = request.FILES["profile_image"]
+            
+            user.save()
+            return redirect('users:mypage_view')
+
+    context = {
+        "user": request.user,
+        "total_records": total_records,
+        "total_distance": total_distance,
+        "total_calories": total_calories,
+        "profile_update_form": profile_update_form,
+    }
+    return render(request, "UserManage/mypage.html", context)
+

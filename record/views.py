@@ -23,6 +23,9 @@ def daily_record(request):
 def record_page(request):
     return render(request, "record/record_start.html")
 
+def ready_record(request):
+    return render(request, "record/before_record.html") # 페이지 확인용(삭제 예정)
+
 # 칼로리 계산 
 def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
     speed = distance / (minutes / 60) if minutes > 0 else 0  # km/h 속도 계산

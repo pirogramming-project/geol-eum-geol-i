@@ -17,6 +17,11 @@
     font-weight: 900;
     padding-block: 8px;
 }
+.record__e_bottle_btn {
+    position: absolute;
+    left: 35px;
+    top: 400px;
+}
 .record__e_person{
     padding-top: 91px;
     padding-left: 141px;

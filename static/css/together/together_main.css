@@ -1,0 +1,259 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+body {
+  text-align: center;
+}
+
+.landing__layout {
+  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+}
+
+.body_container {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px 20px;
+}
+
+.link-ranking {
+  position: absolute;
+  left: 80%;
+  top: 2%;
+  z-index: 10;
+}
+
+.ranking-word {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--red);
+  position: relative;
+  top: -9px;
+}
+
+.together_header {
+  width: 317px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+
+  text-align: start;
+}
+
+.home-icon {
+  position: relative;
+  top: 7px;
+}
+
+.together_title_text_all {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 15px;
+  padding-left: 3px;
+}
+
+.together_title_text_red {
+  color: var(--red, #b82132);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.together_title_text {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+  margin-left: 10px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 15px;
+  padding-top: 8px;
+
+  justify-content: center;
+}
+
+.post_box {
+  width: 328px;
+  height: 101px;
+  flex-shrink: 0;
+
+  border-radius: 10px;
+  border: 4px solid var(--light_gray, #e6e6e6);
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 80px;
+
+  margin-top: 20px;
+}
+
+.post_text {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 12px;
+}
+
+.post_title_and_writer {
+  display: flex;
+  flex-direction: row;
+
+  padding-bottom: 10px;
+}
+
+.post_title {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.post_writer {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-left: 18px;
+}
+
+.post_content {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.post_img {
+  width: 78px;
+  height: 75.111px;
+  flex-shrink: 0;
+
+  border-radius: 13.684px;
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  box-shadow: 0px 2.737px 2.737px 0px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+
+  margin-top: 8px;
+}
+
+.post_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 13.684px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination-status {
+  width: 70px;
+}
+
+.pagination-backward,
+.pagination-forward {
+  display: inline-flex; /* inline 요소이면서 flex 정렬 */
+  align-items: center; /* 세로축 가운데 정렬 */
+  justify-content: center; /* 가로축 중앙 정렬 (필요하면 추가) */
+}
+
+.pagination-status {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  color: var(--deep-brown);
+}
+
+.pagination a {
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination a:hover {
+  color: white;
+}
+
+.pagination span {
+  align-self: center;
+  font-size: 16px;
+}
+
+svg {
+  cursor: pointer; /* 마우스 커서가 손 모양으로 변경되어 클릭할 수 있음을 표시 */
+  pointer-events: all; /* 클릭 가능하도록 설정 */
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.together_button {
+  width: 231px;
+  height: 43.371px;
+  flex-shrink: 0;
+
+  border-radius: 16.971px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 3.771px 3.771px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+
+  cursor: pointer;
+}
+
+.together_button:hover {
+  background-color: #967474;
+}
+
+.runningmate {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  margin-bottom: 3px;
+  margin-left: 5px;
+}
+
+.recommend-btn svg {
+  position: relative;
+  top: 3px;
+}

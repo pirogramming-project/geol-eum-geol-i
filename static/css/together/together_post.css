@@ -1,0 +1,269 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+textarea {
+  all: unset;
+}
+
+input {
+  all: unset;
+}
+
+body {
+  text-align: center;
+}
+
+.landing__layout {
+  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+}
+
+.body_container {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px 20px;
+}
+
+.link-ranking {
+  position: absolute;
+  left: 80%;
+  top: 2%;
+  z-index: 10;
+}
+
+.ranking-word {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--red);
+  position: relative;
+  top: -9px;
+}
+
+.together_header {
+  width: 317px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+
+  text-align: start;
+}
+
+.home-icon {
+  position: relative;
+  top: 7px;
+}
+
+.together_title_text_all {
+  display: flex;
+  flex-direction: column;
+}
+
+.together_title_title {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 15px;
+  padding-left: 3px;
+}
+
+.together_title_text_red {
+  color: var(--red, #b82132);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.together_title_text {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+  margin-left: 10px;
+}
+
+.together_title_explain {
+  color: var(--soft_red, #d2665a);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  margin-left: 4px;
+  margin-top: 8px;
+}
+
+.post_title_box {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 20px;
+  margin-left: 4px;
+}
+
+.post_title_title {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: start;
+}
+
+.post_title_input {
+  width: 313px;
+  height: 43px;
+
+  border-radius: 10.61px;
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+
+  margin-top: 8px;
+}
+
+.post_picture_box {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 20px;
+  margin-left: 4px;
+}
+
+.post_picture_title {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: start;
+}
+
+.post_picture_input_and_register {
+  display: flex;
+  flex-direction: row;
+}
+
+.post_picture_input {
+  width: 237px;
+  height: 43px;
+
+  border-radius: 10.61px;
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+
+  margin-top: 8px;
+}
+
+.post_picture_register {
+  width: 63px;
+  height: 46px;
+
+  border-radius: 18px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 6px;
+  margin-left: 20px;
+}
+
+.post_content_box {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 20px;
+  margin-left: 4px;
+}
+
+.post_content_title {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: start;
+}
+
+.post_content_input {
+  width: 311px;
+  height: 147px;
+
+  border-radius: 10.61px;
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+
+  margin-top: 8px;
+}
+
+.together_button {
+  width: 147px;
+  height: 43.371px;
+  flex-shrink: 0;
+
+  border-radius: 16.971px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 3.771px 3.771px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+
+  cursor: pointer;
+}
+
+.together_button:hover {
+  background-color: #967474;
+}
+
+.runningmate {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  margin-bottom: 3px;
+  margin-left: 5px;
+}
+
+.recommend-btn svg {
+  position: relative;
+  top: 3px;
+}
+
+
+.together__layout {
+  position: relative;
+}
+
+.together__navBar {
+  position: absolute;
+  left: 0;
+}
