@@ -84,17 +84,12 @@ body {
   display: flex;
   flex-direction: column;
 
-  padding-left: 15px;
   padding-top: 8px;
 
   justify-content: center;
 }
 
 .post_box {
-  width: 328px;
-  height: 101px;
-  flex-shrink: 0;
-
   border-radius: 10px;
   border: 4px solid var(--light_gray, #e6e6e6);
   background: var(--white, #fff);
@@ -102,10 +97,12 @@ body {
 
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  gap: 80px;
+  justify-content: space-between;
+  gap: 20px;
 
   margin-top: 20px;
+  padding-left: 8px;
+  padding-right: 10px;
 }
 
 .post_text {
@@ -128,6 +125,11 @@ body {
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
+
+  max-width: 165px; /* 제목이 너무 길어지지 않도록 최대 너비 설정 */
+  word-wrap: break-word; /* 단어가 길면 자동 줄바꿈 */
+  overflow-wrap: break-word; /* 자동 줄바꿈 보조 */
+  white-space: normal; /* 줄바꿈 허용 */
 }
 
 .post_writer {
@@ -139,9 +141,10 @@ body {
 
   display: flex;
   justify-content: center;
-  align-items: center;
 
   padding-left: 18px;
+
+  margin-top: 3px;
 }
 
 .post_content {
@@ -150,6 +153,10 @@ body {
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
+
+  display: flex;
+
+  margin-bottom: 5px;
 }
 
 .post_img {
@@ -164,6 +171,7 @@ body {
   overflow: hidden;
 
   margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .post_img img {
@@ -256,4 +264,20 @@ svg {
 .recommend-btn svg {
   position: relative;
   top: 3px;
+}
+
+.wrapper {
+  overflow-y: auto;
+  padding-bottom: 140px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, rgb(118, 69, 59));
+  border-radius: 6px;
+  border-radius: 20px;
 }

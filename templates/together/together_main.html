@@ -30,6 +30,7 @@
           </div>
         </a>
 
+        <div class="wrapper">
         <div class="together_header">
           <div class="together_title">
             <a href="{% url 'users:success' %}" class="home-icon">
@@ -49,7 +50,7 @@
 
 
         <div class="center">
-          {% for post in posts %}
+          {% for post in page_obj %}
           <div class="post_box">
             
             <div class="post_text">
@@ -69,8 +70,8 @@
             </div>
 
             <div class="post_img">
-              {% if post.image %}
-                <img src="{{ post.image.url }}" width="87" height="87" />
+              {% if post.picture %}
+                <img src="{{ post.picture.url }}" width="87" height="87" />
               {% else %}
                 <img src="{% static 'defaultimage/default-image.jpg' %}" width="87" height="87" />
               {% endif %}
@@ -117,6 +118,8 @@
             <span class="runningmate">러닝메이트 모집하기</span>
           </a>
         </div>
+      </div>
+
 
       </div>
       <footer>

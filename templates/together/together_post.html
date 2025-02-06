@@ -63,13 +63,18 @@
             </div>
 
             <div class="post_picture_box">
-
               <div class="post_picture_title">게시글 사진</div>
               <div class="post_picture_input_and_register">
-                <div class="post_picture_input"><input type="file" id="picture" name="picture" /></div>
-                <div class="post_picture_register">등록</div>
+                <div class="post_picture_input">
+                  <input type="file" id="picture" name="picture" onchange="updateFileName()" />
+                  <span id="file-name">선택된 파일 없음</span> <!-- 추가된 부분 -->
+                </div>
+                <label for="picture" class="post_picture_register">등록</label>
               </div>
             </div>
+            
+
+
 
             <div class="post_content_box">
               <div class="post_content_title">게시글 내용</div>
@@ -119,5 +124,20 @@
         </nav>
       </footer>
 
+
+    <script>
+      function updateFileName() {
+        const input = document.getElementById("picture");
+        const fileNameSpan = document.getElementById("file-name");
+      
+        if (input.files.length > 0) {
+          fileNameSpan.textContent = input.files[0].name; 
+        } else {
+          fileNameSpan.textContent = "선택된 파일 없음"; 
+        }
+      }
+      
+      
+    </script>
   </body>
 </html>
