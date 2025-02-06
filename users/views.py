@@ -344,7 +344,7 @@ def naver_callback(request):
 
     # 사용자 정보 추출
     email = user_info.get("email")
-    nickname = user_info.get("nickname")
+    nickname = user_info.get("nickname", "사용자")[:8]
     user_id = user_info.get("id")
     profile_image_url = user_info.get("profile_image", f"{settings.STATIC_URL}defaultimage/default-image.jpg")  # 기본값 설정
 
@@ -409,7 +409,7 @@ def google_callback(request):
         logger.error("Google 로그인 실패: 인증 코드 없음")
         return JsonResponse({'error': '인증 코드가 없습니다.'}, status=400)
 
-    # 🔹 Access Token 요청
+    # Access Token 요청
     data = {
         'code': code,
         'client_id': settings.GOOGLE_CLIENT_ID,
@@ -425,7 +425,7 @@ def google_callback(request):
         logger.error("Google 로그인 실패: Access Token 요청 실패")
         return JsonResponse({'error': 'Access Token 요청 실패'}, status=400)
 
-    # 🔹 사용자 정보 가져오기
+    # 사용자 정보 가져오기
     headers = {'Authorization': f'Bearer {access_token}'}
     user_info_response = requests.get(user_info_url, headers=headers)
     user_info = user_info_response.json()
@@ -433,9 +433,9 @@ def google_callback(request):
     # Google API 응답 로그 출력
     logger.info(f"Google User Info: {user_info}")
 
-    # 🔹 Google API 응답에서 필요한 정보 추출
+    # Google API 응답에서 필요한 정보 추출
     google_id = user_info.get('id')  # Google 고유 사용자 ID
-    name = user_info.get('name')
+    name = user_info.get('name', '사용자')[:8]
     email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
     profile_image_url = user_info.get("picture", f"{settings.STATIC_URL}defaultimage/default-image.jpg")    # 프로필 이미지 기본값 설정
 
@@ -456,7 +456,7 @@ def google_callback(request):
         user = CustomUser.objects.create(
             user_id=google_id,
             email=email,
-            nickname=name,
+            nickname=name[:8],
             profile_image_url=profile_image_url,  # 프로필 이미지 저장
             is_active=True,
         )
@@ -464,10 +464,10 @@ def google_callback(request):
         created = True
         logger.info(f"신규 사용자 생성: {user.email} / 프로필 이미지 저장됨")
 
-    # 🔹 사용자 세션 로그인
+    # 사용자 세션 로그인
     login(request, user)
     logger.info(f"로그인 성공: {user.email}")
-    # 🔹 성공 페이지 렌더링
+    # 성공 페이지 렌더링
     context = {
         "user": user,
         "created": created,
@@ -479,21 +479,32 @@ def google_callback(request):
 def mypage_view(request):
     user_id = request.user.id  
 
-    # 총 기록 조회 SQL 실행
+    # 총 운동 거리 & 총 칼로리 (월간 기록 기준)
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT 
-                COUNT(id) AS total_records, 
-                COALESCE(SUM(distance), 0) AS total_distance, 
-                COALESCE(SUM(calories), 0) AS total_calories
-            FROM record_detail
+                COALESCE(SUM(total_distance), 0) AS total_distance, 
+                COALESCE(SUM(total_calories), 0) AS total_calories
+            FROM record_record
             WHERE user_id = %s;
         """, [user_id])
         row = cursor.fetchone()
+    
+    # None 방지 (row가 None이면 기본값을 0으로 설정)
+    total_distance = row[0] if row is not None else 0
+    total_calories = row[1] if row is not None else 0
 
-    total_records = row[0] if row else 0
-    total_distance = row[1] if row else 0
-    total_calories = row[2] if row else 0
+    # 총 운동 기록 개수 (일간 기록 기준)
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT COUNT(id) AS total_records
+            FROM record_detail
+            WHERE user_id = %s;
+        """, [user_id])
+        row = cursor.fetchone()  # row를 다시 받아야 함
+    
+    # None 방지 (row가 None이면 기본값을 0으로 설정)
+    total_records = row[0] if row is not None else 0
 
     # GET 요청에서 form을 초기화 (닉네임 + 프로필 사진)
     profile_update_form = ProfileUpdateForm(instance=request.user)
@@ -504,7 +515,7 @@ def mypage_view(request):
         if profile_update_form.is_valid():
             user = profile_update_form.save(commit=False)
             
-            # 🔹 프로필 이미지 파일이 업로드되었을 경우 업데이트
+            # 프로필 이미지 파일이 업로드되었을 경우 업데이트
             if "profile_image" in request.FILES:
                 user.profile_image_file = request.FILES["profile_image"]
             
@@ -513,10 +524,11 @@ def mypage_view(request):
 
     context = {
         "user": request.user,
-        "total_records": total_records,
-        "total_distance": total_distance,
-        "total_calories": total_calories,
+        "total_records": total_records,  # Detail 테이블에서 가져옴
+        "total_distance": total_distance,  # Record 테이블에서 가져옴
+        "total_calories": total_calories,  # Record 테이블에서 가져옴
         "profile_update_form": profile_update_form,
     }
     return render(request, "UserManage/mypage.html", context)
+
 
