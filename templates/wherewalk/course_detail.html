@@ -28,6 +28,11 @@
         </div>
       </div>
       <div class="container">
+        <div class="course-keywords">
+          {% for keyword in course.keywords.all %}
+            <span class="course-keyword">#{{ keyword.name }}</span>
+          {% endfor %}
+        </div>
         <h1 class="course-title">제목: {{ course.title }}</h1>
         <div class="course-detail-information">
           <p class="course-info"><strong class="course-distance">거리:</strong> {{ course.distance }} km</p>

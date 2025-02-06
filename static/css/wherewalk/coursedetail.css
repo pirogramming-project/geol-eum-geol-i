@@ -167,3 +167,16 @@ img {
     position: relative;
     top: 7px;
 }
+
+.course-keywords {
+    display: flex;
+    flex-wrap: wrap;  /* 아이템이 넘치면 자동으로 줄바꿈 */
+}
+  
+.course-keyword {
+    margin-right: 10px;  /* 키워드 간 간격 */
+    margin-bottom: 5px;  /* 줄바꿈 후 아래 여백 */
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 16px;
+}
