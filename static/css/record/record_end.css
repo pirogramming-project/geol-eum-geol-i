@@ -11,6 +11,9 @@
     font-size: 30px;
     font-weight: 600;
 }
+.record__e_status {
+    font-size: 24px;
+}
 .record__e_total_time{
     font-family: "VITRO INSPIRE OTF";
     font-size: 68px;
@@ -20,11 +23,12 @@
 .record__e_bottle_btn {
     position: absolute;
     left: 35px;
-    top: 400px;
+    top: 390px;
+    z-index: 50;
 }
 .record__e_person{
-    padding-top: 91px;
-    padding-left: 141px;
+    top: 480px;
+    left: 150px;
     position: absolute;
     z-index: 4;
 }

@@ -56,17 +56,15 @@ def save_walk_record(request):
             
         start_time = data.get("start_time")
         end_time = data.get("end_time")
+        total_seconds = int(data.get("time", 0))
 
         if start_time and end_time:
 
             # ✅ 프론트에서 KST로 보내므로, UTC 변환 없이 그대로 사용!
             kst_start_dt = datetime.fromisoformat(start_time)
             kst_end_dt = datetime.fromisoformat(end_time)
-
-            # 🔹 총 운동 시간 계산 (초 단위)
-            total_seconds = int((kst_end_dt - kst_start_dt).total_seconds())
         else:
-            total_seconds = 0
+            return JsonResponse({"error": "Invalid start_time or end_time"}, status=400)
 
         # 🔹 시, 분, 초 변환
         hours = total_seconds // 3600
@@ -231,9 +229,14 @@ def ranking_view(request):
         {"rank": index + 1, "record": record}
         for index, record in enumerate(all_rankings[:5])
     ]
+    
+    # ✅ 현재 로그인한 사용자의 최신 record 가져오기
+    user_record = Record.objects.filter(
+        user=request.user, date__year=year, date__month=month
+    ).order_by('-date', '-id').first()  # 최신 데이터 한 개만 가져오기
 
     #현재 로그인한 유저의 순위 찾기
-    user_rank = None
+    user_rank = 0
     for index, record in enumerate(all_rankings, start=1):
         if record.user == request.user:
             user_rank = index
@@ -241,13 +244,25 @@ def ranking_view(request):
     
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
+    # ✅ 다음 달의 마지막 날을 구하는 로직
+    if month == 12:  # 12월이면 다음 해의 1월로 이동
+        next_year = year + 1
+        next_month = 1
+    else:
+        next_year = year
+        next_month = month + 1
     
     return render(request, 'record/ranking.html', {
         'rankings': rankings,
         'user_rank': user_rank,
+        "user_record" : user_record,
         'selected_year': year,
         'selected_month': month,
         'prev_year': prev_date.year,
         'prev_month': prev_date.month,
+        "next_year":  next_year,
+        "next_month" : next_month
     })
+    
+    
     
