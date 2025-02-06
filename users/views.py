@@ -366,7 +366,7 @@ def naver_callback(request):
             user_id=user_id,
             email=naver_email,
             nickname=nickname,
-            profile_image=profile_image_url,  # 프로필 이미지 저장
+            profile_image_url=profile_image_url,  # 프로필 이미지 저장
             is_active=True,
         )
         created = True
@@ -479,7 +479,7 @@ def google_callback(request):
 def mypage_view(request):
     user_id = request.user.id  
 
-    # 🔹 총 기록 조회 SQL 실행
+    # 총 기록 조회 SQL 실행
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT 
@@ -495,7 +495,7 @@ def mypage_view(request):
     total_distance = row[1] if row else 0
     total_calories = row[2] if row else 0
 
-    # 🔹 GET 요청에서 form을 초기화 (닉네임 + 프로필 사진)
+    # GET 요청에서 form을 초기화 (닉네임 + 프로필 사진)
     profile_update_form = ProfileUpdateForm(instance=request.user)
 
     if request.method == "POST":
@@ -505,8 +505,8 @@ def mypage_view(request):
             user = profile_update_form.save(commit=False)
             
             # 🔹 프로필 이미지 파일이 업로드되었을 경우 업데이트
-            if "profile_image_file" in request.FILES:
-                user.profile_image_file = request.FILES["profile_image_file"]
+            if "profile_image" in request.FILES:
+                user.profile_image_file = request.FILES["profile_image"]
             
             user.save()
             return redirect('users:mypage_view')
