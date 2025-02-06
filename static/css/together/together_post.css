@@ -9,10 +9,40 @@ a:hover {
 
 textarea {
   all: unset;
+  display: block;
+
+  width: 300px;
+  height: 140px;
+
+  margin-top: 8px;
+
+  color: var(--deep_brown, #76453b);
+  font-size: 16px;
+
+  text-align: left;
+  padding-left: 10px;
+
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 input {
   all: unset;
+  display: block;
+
+  width: 100%;
+  max-width: 300px;
+
+  color: var(--deep_brown, #76453b);
+  font-size: 16px;
+
+  margin-top: 8px;
+
+  text-align: left;
+  padding-left: 10px;
+  box-sizing: border-box;
 }
 
 body {
@@ -156,17 +186,35 @@ body {
 .post_picture_input_and_register {
   display: flex;
   flex-direction: row;
+  align-items: center; /* 세로 정렬 */
+}
+
+input[type="file"] {
+  display: none; /* 파일 선택 버튼 숨기기 */
+}
+
+#file-name {
+  display: inline-block;
+  max-width: 200px; /* 필요에 따라 조정 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* 파일명이 너무 길면 '...' 처리 */
+  color: var(--deep_brown, #76453b);
+  font-size: 16px;
+  margin-left: 10px;
 }
 
 .post_picture_input {
   width: 237px;
-  height: 43px;
 
   border-radius: 10.61px;
   background: var(--white, #fff);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 
-  margin-top: 8px;
+  display: flex;
+
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .post_picture_register {
@@ -257,7 +305,6 @@ body {
   position: relative;
   top: 3px;
 }
-
 
 .together__layout {
   position: relative;

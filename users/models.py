@@ -31,6 +31,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
 
+
     # 소셜 로그인용 프로필 이미지 URL
     profile_image_url = models.URLField(
         max_length=500,

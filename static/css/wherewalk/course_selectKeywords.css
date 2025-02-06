@@ -1,0 +1,225 @@
+button {
+  all: unset;
+}
+
+.container {
+  padding: 0px;
+  padding-left: 20px;
+}
+
+.course-recommand-introduction {
+  margin-left: 3px;
+}
+
+.center_keywords_all {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.center_keywords {
+  display: flex;
+  flex-direction: row;
+}
+
+.center_keyword_box {
+  height: 38.262px;
+
+  border-radius: 14.972px;
+  background: var(--light_coral, #ffe5d0);
+  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25) inset;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-right: 10px;
+}
+
+.center_keyword {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 19.963px;
+  font-style: normal;
+  font-weight: 400;
+
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.keyword_more svg {
+  width: 30.4px;
+  height: 38px;
+}
+
+.center_post_box_all {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-around;
+  padding: 15px;
+}
+
+.center_post_box {
+  width: 103px;
+
+  border-radius: 10px;
+  border: 2px solid var(--light_gray, #e6e6e6);
+  background: var(--white, #fff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 5px;
+}
+
+.center_post_img {
+  width: 77px;
+  height: 64px;
+
+  border-radius: 10px;
+  border: 2px solid var(--light_gray, #e6e6e6);
+  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+}
+
+.center_post_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.center_post_title {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+
+  padding-top: 10px;
+}
+
+.center_post_more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_post_more_box {
+  width: 45px;
+  height: 27px;
+
+  border-radius: 40px;
+  background: var(--light_gray, #e6e6e6);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.center_post_more_box svg {
+  width: 22px;
+  height: 27.5px;
+}
+
+.center_second_more {
+  display: flex;
+  justify-content: right;
+  padding-right: 30px;
+  padding-top: 10px;
+}
+
+.center_second_more_box {
+  width: 167.625px;
+  height: 36px;
+
+  border-radius: 16.843px;
+  background: var(--soft_red, #d2665a);
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_second_more_box span {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 20.25px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.search_again {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
+  padding-top: 30px;
+}
+
+.search_again_box {
+  width: 185px;
+  height: 46px;
+
+  border-radius: 18px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search_again_box svg {
+  width: 24px;
+  height: 30px;
+
+  margin-right: 12px;
+}
+
+.search_again_box span {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.mylocation_recommand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mylocation_recommand_box {
+  width: 229px;
+  height: 46px;
+
+  border-radius: 18px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mylocation_recommand_box svg {
+  width: 32px;
+  height: 40px;
+
+  margin-top: 6px;
+  margin-right: 5px;
+}
+
+.mylocation_recommand_box span {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
