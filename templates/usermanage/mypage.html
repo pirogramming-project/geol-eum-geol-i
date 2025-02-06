@@ -64,6 +64,9 @@
 
           <div class="center_1_box">
             <div class="center_1_profile">
+              {% if profile_update_form.errors.nickname %}
+              <p style="color: red;">{{ profile_update_form.errors.nickname.0 }}</p>
+              {% endif %}
               <div class="center_1_profile_img">
                 <img src="{{ user.profile_image }}" alt="프로필 사진" width="87" height="87" />
               </div>

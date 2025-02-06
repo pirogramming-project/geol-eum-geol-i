@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.conf import settings
 from django.core.files.storage import default_storage
+from django.core.exceptions import ValidationError
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, nickname=None, **extra_fields):
         if not email:
@@ -66,7 +68,21 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         elif self.profile_image_url:
             return self.profile_image_url
         return f"{settings.STATIC_URL}defaultimage/default-image.jpg"
-    
+    def clean(self):
+        """
+        닉네임을 한글 기준 8자로 제한.
+        """
+        super().clean()
+        self.clean_nickname()
+
+    def clean_nickname(self):
+        """
+        닉네임이 한글 기준 8자를 초과하면 오류 발생.
+        """
+        if len(self.nickname) > 8:
+            raise ValidationError("닉네임은 한글 기준 최대 8자까지만 가능합니다.")
+        
+
     def save(self, *args, **kwargs):
         """
         새로운 프로필 이미지가 업로드될 경우, 기존 이미지 파일을 자동 삭제.

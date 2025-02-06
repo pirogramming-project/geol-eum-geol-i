@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
-
+from django.core.exceptions import ValidationError
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
@@ -19,7 +19,13 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['nickname', 'profile_image_file']
-        widgets = {
-            'nickname': forms.TextInput(attrs={'class': 'nickname-input', 'placeholder': '새 닉네임 입력'}),
-        }
+
+    def clean_nickname(self):
+        """
+        닉네임을 한글 기준 8자로 제한.
+        """
+        nickname = self.cleaned_data.get("nickname")
+        if len(nickname) > 8:
+            raise ValidationError("닉네임: 최대 8자")
+        return nickname
 
