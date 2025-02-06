@@ -56,17 +56,15 @@ def save_walk_record(request):
             
         start_time = data.get("start_time")
         end_time = data.get("end_time")
+        total_seconds = int(data.get("time", 0))
 
         if start_time and end_time:
 
             # ✅ 프론트에서 KST로 보내므로, UTC 변환 없이 그대로 사용!
             kst_start_dt = datetime.fromisoformat(start_time)
             kst_end_dt = datetime.fromisoformat(end_time)
-
-            # 🔹 총 운동 시간 계산 (초 단위)
-            total_seconds = int((kst_end_dt - kst_start_dt).total_seconds())
         else:
-            total_seconds = 0
+            return JsonResponse({"error": "Invalid start_time or end_time"}, status=400)
 
         # 🔹 시, 분, 초 변환
         hours = total_seconds // 3600
