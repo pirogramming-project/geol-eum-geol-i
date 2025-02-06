@@ -18,4 +18,4 @@ class CustomUserCreationForm(UserCreationForm):
 class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['profile_image']
+        fields = ['profile_image_file']
