@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     # 소셜 로그인용 프로필 이미지 URL
     profile_image_url = models.URLField(
-        max_length=500, 
+        max_length=500,
         blank=True, 
         null=True
     )
