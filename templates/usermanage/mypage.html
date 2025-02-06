@@ -83,6 +83,10 @@
                       </div>
                       <input type="file" name="profile_image" id="profile-upload" class="hidden-input">
                       <label for="profile-upload" class="custom-file-btn">사진 선택</label>
+                      <div class="nickname-change-box">
+                        <label for="nickname">닉네임 변경</label>
+                        {{ profile_update_form.nickname }}
+                      </div>
                       <button type="submit" class="profile-upload-btn center_1_profile_change box_text">변경</button>
                   </form>
               </div>

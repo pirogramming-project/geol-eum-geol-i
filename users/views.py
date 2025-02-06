@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 # 마이페이지
 from django.db import connection
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileImageForm
+from .forms import ProfileUpdateForm
 
 
 def landing_view(request):
@@ -495,15 +495,19 @@ def mypage_view(request):
     total_distance = row[1] if row else 0
     total_calories = row[2] if row else 0
 
-    # GET 요청에서도 form이 항상 존재하도록 초기화
-    form = ProfileImageForm(instance=request.user)
+    # 🔹 GET 요청에서 form을 초기화 (닉네임 + 프로필 사진)
+    profile_update_form = ProfileUpdateForm(instance=request.user)
 
-    # 프로필 이미지 변경 처리
-    if request.method == "POST" and "profile_image" in request.FILES:
-        form = ProfileImageForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.profile_image_file = request.FILES["profile_image"]  # profile_image_file에 저장
+    if request.method == "POST":
+        profile_update_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+
+        if profile_update_form.is_valid():
+            user = profile_update_form.save(commit=False)
+            
+            # 🔹 프로필 이미지 파일이 업로드되었을 경우 업데이트
+            if "profile_image_file" in request.FILES:
+                user.profile_image_file = request.FILES["profile_image_file"]
+            
             user.save()
             return redirect('users:mypage_view')
 
@@ -512,6 +516,7 @@ def mypage_view(request):
         "total_records": total_records,
         "total_distance": total_distance,
         "total_calories": total_calories,
-        "form": form,  # form이 항상 context에 포함되도록 수정
+        "profile_update_form": profile_update_form,
     }
     return render(request, "UserManage/mypage.html", context)
+
