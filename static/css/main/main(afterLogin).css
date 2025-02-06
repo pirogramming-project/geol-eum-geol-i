@@ -30,10 +30,6 @@ a:hover {
   line-height: normal;
 }
 
-.title_name {
-  padding-top: 80px;
-}
-
 .title_bottom {
   display: flex;
 }
@@ -121,4 +117,28 @@ a:hover {
   text-decoration-thickness: auto;
   text-underline-offset: auto;
   text-underline-position: from-font;
+}
+
+.lanking {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-left: 58px;
+  padding-top: 60px;
+}
+
+.lanking svg {
+  width: 44.412px;
+  height: 45.953px;
+
+  margin-left: 5px;
+}
+
+.lanking_text {
+  color: var(--red, #b82132);
+  font-family: "Kartrider Kor OTF";
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
 }
