@@ -479,21 +479,32 @@ def google_callback(request):
 def mypage_view(request):
     user_id = request.user.id  
 
-    # 총 기록 조회 SQL 실행
+    # 1️⃣ 총 운동 거리 & 총 칼로리 (월간 기록 기준)
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT 
-                COUNT(id) AS total_records, 
-                COALESCE(SUM(distance), 0) AS total_distance, 
-                COALESCE(SUM(calories), 0) AS total_calories
-            FROM record_detail
+                COALESCE(SUM(total_distance), 0) AS total_distance, 
+                COALESCE(SUM(total_calories), 0) AS total_calories
+            FROM record_record
             WHERE user_id = %s;
         """, [user_id])
         row = cursor.fetchone()
+    
+    # None 방지 (row가 None이면 기본값을 0으로 설정)
+    total_distance = row[0] if row is not None else 0
+    total_calories = row[1] if row is not None else 0
 
-    total_records = row[0] if row else 0
-    total_distance = row[1] if row else 0
-    total_calories = row[2] if row else 0
+    # 2️⃣ 총 운동 기록 개수 (일간 기록 기준)
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT COUNT(id) AS total_records
+            FROM record_detail
+            WHERE user_id = %s;
+        """, [user_id])
+        row = cursor.fetchone()  # 🔥 row를 다시 받아야 함
+    
+    # None 방지 (row가 None이면 기본값을 0으로 설정)
+    total_records = row[0] if row is not None else 0
 
     # GET 요청에서 form을 초기화 (닉네임 + 프로필 사진)
     profile_update_form = ProfileUpdateForm(instance=request.user)
@@ -513,10 +524,11 @@ def mypage_view(request):
 
     context = {
         "user": request.user,
-        "total_records": total_records,
-        "total_distance": total_distance,
-        "total_calories": total_calories,
+        "total_records": total_records,  # 🔥 Detail 테이블에서 가져옴
+        "total_distance": total_distance,  # 🔥 Record 테이블에서 가져옴
+        "total_calories": total_calories,  # 🔥 Record 테이블에서 가져옴
         "profile_update_form": profile_update_form,
     }
     return render(request, "UserManage/mypage.html", context)
+
 
