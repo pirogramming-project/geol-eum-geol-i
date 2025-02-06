@@ -257,13 +257,13 @@ a:hover {
 .custom-file-btn {
   display: inline-block;
   padding: 8px 15px;
-  background-color: #b82132;
+  background-color: var(--soft_red, #b82132);;
   color: white;
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
   transition: background 0.3s;
-  margin-top: 10px;
+  margin: 10px;
   width: 78px;
 }
 
@@ -285,4 +285,31 @@ a:hover {
 
 .profile-upload-btn:hover {
   background-color: #5a322b;
+}
+
+.nickname-change-box{
+  display: flex;
+  align-items: center;
+}
+
+.nickname-change-box label{
+  margin-right: 9px;
+}
+
+.nickname-input {
+  width: 180px;
+  height: 25px;
+  border-radius: 20px;
+  border: 2px solid var(--soft_red, #b82132);
+  text-align: center;
+  font-size: 16px;
+  padding: 8px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.nickname-input:focus {
+  border-color: #9c1a2a;
+  box-shadow: 0 0 5px rgba(184, 33, 50, 0.5);
 }
