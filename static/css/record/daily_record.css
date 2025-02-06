@@ -21,6 +21,21 @@ body {
     flex-direction: column;
     align-items: flex-start;
 }
+.daily__icon_container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: end;
+}
+.ranking-word {
+    font-family: "Kartrider Kor OTF", sans-serif;
+    font-size: 13.656px;
+    font-weight: 400;
+    color: var(--red);
+    position: relative;
+    top: -9px;
+    right: 7px;
+}
 .daily__date_container {
     display: flex;
     align-items: center;
