@@ -228,9 +228,14 @@ def ranking_view(request):
         {"rank": index + 1, "record": record}
         for index, record in enumerate(all_rankings[:5])
     ]
+    
+    # ✅ 현재 로그인한 사용자의 최신 record 가져오기
+    user_record = Record.objects.filter(
+        user=request.user, date__year=year, date__month=month
+    ).order_by('-date', '-id').first()  # 최신 데이터 한 개만 가져오기
 
     #현재 로그인한 유저의 순위 찾기
-    user_rank = None
+    user_rank = 0
     for index, record in enumerate(all_rankings, start=1):
         if record.user == request.user:
             user_rank = index
@@ -238,13 +243,25 @@ def ranking_view(request):
     
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
+    # ✅ 다음 달의 마지막 날을 구하는 로직
+    if month == 12:  # 12월이면 다음 해의 1월로 이동
+        next_year = year + 1
+        next_month = 1
+    else:
+        next_year = year
+        next_month = month + 1
     
     return render(request, 'record/ranking.html', {
         'rankings': rankings,
         'user_rank': user_rank,
+        "user_record" : user_record,
         'selected_year': year,
         'selected_month': month,
         'prev_year': prev_date.year,
         'prev_month': prev_date.month,
+        "next_year":  next_year,
+        "next_month" : next_month
     })
+    
+    
     
