@@ -86,6 +86,12 @@ a:hover {
   transform: scale(1);
 }
 
+.center_post_box:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: transform 300ms ease;
+}
+
 .center_post_box[style*="visibility: hidden"] {
   height: 0 !important;
   margin: 0 !important;
