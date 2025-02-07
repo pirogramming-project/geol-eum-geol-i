@@ -12,7 +12,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # ALLOWED_HOSTS 설정 (배포 시 추가)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # 사용자 모델 설정
 AUTH_USER_MODEL = 'users.CustomUser'

@@ -50,9 +50,9 @@ def login_view(request):
             login(request, user)
             return redirect('users:success')
         else:
-            return render(request, 'UserManage/login.html', {'error': 'Invalid Email or Password'})
+            return render(request, 'usermanage/login.html', {'error': 'Invalid Email or Password'})
 
-    return render(request, 'UserManage/login.html')
+    return render(request, 'usermanage/login.html')
 
 def success_view(request):
     if not request.user.is_authenticated:
@@ -87,7 +87,7 @@ def signup(request):
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
             mail_subject = 'Activate your account'
-            message = render_to_string('UserManage/activate_email.html', {
+            message = render_to_string('usermanage/activate_email.html', {
                 'uid': uid,
                 'domain': current_site.domain,
                 'token': token,
@@ -105,7 +105,7 @@ def signup(request):
         # 유효성 검사 실패 시 오류 메시지 반환
         return JsonResponse({"error": form.errors}, status=400)
 
-    return render(request, 'UserManage/signup.html', {'form': CustomUserCreationForm()})
+    return render(request, 'usermanage/signup.html', {'form': CustomUserCreationForm()})
 
 
 
@@ -116,13 +116,13 @@ def activate(request, uidb64, token):
         temp_user_data_json = cache.get(cache_key)
 
         if not temp_user_data_json:
-            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
         temp_user_data = json.loads(temp_user_data_json)
 
         # 이메일 인증을 위한 유효성 검사
         if not default_token_generator.check_token(User(email=email), token):
-            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
         # 인증 성공 후 계정 생성
         user = User.objects.create_user(
@@ -135,10 +135,10 @@ def activate(request, uidb64, token):
         # 캐시에서 데이터 삭제
         cache.delete(cache_key)
 
-        return render(request, "UserManage/SignUp_confirm.html")
+        return render(request, "usermanage/SignUp_confirm.html")
 
     except (ValueError, TypeError):
-        return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+        return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
 def password_reset_request(request):
     if request.method == "POST":
@@ -158,7 +158,7 @@ def password_reset_request(request):
 
         # **이메일 보내기**
         mail_subject = "비밀번호 재설정 링크"
-        message = render_to_string("UserManage/FindPassWord/password_reset_email.html", {
+        message = render_to_string("usermanage/FindPassword/password_reset_email.html", {
             "uid": uid,
             "token": token,
             "domain": request.get_host(),
@@ -167,7 +167,7 @@ def password_reset_request(request):
 
         return JsonResponse({"message": "비밀번호 재설정 링크가 이메일로 전송되었습니다!"})
 
-    return render(request, "UserManage/FindPassWord/password_reset.html")
+    return render(request, "usermanage/FindPassword/password_reset.html")
 
 def password_reset_confirm(request, uidb64, token):
     try:
@@ -176,28 +176,28 @@ def password_reset_confirm(request, uidb64, token):
 
         # **토큰 검증**
         if not default_token_generator.check_token(user, token):
-            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
         # **캐시에서 토큰 생성 시간 가져오기**
         cache_key = f"password_reset_{user.pk}"
         token_created_at_str = cache.get(cache_key)
 
         if not token_created_at_str:
-            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
         # **토큰 생성 시간을 datetime으로 변환 후 10분 초과 확인**
         token_created_at = datetime.fromisoformat(token_created_at_str)
         token_valid_duration = timedelta(minutes=1)
 
         if now() - token_created_at > token_valid_duration:
-            return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
         if request.method == "POST":
             new_password = request.POST.get("new_password1")
             confirm_password = request.POST.get("new_password2")
 
             if new_password != confirm_password:
-                return render(request, "UserManage/FindPassword/password_reset_confirm.html", {
+                return render(request, "usermanage/FindPassword/password_reset_confirm.html", {
                     "error": "비밀번호가 일치하지 않습니다.",
                     "uid": uidb64,
                     "token": token
@@ -211,10 +211,10 @@ def password_reset_confirm(request, uidb64, token):
 
             return redirect("users:login")
 
-        return render(request, "UserManage/FindPassword/password_reset_confirm.html", {"uid": uidb64, "token": token})
+        return render(request, "usermanage/FindPassword/password_reset_confirm.html", {"uid": uidb64, "token": token})
 
     except (User.DoesNotExist, ValueError, TypeError):
-        return render(request, "UserManage/FindPassword/password_reset_invalid.html")
+        return render(request, "usermanage/FindPassword/password_reset_invalid.html")
 
 
 def logout_view(request):
@@ -529,6 +529,6 @@ def mypage_view(request):
         "total_calories": total_calories,  # Record 테이블에서 가져옴
         "profile_update_form": profile_update_form,
     }
-    return render(request, "UserManage/mypage.html", context)
+    return render(request, "usermanage/mypage.html", context)
 
 
