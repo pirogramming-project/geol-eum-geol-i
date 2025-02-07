@@ -251,15 +251,14 @@
 
 .select__keyword_container {
   display: flex;
-  flex-wrap: wrap; /* 자동 줄바꿈 */
+  flex-wrap: wrap;
   gap: 5px;
   margin-block: 10px 10px;
-  justify-content: flex-start; /* 키워드를 왼쪽 정렬 */
+  justify-content: flex-start;
 
   margin-right: 4px;
 }
 
-/* 키워드 버튼 스타일 유지 */
 .keyword {
   background: var(--light-coral);
   color: var(--deep-brown);
@@ -272,22 +271,12 @@
   border: none;
   padding: 8px 12px;
   border-radius: 14.972px;
-  font-size: 14px;
+  font-size: 17px;
   cursor: pointer;
-  width: auto; /* 내용 크기에 맞게 조정 */
+  width: auto;
   height: 38.262px;
   text-align: center;
-  white-space: nowrap; /* 자동 줄바꿈 방지 */
-}
-
-/* 5개일 때만 적용되는 클래스 */
-.select__keyword_container.five-keywords .keyword:nth-child(-n + 3) {
-  flex: 0 0 auto; /* 첫 줄 3개 고정 */
-}
-
-.select__keyword_container.five-keywords .keyword:nth-child(4),
-.select__keyword_container.five-keywords .keyword:nth-child(5) {
-  flex: 0 0 auto; /* 두 번째 줄의 2개 자동 크기 조절 */
+  white-space: nowrap;
 }
 
 footer {
