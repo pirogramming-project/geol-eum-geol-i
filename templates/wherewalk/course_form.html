@@ -16,7 +16,7 @@
       <div class="wrapper">
         <div class="courseform-page-header">
           <div class="courseform-page-header-icon">
-            <a href="{% url 'course:course_list' %}" class="home-icon">
+            <a href="{% url 'users:success' %}" class="home-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 0 47 57" fill="none">
                 <path
                   d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z"
@@ -52,7 +52,7 @@
             {% csrf_token %}
             <p class="form-keyword-title">코스 제목</p>
             <!-- 코스 제목 입력 -->
-            <input class="title-input-form" type="text" name="title" required />
+            <input class="title-input-form" type="text" name="title" maxlength="14" required />
             <p class="form-keyword-title">이미지</p>
             <!-- 사진 업로드 -->
             <div class="image-container">
@@ -61,7 +61,7 @@
               <label for="file-upload" class="custom-file-btn">등록</label>
             </div>
             <p class="form-keyword-title">장소</p>
-            <textarea name="description" rows="4" cols="50" required></textarea>
+            <textarea name="description" rows="4" cols="50" maxlength="70" required></textarea>
             <p class="form-keyword-title">거리</p>
             <!-- 총 거리 입력 (km) -->
             <input type="number" name="distance" step="0.01" required />
