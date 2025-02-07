@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>걸음걸이 메인페이지(로그인 후)</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/root.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/main(afterLogin).css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+  </head>
+  <body>
+    <div class="landing__layout">
+      <div class="body_container">
+        <a href="{% url 'record:ranking'%}" class="link-ranking">
+          <div class="lanking">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="59" viewBox="0 0 48 59" fill="none">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M16.408 42.109H4.38689V27.6734C4.38689 27.1626 4.80013 26.7448 5.31088 26.7448H15.4748C15.9855 26.7448 16.4034 27.1626 16.4034 27.6734V42.109H16.408ZM18.8132 20.4393C18.3024 20.4393 17.8892 20.8572 17.8892 21.368V42.109H29.9104V21.368C29.9104 20.8572 29.4971 20.4393 28.9817 20.4393H18.8132ZM31.3915 33.9742V42.109H43.4127V33.9742C43.4127 33.4634 42.9994 33.0455 42.4887 33.0455H32.3202C31.8094 33.0502 31.3915 33.4634 31.3915 33.9742ZM45.7621 43.5901H2.0328C1.84243 43.5901 1.68921 43.7434 1.68921 43.9291V45.8514C1.68921 46.0417 1.84243 46.1903 2.0328 46.1903H45.7621C45.9525 46.1903 46.1011 46.0371 46.1011 45.8514V43.9291C46.1057 43.7434 45.9525 43.5901 45.7621 43.5901ZM16.0552 12.7874H31.7444L33.1234 7.71243C32.3341 7.45241 31.6655 6.92774 31.2151 6.24055L27.5098 8.58999C27.3984 8.65964 27.2777 8.67821 27.1477 8.64106C27.0223 8.60392 26.9248 8.52499 26.8691 8.40891L25.5133 5.6648C25.0257 5.90624 24.4779 6.04089 23.9021 6.04089C23.3217 6.04089 22.7738 5.90624 22.2909 5.6648L20.9351 8.40891C20.8748 8.52499 20.7819 8.60392 20.6565 8.64106C20.5312 8.67821 20.4058 8.65964 20.2944 8.58999L17.0163 6.50985C16.4545 7.20633 15.6373 7.68922 14.7133 7.82387L16.0552 12.7874ZM30.7415 16.488L31.3404 14.2686H16.4545L17.0581 16.488C17.1138 16.6877 17.2856 16.8177 17.4899 16.8177H30.305C30.514 16.8223 30.6858 16.6877 30.7415 16.488ZM23.8975 4.56437C25.0908 4.56437 26.0612 3.5893 26.0612 2.40065C26.0612 1.20736 25.0908 0.236938 23.8975 0.236938C22.7042 0.236938 21.7337 1.20736 21.7337 2.40065C21.7337 3.5893 22.7042 4.56437 23.8975 4.56437ZM34.2703 6.41699C35.4636 6.41699 36.434 5.44657 36.434 4.25327C36.434 3.05998 35.4589 2.08956 34.2703 2.08956C33.077 2.08956 32.1066 3.05998 32.1066 4.25327C32.1066 5.44657 33.077 6.41699 34.2703 6.41699ZM14.1793 6.37984C15.3726 6.37984 16.343 5.40942 16.343 4.21613C16.343 3.02284 15.3726 2.05242 14.1793 2.05242C12.986 2.05242 12.0156 3.02284 12.0156 4.21613C12.011 5.40942 12.986 6.37984 14.1793 6.37984Z"
+                fill="#B82132"
+              />
+            </svg>
+            <span class="lanking_text">이달의 걸음왕</div>
+          </div>
+        </a>
+
+        <section class="title">
+          <div class="title_name">{{ user.nickname }}님,</div>
+          <div class="title_top">오늘의 <span class="title_red">걸음</span>을</div>
+          <div class="title_bottom">기록해요! <img src="{% static 'image/noun-celebration-7471133 4.svg' %}" width="100" height="100" /></div>
+        </section>
+
+        <section class="center">
+          <a href="{% url 'record:record_page' %}">
+            <div class="center_button">
+              <div class="center_button_box_outside">
+                <div class="center_button_box_inside">
+                  <img src="{% static 'image/Vector.svg' %}" width="30" height="50" />
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <div class="center_text1">
+            <span>걸음 남기러 가기</span>
+          </div>
+        </section>
+
+        <!-- footer(로그인 후)  -->
+        <footer>
+          <nav class="bottom_nav">
+            <div class="nav_item">
+              <a href="{% url 'post:together_main' %}">
+                <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+                <span>함께걸음!</span>
+              </a>
+            </div>
+            <div class="nav_item">
+              <a href="{% url 'course:course_list' %}">
+                <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+                <span>어디걸음?</span>
+              </a>
+            </div>
+            <div class="nav_item">
+              <a href="{% url 'course:calendar_view' %}">
+                <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+                <span>걸음캘린더</span>
+              </a>
+            </div>
+            <div class="nav_item">
+              <a href="{% url 'users:mypage_view' %}">
+                <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+                <span>마이걸음</span>
+              </a>
+            </div>
+          </nav>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

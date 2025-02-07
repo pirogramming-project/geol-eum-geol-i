@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Calendar</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/root.css' %}">
+    <link rel="stylesheet" href="{% static 'css/record/daily_record.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}">
+    <style>
+      .date {
+        position: relative;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1; /* 날짜 숫자가 아이콘 위에 오도록 z-index 값 조정 */
+      }
+      
+      .date:hover {
+        background-color: #f5f5f5;
+      }
+      
+      .icon-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        z-index: -1; /* 아이콘이 배경으로 오도록 z-index 값 조정 */
+      }
+      
+      .empty {
+        visibility: hidden;
+      }
+
+      .icon-overlay.opacity-0-25 {
+        opacity: 0.25;
+      }
+      
+      .icon-overlay.opacity-0-50 {
+        opacity: 0.50;
+      }
+      
+      .icon-overlay.opacity-0-75 {
+        opacity: 0.75;
+      }
+      
+      .icon-overlay.opacity-1 {
+        opacity: 1;
+      }
+      .daily__layout {
+        padding: 30px 20px;
+        position: relative;
+        background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+      }
+      footer {
+        position: absolute;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="daily__layout">
+      <a href="{% url 'record:ranking'%}" class="link-ranking">
+        <div class="to-ranking">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="59" viewBox="0 0 48 59" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.4078 42.109H4.38664V27.6734C4.38664 27.1626 4.79988 26.7448 5.31063 26.7448H15.4745C15.9853 26.7448 16.4031 27.1626 16.4031 27.6734V42.109H16.4078ZM18.813 20.4393C18.3022 20.4393 17.889 20.8572 17.889 21.368V42.109H29.9101V21.368C29.9101 20.8572 29.4969 20.4393 28.9815 20.4393H18.813ZM31.3913 33.9742V42.109H43.4124V33.9742C43.4124 33.4634 42.9992 33.0455 42.4884 33.0455H32.3199C31.8092 33.0502 31.3913 33.4634 31.3913 33.9742ZM45.7619 43.5901H2.03256C1.84219 43.5901 1.68896 43.7434 1.68896 43.9291V45.8514C1.68896 46.0417 1.84219 46.1903 2.03256 46.1903H45.7619C45.9522 46.1903 46.1008 46.0371 46.1008 45.8514V43.9291C46.1055 43.7434 45.9522 43.5901 45.7619 43.5901ZM16.0549 12.7874H31.7442L33.1232 7.71243C32.3338 7.45241 31.6652 6.92774 31.2148 6.24055L27.5096 8.58999C27.3982 8.65964 27.2774 8.67821 27.1474 8.64106C27.0221 8.60392 26.9246 8.52499 26.8688 8.40891L25.513 5.6648C25.0255 5.90624 24.4776 6.04089 23.9019 6.04089C23.3215 6.04089 22.7736 5.90624 22.2907 5.6648L20.9349 8.40891C20.8745 8.52499 20.7817 8.60392 20.6563 8.64106C20.5309 8.67821 20.4056 8.65964 20.2941 8.58999L17.016 6.50985C16.4542 7.20633 15.637 7.68922 14.713 7.82387L16.0549 12.7874ZM30.7412 16.488L31.3402 14.2686H16.4542L17.0578 16.488C17.1136 16.6877 17.2853 16.8177 17.4896 16.8177H30.3048C30.5137 16.8223 30.6855 16.6877 30.7412 16.488ZM23.8972 4.56437C25.0905 4.56437 26.0609 3.5893 26.0609 2.40065C26.0609 1.20736 25.0905 0.236938 23.8972 0.236938C22.7039 0.236938 21.7335 1.20736 21.7335 2.40065C21.7335 3.5893 22.7039 4.56437 23.8972 4.56437ZM34.27 6.41699C35.4633 6.41699 36.4338 5.44657 36.4338 4.25327C36.4338 3.05998 35.4587 2.08956 34.27 2.08956C33.0767 2.08956 32.1063 3.05998 32.1063 4.25327C32.1063 5.44657 33.0767 6.41699 34.27 6.41699ZM14.1791 6.37984C15.3724 6.37984 16.3428 5.40942 16.3428 4.21613C16.3428 3.02284 15.3724 2.05242 14.1791 2.05242C12.9858 2.05242 12.0154 3.02284 12.0154 4.21613C12.0107 5.40942 12.9858 6.37984 14.1791 6.37984Z" fill="#B82132"/>
+            </svg>
+            <div class="ranking-word">이달의 걸음왕</div>
+        </div>
+      </a>
+      <div class="calendar-page-header">
+        <div class="calendar-page-header-icon">
+          <a href="{% url 'users:success' %}" class="home-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 0 47 57" fill="none">
+              <path d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z" fill="#B82132"/>
+            </svg>
+          </a>
+        </div>
+        <div class="calender-title">
+          <div class="calender-title-firstword">걸음</div>
+          <div class="calender-title-secondword">캘린더</div>
+        </div>
+        <div class="calendar-introduction">
+          멈추지 않을 {{ user.nickname }}님의 걸음을 응원해요!
+        </div>
+      </div>
+
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <h2 id="currentMonth"></h2>
+        </div>
+        <div class="calendar-days">
+          <div class="day">일</div>
+          <div class="day">월</div>
+          <div class="day">화</div>
+          <div class="day">수</div>
+          <div class="day">목</div>
+          <div class="day">금</div>
+          <div class="day">토</div>
+        </div>
+        <div class="calendar-dates" id="calendarDates"></div>
+        <div class="calendar-information">
+          <div>이달의 걸음: {{ total_distance }} km</div>
+          <div>이달의 소비 칼로리: {{ total_calories }} kcal</div>
+        </div>
+        <div class="calendar-controls">
+          <button id="prevBtn">이전 달
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 0C4.48584 0 0 4.48584 0 10C0 15.5142 4.48584 20 10 20C15.5142 20 20 15.5142 20 10C20 4.48584 15.5142 0 10 0ZM15 11H7.41406L8.70703 12.293C9.09766 12.6836 9.09766 13.3164 8.70703 13.707C8.51172 13.9023 8.25586 14 8 14C7.74414 14 7.48828 13.9023 7.29297 13.707L4.29297 10.707C3.90234 10.3164 3.90234 9.68359 4.29297 9.29297L7.29297 6.29297C7.68359 5.90234 8.31641 5.90234 8.70703 6.29297C9.09766 6.68359 9.09766 7.31641 8.70703 7.70703L7.41406 9H15C15.5522 9 16 9.44775 16 10C16 10.5522 15.5522 11 15 11Z" fill="#76453B"/>
+            </svg>
+          </button>
+          <button id="nextBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 0C15.5142 0 20 4.48584 20 10C20 15.5142 15.5142 20 10 20C4.48584 20 0 15.5142 0 10C0 4.48584 4.48584 0 10 0ZM5 11H12.5859L11.293 12.293C10.9023 12.6836 10.9023 13.3164 11.293 13.707C11.4883 13.9023 11.7441 14 12 14C12.2559 14 12.5117 13.9023 12.707 13.707L15.707 10.707C16.0977 10.3164 16.0977 9.68359 15.707 9.29297L12.707 6.29297C12.3164 5.90234 11.6836 5.90234 11.293 6.29297C10.9023 6.68359 10.9023 7.31641 11.293 7.70703L12.5859 9H5C4.44775 9 4 9.44775 4 10C4 10.5522 4.44775 11 5 11Z" fill="#76453B"/>
+            </svg>  
+            다음 달
+          </button>
+        </div>
+      </div>
+      <footer>
+        <nav class="bottom_nav">
+          <div class="nav_item">
+            <a href="{% url 'post:together_main' %}">
+              <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+              <span>함께걸음!</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'course:course_list' %}">
+              <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+              <span>어디걸음?</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'course:calendar_view' %}">
+              <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+              <span>걸음캘린더</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'users:mypage_view' %}">
+              <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+              <span>마이걸음</span>
+            </a>
+          </div>
+        </nav>
+      </footer>
+      <div>
+    <script>
+      const calendarDates = document.getElementById("calendarDates");
+      const currentMonthElement = document.getElementById("currentMonth");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      const today = new Date();
+      let currentMonth = today.getMonth();
+      let currentYear = today.getFullYear();
+
+      function renderCalendar() {
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const startDayOfWeek = firstDayOfMonth.getDay();
+        currentMonthElement.textContent = `${currentYear}년 ${currentMonth + 1}월`;
+
+        calendarDates.innerHTML = "";
+
+        // 빈 날짜 (이전 달)
+        for (let i = 0; i < startDayOfWeek; i++) {
+          const emptyDate = document.createElement("div");
+          emptyDate.classList.add("date", "empty");
+          calendarDates.appendChild(emptyDate);
+        }
+
+        // 현재 달 날짜 생성
+        for (let i = 1; i <= daysInMonth; i++) {
+          const dateElement = document.createElement("div");
+          dateElement.classList.add("date");
+          dateElement.textContent = i;
+          const formattedDate = `${currentYear}-${(currentMonth + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+          dateElement.dataset.date = formattedDate;
+          calendarDates.appendChild(dateElement);
+
+          checkRecordAndShowIcon(dateElement, formattedDate); // 레코드 확인 및 아이콘 표시
+        }
+      }
+
+      function checkRecordAndShowIcon(dateElement, date) {
+        fetch(`/record/check/${date}/`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.has_record) {
+              dateElement.classList.add("record-exists"); // 레코드가 있으면 스타일 추가
+              const svgIcon = document.createElement("div");
+              svgIcon.classList.add("icon-overlay");
+
+              let opacityClass = "";
+
+              if (0 < data.total_distance && data.total_distance <= 1) {
+                opacityClass = "opacity-0-25";
+              } else if (1 < data.total_distance && data.total_distance <= 3) {
+                opacityClass = "opacity-0-50";
+              } else if (3 < data.total_distance && data.total_distance <= 5) {
+                opacityClass = "opacity-0-75";
+              } else {
+                opacityClass = "opacity-1";
+              }
+
+              svgIcon.classList.add(opacityClass);
+
+              console.log(`날짜: ${date}, 거리: ${data.total_distance}, 설정된 opacity: ${opacityClass}`);
+              
+              svgIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="65" height="78" viewBox="0 0 65 78" fill="none">
+                <path d="M41.718 32.3128C41.9503 31.6808 42.3389 24.7092 46.0826 19.7368C50.4654 13.9163 44.7557 8.29626 38.5975 8.29626C31.3838 8.31883 32.3057 14.5975 26.38 21.0345C26.3754 21.0345 26.3754 21.0345 26.3754 21.039C21.689 24.8375 15.2064 30.0553 17.6671 35.6846C20.8336 42.0176 23.86 46.292 26.6262 49.1358C19.6009 53.1419 19.2724 52.9997 19.4726 53.3427C19.6957 53.7354 19.9509 53.1734 26.9253 49.4337C27.2518 49.7655 27.5807 50.0769 27.9026 50.3658C16.7777 56.5452 17.3776 56.0985 17.5318 56.3603C17.587 56.4573 17.7158 56.4912 17.8147 56.437C28.7488 50.3386 28.1325 50.7631 28.1831 50.6211C28.7557 51.1176 29.3168 51.5532 29.8548 51.9346C23.6231 55.4939 23.2139 55.4013 23.4117 55.7444C23.5681 56.0107 23.2623 56.0491 30.2322 52.1897C30.6553 52.4741 31.0646 52.7133 31.4647 52.93C21.3259 58.6716 21.1882 58.4211 21.3883 58.7644C21.616 59.1616 21.6942 58.6876 31.9015 53.1604C32.7064 53.5576 33.4721 53.842 34.1942 54.0315C27.5138 57.8413 27.1418 57.7329 27.3349 58.076C27.5625 58.4619 27.8063 57.9067 34.7875 54.167C45.4621 56.3314 50.238 39.5307 41.4514 42.7039C41.2904 42.7264 40.8788 42.9273 40.6006 42.6881C39.9682 42.1419 40.4396 39.9797 40.412 39.8601C40.6742 38.2487 40.7568 34.9396 41.718 32.3128ZM38.8367 41.5029C39.2024 41.2253 39.4484 40.7671 39.6761 41.0064C39.9083 41.2524 39.4254 41.4645 39.1196 41.8031C38.9195 41.9859 38.6367 41.688 38.8367 41.5029ZM39.3748 39.6477C39.4576 39.5665 39.591 39.571 39.6692 39.6522C39.9014 39.8915 39.4185 40.1036 39.1196 40.4489C39.0368 40.5256 38.8643 40.4805 38.8252 40.4376C38.5907 40.1984 39.0759 39.9862 39.3748 39.6477ZM39.1081 36.312C38.9241 36.312 38.8298 36.0885 38.9632 35.9576C39.3242 35.6845 39.5749 35.2219 39.8026 35.4611C39.8853 35.5423 39.8807 35.6732 39.798 35.75C39.2806 36.2081 39.253 36.312 39.1081 36.312ZM39.1426 37.7135C39.0529 37.7948 38.9264 37.7903 38.8482 37.709C38.616 37.4698 39.1035 37.2509 39.4047 36.9123C39.5427 36.7859 39.6761 36.8311 39.7427 36.9168C39.9083 37.147 39.5473 37.2825 39.1426 37.7135ZM38.8298 38.7991C39.1909 38.5215 39.4415 38.0634 39.6692 38.3026C39.9014 38.5418 39.4185 38.754 39.1196 39.0925C39.0368 39.1738 38.9034 39.1693 38.8253 39.088C38.7425 39.0045 38.7471 38.8736 38.8298 38.7991ZM38.6252 8.70498C44.2062 8.70498 50.0149 13.8238 45.7511 19.4979C43.1849 22.8991 41.881 27.8439 41.3406 32.0738C38.7743 32.6561 35.6976 31.0333 34.8605 27.6637C33.9889 24.1587 30.4339 23.4997 26.858 21.1233C32.6206 14.614 31.8387 8.70568 38.6245 8.70568L38.6252 8.70498Z" fill="#6A3200" fill-opacity="0.6"/>
+                <path d="M25.7134 60.6511C25.4742 60.782 25.6812 61.1408 25.9181 61.0054C36.3648 55.1011 36.4754 55.363 36.2753 55.0202C36.0821 54.6704 36.2542 54.9049 25.7134 60.6511Z" fill="#6A3200" fill-opacity="0.6"/>
+                </svg>
+              `;
+              dateElement.appendChild(svgIcon); // SVG 아이콘을 날짜에 추가
+            }
+          })
+          .catch(error => console.error("에러 발생:", error));
+      }
+
+      prevBtn.addEventListener("click", () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+        renderCalendar();
+      });
+
+      nextBtn.addEventListener("click", () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+        renderCalendar();
+      });
+
+      renderCalendar();
+
+    </script>
+    <script>
+      {% comment %} 
+      캘린더 날짜 클릭시 detail로 이동(김규일)
+      {% endcomment %}
+      document.addEventListener("DOMContentLoaded", function () {
+        const dates = document.getElementById("calendarDates");
+    
+        dates.addEventListener("click", function (event) {
+            if (event.target.classList.contains("date")) {
+                const selectedDate = event.target.dataset.date; // 올바르게 data-date 가져오기
+                console.log("선택된 날짜:", selectedDate); // 디버깅 로그 출력
+    
+                if (!selectedDate) {
+                    alert("날짜 정보가 올바르게 전달되지 않았습니다.");
+                    return;
+                }
+    
+                // 기록 존재 여부 확인 후 페이지 이동
+                fetch(`/record/check/${selectedDate}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.has_record) {
+                            window.location.href = `/record/history/${selectedDate}/`;
+                        } else {
+                            alert("이 날짜에는 기록이 없습니다.");
+                        }
+                    })
+                    .catch(error => console.error("에러 발생:", error));
+            }
+        });
+    });
+    </script>
+  </body>
+</html>

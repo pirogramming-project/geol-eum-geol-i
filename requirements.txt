@@ -1,0 +1,11 @@
+Django==5.1.5          # Python 웹 프레임워크 (서버 개발을 위한 필수 패키지)
+mysqlclient==2.2.7     # MySQL 데이터베이스 드라이버 (MySQL과 Django 연동용)
+asgiref==3.8.1         # Django의 비동기 지원을 위한 라이브러리 (ASGI 표준 지원)
+sqlparse==0.5.3        # Django ORM에서 SQL 구문을 분석하고 처리하는 라이브러리
+tzdata==2025.1         # 시간대 데이터베이스 (Django에서 시간대를 다룰 때 사용)
+requests==2.32.3       # HTTP 요청 라이브러리 (외부 API와 통신할 때 사용, 선택 사항)
+python-decouple==3.8   # .env 파일에서 환경 변수 호출 및 관리
+django-allauth==65.3.1 # Django 기반의 소셜 로그인 및 인증 기능 지원 (Google, Naver 등)
+six==1.17.0            # Python 2와 3 간의 호환성을 위한 유틸리티 라이브러리
+pillow==11.1.0
+djangorestframework==3.15.2

@@ -1,0 +1,282 @@
+@import url("../root.css");
+
+@font-face {
+    font-family: 'VITRO INSPIRE OTF';
+    font-style: normal;
+    src: url('../fonts/VITRO INSPIRE OTF.otf') format('truetype');
+}
+@font-face {
+    font-family: 'Kartrider Kor OTF';
+    font-style: normal;
+    src: url('../fonts/NEXON Kart Gothic Kor OTF Bold.otf') format('truetype');
+}
+
+body {
+    background: #FFF;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 140px;
+}
+.container {
+    padding: 20px;
+    width: 350px;
+}
+input, button, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 14.972px;
+    box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25) inset;
+    border: 1px solid #ccc;
+    background-color: var(--white);
+}
+.map-container {
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.register-btn {
+    display: flex;
+    align-items: center;
+    background: var(--deep-brown);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: var(--white);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: max-content;
+    margin: 10px auto;
+    height: max-content;
+}
+
+.register-btn:hover {
+    background-color: #a02020;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+.map-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+.map-popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 80%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.close-btn {
+    background: #a83232;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+}
+
+.keywords {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 아이템 배치 */
+    gap: 10px; /* 아이템 간의 간격 */
+    justify-items: center; /* 아이템을 가운데 정렬 */
+    margin-bottom: 10px; /* 키워드 버튼들과 다른 요소들 간의 간격 */
+    position: relative;
+}
+
+.keyword {
+    background: var(--light-coral);
+    box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25) inset;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 14.972px;
+    color: var(--deep-brown);
+    font-family: 'Vitro Inspire OTF', sans-serif;
+    font-size: 19.963px;
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 100%; /* 버튼 너비를 100%로 설정 */
+    text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+.keyword.active {
+    background: #a1887f;
+    color: white;
+}
+
+#loadMoreKeywords {
+    position: absolute;
+    top: 5px;
+    right: -40px;
+    width: 50px;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 8px 12px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    grid-column: span 3; /* "더 보기" 버튼이 그리드에서 전체 너비를 차지하도록 설정 */
+}
+
+
+.courseform-page-header {
+    width: 310px;
+    height: 50px;
+    display: flex;
+    font-family: 'Vitro Inspire OTF', sans-serif;
+    align-items: center;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    gap: 10px;
+}
+
+.courseform-page-header svg {
+    position: relative;
+    top: 6px;
+}
+
+.courseform-title {
+    display: flex;
+    gap: 10px;
+}
+
+.courseform-title-firstword {
+    color: var(--red);
+}
+
+.courseform-title-secondword {
+    color: var(--soft-red);
+}
+
+.form-introduction {
+    width: 310px;
+    text-align: start;
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    color: var(--soft-red);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form-keyword-title {
+    color: var(--deep-brown);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* 숨겨진 파일 선택 input */
+.image-input {
+    display: none;  /* 파일 입력을 숨깁니다 */
+}
+
+/* 사용자 정의 파일 선택 버튼 */
+.custom-file-btn {
+    padding: 10px 20px;
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background-color: var(--deep-brown);
+    color: white;
+    border-radius: 18px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.custom-file-btn:hover {
+    background-color: #a02020;
+}
+
+/* 버튼 위치 조정 */
+.file-input-container {
+    position: relative;
+}
+
+/* 선택된 파일 이름 스타일 */
+#file-name {
+    display: flex;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    height: 43px;
+    color: #555;
+    border-radius: 10.61px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    background: var(--white);
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hidden-footer {
+    display: none;
+}
+
+.map-search-box {
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, rgb(118, 69, 59));
+    border-radius: 6px;
+    border-radius: 20px;
+}
