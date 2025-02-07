@@ -460,7 +460,6 @@ def google_callback(request):
             profile_image_url=profile_image_url,  # 프로필 이미지 저장
             is_active=True,
         )
-        user.set_unusable_password()  # 구글 로그인 유저는 비밀번호 설정 X
         created = True
         logger.info(f"신규 사용자 생성: {user.email} / 프로필 이미지 저장됨")
 
@@ -521,7 +520,6 @@ def mypage_view(request):
             
             user.save()
             return redirect('users:mypage_view')
-
     context = {
         "user": request.user,
         "total_records": total_records,  # Detail 테이블에서 가져옴
