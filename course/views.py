@@ -155,6 +155,7 @@ def submit_course(request):
 
 
 
+
 def select_keywords_view(request):
     selected_keywords = request.GET.getlist("keywords") 
 
@@ -162,16 +163,21 @@ def select_keywords_view(request):
         return render(request, 'wherewalk/course_selectKeywords.html', {'error': "키워드를 선택해주세요."})
 
     all_courses = Course.objects.all()
-    course_groups = defaultdict(list) # 키워드 개수별 코스 저장할 리스트
+    course_groups = defaultdict(list)  # 키워드 개수별 코스 저장할 리스트
 
     for course in all_courses:
         # 전체 키워드 집합 = course_keywords
         course_keywords = set(course.coursekeyword_set.values_list('keyword__name', flat=True))
 
-        matched_count = sum(1 for keyword in selected_keywords if keyword in course_keywords)
-        # 선택 키워드와 매치되는 키워드를 하나 이상 가지고 있는 코스는 course_groups에 저장
+        matched_keywords = [keyword for keyword in selected_keywords if keyword in course_keywords]
+        matched_count = len(matched_keywords)
+
+        # 선택된 키워드와 매치되는 키워드가 있으면 그 정보를 저장
         if matched_count > 0:
-            course_groups[matched_count].append(course)
+            course_groups[matched_count].append({
+                'course': course,
+                'keywords': course.coursekeyword_set.all()  # 코스에 관련된 모든 키워드
+            })
 
     # 내림차순 정렬(가장 많은 것부터 적은 순서로)
     sorted_course_groups = sorted(course_groups.items(), key=lambda x: x[0], reverse=True)

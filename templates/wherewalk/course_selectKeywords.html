@@ -40,20 +40,25 @@
     
         {% if sorted_course_groups %}
         {% for count, courses in sorted_course_groups %}
-        <div class="select__keyword_info">{{ count }}개의 키워드를 포함하는 코스</div>
-          <div class="center_post_box_all">
-            {% for course in courses %}
-            <div class="center_post_box">
-              <div class="center_post_img">
-                <img
-                  src="{% if course.image %}{{ course.image.url }}{% else %}{% static 'defaultimage/default-image.jpg' %}{% endif %}"
-                  alt="{{ course.title }}"
-                />
-              </div>
-              <div class="center_post_title">{{ course.title }}</div>
+          <div class="select__keyword_info">{{ count }}개의 키워드를 포함하는 코스</div>
+            <div class="center_post_box_all">
+                {% for course_info in courses %}
+                    <div class="center_post_box">
+                        <div class="center_post_img">
+                            <img
+                                src="{% if course_info.course.image %}{{ course_info.course.image.url }}{% else %}{% static 'defaultimage/default-image.jpg' %}{% endif %}"
+                                alt="{{ course_info.course.title }}"
+                            />
+                        </div>
+                        <div class="center_post_title">{{ course_info.course.title }}</div>
+                        <div class="course_keywords">
+                            {% for keyword in course_info.keywords %}
+                                <span class="course-keyword">#{{ keyword.keyword.name }}</span> <!-- keyword.name로 접근 -->
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-          </div>
         {% endfor %}
         {% else %}
         <p>선택한 키워드를 포함하는 코스가 없습니다.</p>
