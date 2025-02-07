@@ -72,6 +72,18 @@
   align-items: center;
 
   padding: 5px;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.center_post_box[style*="visibility: hidden"] {
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease-in-out;
 }
 
 .center_post_img {
@@ -151,6 +163,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.center_second_more_box:hover {
+  cursor: pointer;
 }
 
 .center_second_more_box span {
@@ -235,13 +251,50 @@
 
 .select__keyword_container {
   display: flex;
-  gap: 10px;
-  margin-block: 10px 20px;
+  flex-wrap: wrap; /* 자동 줄바꿈 */
+  gap: 5px;
+  margin-block: 10px 10px;
+  justify-content: flex-start; /* 키워드를 왼쪽 정렬 */
+
+  margin-right: 4px;
 }
+
+/* 키워드 버튼 스타일 유지 */
+.keyword {
+  background: var(--light-coral);
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  flex-shrink: 0;
+  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25) inset;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 14.972px;
+  font-size: 14px;
+  cursor: pointer;
+  width: auto; /* 내용 크기에 맞게 조정 */
+  height: 38.262px;
+  text-align: center;
+  white-space: nowrap; /* 자동 줄바꿈 방지 */
+}
+
+/* 5개일 때만 적용되는 클래스 */
+.select__keyword_container.five-keywords .keyword:nth-child(-n + 3) {
+  flex: 0 0 auto; /* 첫 줄 3개 고정 */
+}
+
+.select__keyword_container.five-keywords .keyword:nth-child(4),
+.select__keyword_container.five-keywords .keyword:nth-child(5) {
+  flex: 0 0 auto; /* 두 번째 줄의 2개 자동 크기 조절 */
+}
+
 footer {
   position: absolute;
   left: 0px;
 }
+
 .select__keyword_info {
   width: fit-content;
   margin-left: 10px;
