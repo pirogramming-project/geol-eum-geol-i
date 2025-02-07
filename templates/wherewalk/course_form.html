@@ -48,7 +48,7 @@
             </button>
           </div>
 
-          <form method="POST" action="{% url 'course:submit_course' %}" enctype="multipart/form-data">
+          <form id="courseForm" method="POST" action="{% url 'course:submit_course' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <p class="form-keyword-title">코스 제목</p>
             <!-- 코스 제목 입력 -->
@@ -153,6 +153,21 @@
     </div>
 
     <script>
+      // 폼 제출 전에 위치 선택 여부를 체크하는 함수
+      function validateForm(event) {
+        // 위치 선택 여부 체크 (위도와 경도 값이 비어있으면)
+        var latitude = document.getElementById('latitude').value;
+        var longitude = document.getElementById('longitude').value;
+        
+        if (!latitude || !longitude) {
+          // 위치를 선택하지 않은 경우 경고 메시지 표시
+          alert("장소를 지도에서 선택해주세요.");
+          event.preventDefault(); // 폼 제출을 막습니다.
+        }
+      }
+
+      // 폼 제출 시 validateForm 호출
+      document.getElementById("courseForm").addEventListener("submit", validateForm);
 
       // 파일 선택 후 파일 이름 표시
       document.getElementById("file-upload").addEventListener("change", function(event) {
