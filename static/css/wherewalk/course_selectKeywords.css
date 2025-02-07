@@ -1,3 +1,12 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
 .container {
   padding: 0px;
   padding-left: 20px;
@@ -305,4 +314,8 @@ footer {
   background: linear-gradient(transparent, rgb(118, 69, 59));
   border-radius: 6px;
   border-radius: 20px;
+}
+
+.nocourse {
+  font-size: 20px;
 }

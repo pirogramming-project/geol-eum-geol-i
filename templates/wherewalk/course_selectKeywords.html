@@ -42,7 +42,7 @@
           {% if sorted_course_groups %} {% for count, courses in sorted_course_groups %}
           <div class="center_post_box_all">
             {% for course_info in courses %}
-            <div class="center_post_box">
+            <div class="center_post_box" data-course-id="{{ course_info.course.id }}">
               <div class="center_post_img">
                 <img
                   src="{% if course_info.course.image %}{{ course_info.course.image.url }}{% else %}{% static 'defaultimage/default-image.jpg' %}{% endif %}"
@@ -61,7 +61,7 @@
             {% endfor %}
           </div>
           {% endfor %} {% else %}
-          <p>선택한 키워드를 포함하는 코스가 없습니다.</p>
+          <p class="nocourse">선택한 키워드를 포함하는 코스가 없습니다.</p>
           {% endif %}
 
           <div class="center_second_more">
@@ -178,6 +178,19 @@
         loadMoreBtn.addEventListener("click", function () {
           visiblePosts += postsPerPage; // 6개 추가
           updateVisiblePosts();
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        let postBoxes = document.querySelectorAll(".center_post_box");
+
+        postBoxes.forEach((box) => {
+          box.addEventListener("click", function () {
+            let courseId = this.getAttribute("data-course-id");
+            if (courseId) {
+              window.location.href = `/course/course/${courseId}/`; // Django URL 패턴에 맞게 수정
+            }
+          });
         });
       });
     </script>
