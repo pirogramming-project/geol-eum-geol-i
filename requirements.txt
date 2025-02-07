@@ -1,4 +1,4 @@
-Django==5.1.5          # Python 웹 프레임워크 (서버 개발을 위한 필수 패키지)
+Django==4.2.19          # Python 웹 프레임워크 (서버 개발을 위한 필수 패키지)
 mysqlclient==2.2.7     # MySQL 데이터베이스 드라이버 (MySQL과 Django 연동용)
 asgiref==3.8.1         # Django의 비동기 지원을 위한 라이브러리 (ASGI 표준 지원)
 sqlparse==0.5.3        # Django ORM에서 SQL 구문을 분석하고 처리하는 라이브러리
