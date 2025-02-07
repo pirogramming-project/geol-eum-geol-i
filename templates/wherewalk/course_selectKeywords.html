@@ -40,7 +40,6 @@
           </div>
 
           {% if sorted_course_groups %} {% for count, courses in sorted_course_groups %}
-          <div class="select__keyword_info">{{ count }}개의 키워드를 포함하는 코스</div>
           <div class="center_post_box_all">
             {% for course_info in courses %}
             <div class="center_post_box">
@@ -52,10 +51,11 @@
               </div>
               <div class="center_post_title">{{ course_info.course.title }}</div>
               <div class="course_keywords">
-                {% for keyword in course_info.keywords %}
+                {% for keyword in course_info.keywords %} {% if forloop.counter <= 5 %}
                 <span class="course_keyword">#{{ keyword.keyword.name }}</span>
-                <!-- keyword.name로 접근 -->
-                {% endfor %}
+                {% elif forloop.counter == 6 %}
+                <span class="course_keyword">...</span>
+                {% endif %} {% endfor %}
               </div>
             </div>
             {% endfor %}
@@ -137,5 +137,64 @@
         </footer>
       </div>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let postContainers = document.querySelectorAll(".center_post_box_all"); // 각 카테고리 그룹
+        let loadMoreBtn = document.querySelector(".center_second_more_box"); // "추천 장소 더보기" 버튼
+
+        let postsPerPage = 6; // 한 번에 표시할 개수
+        let visiblePosts = postsPerPage; // 처음에 보이는 개수
+
+        function updateVisiblePosts() {
+          postContainers.forEach((container) => {
+            let posts = container.querySelectorAll(".center_post_box");
+            posts.forEach((post, index) => {
+              if (index < visiblePosts) {
+                post.style.visibility = "visible";
+                post.style.height = "auto";
+                post.style.opacity = "1";
+                post.style.transform = "scale(1)";
+              } else {
+                post.style.visibility = "hidden";
+                post.style.height = "0";
+                post.style.opacity = "0";
+                post.style.transform = "scale(0.8)";
+              }
+            });
+          });
+
+          // 모든 포스트가 표시되면 "더보기" 버튼 숨기기
+          let totalPosts = document.querySelectorAll(".center_post_box").length;
+          if (visiblePosts >= totalPosts) {
+            loadMoreBtn.style.display = "none";
+          }
+        }
+
+        // 초기 6개만 표시
+        updateVisiblePosts();
+
+        // "더보기" 버튼 클릭 시 6개씩 추가 표시
+        loadMoreBtn.addEventListener("click", function () {
+          visiblePosts += postsPerPage; // 6개 추가
+          updateVisiblePosts();
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        let keywordContainer = document.querySelector(".select__keyword_container");
+        let keywords = keywordContainer.querySelectorAll(".keyword");
+
+        function updateKeywordLayout() {
+          if (keywords.length === 5) {
+            keywordContainer.classList.add("five-keywords"); // 5개일 때 클래스 추가
+          } else {
+            keywordContainer.classList.remove("five-keywords"); // 5개가 아닐 때 제거
+          }
+        }
+
+        updateKeywordLayout(); // 초기 실행
+      });
+    </script>
   </body>
 </html>
