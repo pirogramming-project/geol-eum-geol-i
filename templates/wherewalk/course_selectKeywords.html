@@ -180,21 +180,6 @@
           updateVisiblePosts();
         });
       });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        let keywordContainer = document.querySelector(".select__keyword_container");
-        let keywords = keywordContainer.querySelectorAll(".keyword");
-
-        function updateKeywordLayout() {
-          if (keywords.length === 5) {
-            keywordContainer.classList.add("five-keywords"); // 5개일 때 클래스 추가
-          } else {
-            keywordContainer.classList.remove("five-keywords"); // 5개가 아닐 때 제거
-          }
-        }
-
-        updateKeywordLayout(); // 초기 실행
-      });
     </script>
   </body>
 </html>
