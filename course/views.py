@@ -178,7 +178,8 @@ def select_keywords_view(request):
             })
             
             # 선택된 키워드 외에 추가적인 키워드를 포함하는 경우
-            if len(course_keywords) > len(selected_keywords):
+            # (단, 이미 선택된 키워드들이 모두 포함된 코스만 추가)
+            if len(course_keywords) > len(selected_keywords) and course not in [item['course'] for item in course_groups[len(selected_keywords)]]:
                 course_groups[len(selected_keywords)].append({
                     'course': course,
                     'keywords': course.coursekeyword_set.all()
