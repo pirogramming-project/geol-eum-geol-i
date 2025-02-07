@@ -52,7 +52,7 @@
 }
 
 .center_post_box_all {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   display: grid;
   flex-direction: row;
   padding: 15px 15px 15px 0px;
@@ -60,7 +60,7 @@
 }
 
 .center_post_box {
-  width: 103px;
+  width: 165px;
 
   border-radius: 10px;
   border: 2px solid var(--light_gray, #e6e6e6);
@@ -69,19 +69,20 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 
   padding: 5px;
 }
 
 .center_post_img {
-  width: 77px;
+  width: 120px;
   height: 64px;
 
   border-radius: 10px;
   border: 2px solid var(--light_gray, #e6e6e6);
   background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+
+  margin-top: 5px;
 }
 
 .center_post_img img {
@@ -99,6 +100,17 @@
   font-weight: 400;
 
   padding-top: 10px;
+}
+
+.course_keywords {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.course_keyword {
+  font-size: 13px;
+  color: gray;
+  font-weight: lighter;
 }
 
 .center_post_more {
