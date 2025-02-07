@@ -169,15 +169,20 @@ def select_keywords_view(request):
         # 전체 키워드 집합 = course_keywords
         course_keywords = set(course.coursekeyword_set.values_list('keyword__name', flat=True))
 
-        matched_keywords = [keyword for keyword in selected_keywords if keyword in course_keywords]
-        matched_count = len(matched_keywords)
-
-        # 선택된 키워드와 매치되는 키워드가 있으면 그 정보를 저장
-        if matched_count > 0:
-            course_groups[matched_count].append({
+        # 선택한 키워드들이 모두 해당 코스에 포함되어 있는지 체크
+        if all(keyword in course_keywords for keyword in selected_keywords):
+            # 선택된 N개 키워드를 모두 포함하는 경우
+            course_groups[len(selected_keywords)].append({
                 'course': course,
                 'keywords': course.coursekeyword_set.all()  # 코스에 관련된 모든 키워드
             })
+            
+            # 선택된 키워드 외에 추가적인 키워드를 포함하는 경우
+            if len(course_keywords) > len(selected_keywords):
+                course_groups[len(selected_keywords)].append({
+                    'course': course,
+                    'keywords': course.coursekeyword_set.all()
+                })
 
     # 내림차순 정렬(가장 많은 것부터 적은 순서로)
     sorted_course_groups = sorted(course_groups.items(), key=lambda x: x[0], reverse=True)
