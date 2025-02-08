@@ -173,7 +173,6 @@ body {
 .link-ranking {
   position: absolute;
   left: 80%;
-  top: 2%;
   z-index: 10;
 }
 
@@ -185,6 +184,6 @@ body {
   line-height: normal;
   color: var(--red);
   position: relative;
-  top: -9px;
+  top: -13px;
   right: 7px;
 }
