@@ -1,3 +1,6 @@
+.landing__container {
+    position: relative;
+}
 .record__title_container {
     display: flex;
     flex-direction: column;
@@ -48,8 +51,8 @@
     padding-top: 35px;
 }
 .record__person {
-    padding-top: 135px;
-    padding-left: 141px;
+    bottom: 175px;
+    left: 140px;
     position: absolute;
     z-index: 4;
 }
@@ -71,4 +74,23 @@
 }
 .eng {
     font-size: 25px;
+}
+@media (max-width: 480px) {
+    .record__title_container {
+        padding: 30px 15px 15px 34px;
+    }
+    .record__today_ment {
+        font-size: 55px;
+        padding-top: 10px;
+    }
+    .record__date {
+        font-size: 35px;
+        padding-top: 20px;
+    }
+}
+@media (max-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+
 }
