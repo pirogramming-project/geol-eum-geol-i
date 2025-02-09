@@ -17,14 +17,14 @@ body {
 
 .body_container {
   padding: 0px;
-  padding-left: 20px;
+  padding: 9.4px 20px 0px 20px;
   position: relative;
 }
 
 .link-ranking {
   position: absolute;
-  left: 80%;
-  top: 2%;
+  left: 78.4%;
+  top: 5.6%;
   z-index: 10;
 }
 
@@ -36,7 +36,8 @@ body {
   line-height: normal;
   color: var(--red);
   position: relative;
-  top: -9px;
+  top: -13px;
+  left: -0.4px;
 }
 
 .together_header {
@@ -57,8 +58,7 @@ body {
 .together_title_text_all {
   display: flex;
   flex-direction: row;
-
-  margin-top: 15px;
+  margin-top: 30px;
   padding-left: 3px;
 }
 
