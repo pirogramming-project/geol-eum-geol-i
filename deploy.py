@@ -1,7 +1,7 @@
 from fabric import Connection
 
 # 서버 정보
-HOST = "http://101.79.11.121/"
+HOST = "101.79.11.121"
 USER = "root"
 KEY_FILE = "/home/ubuntu/.ssh/github_actions_key"  # SSH 키 파일 경로
 
