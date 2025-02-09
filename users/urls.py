@@ -20,6 +20,8 @@ urlpatterns = [
     path('google/login/', google_login, name='google_login'),  # 네이버 로그인 버튼 클릭 시 호출
     path('google/callback/', google_callback, name='google_callback'),  # 네이버에서 리디렉션
     path('mypage/', mypage_view, name='mypage_view'),
+    path('terms-of-service/', terms_of_service, name="terms-of-service"),
+    path('privacy-policy/', privacy_policy, name="privacy_policy"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
