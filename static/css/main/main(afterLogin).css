@@ -9,6 +9,8 @@ a:hover {
 
 .landing__layout {
   background: var(--background_beige, #fff3e9);
+
+  height: 100%;
 }
 
 .title {
@@ -141,4 +143,20 @@ a:hover {
   font-size: 13.656px;
   font-style: normal;
   font-weight: 400;
+}
+
+.wrapper {
+  overflow-y: auto;
+  padding-bottom: 180px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, rgb(118, 69, 59));
+  border-radius: 6px;
+  border-radius: 20px;
 }
