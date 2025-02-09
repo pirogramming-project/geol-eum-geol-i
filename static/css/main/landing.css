@@ -57,8 +57,8 @@ body {
     padding-left: 12px;
 }
 .landing__person {
-    padding-top: 159px;
-    padding-left: 141px;
+    bottom: 180px;
+    left: 141px;
     position: absolute;
     z-index: 4;
 }
@@ -95,4 +95,20 @@ body {
     width: 216px;
     height: 191px;
     z-index: 4;
+}
+@media (max-width: 480px) {
+    .landing__person {
+        bottom: 180px;
+        left: 141px;
+    }
+    .landing__title_container {
+        padding: 20px 35px 35px 35px;
+        transform: scale(0.8);
+    }
+}
+@media (max-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+
 }

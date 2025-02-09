@@ -25,16 +25,22 @@ body {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    align-items: end;
 }
-.ranking-word {
+.daily__back_to_main {
+    margin-top: 2px;
+}
+.daily__ranking > svg {
+    margin-left: 1.5px;
+    margin-top: 2px;
+}
+.daily__ranking-word {
     font-family: "Kartrider Kor OTF", sans-serif;
     font-size: 13.656px;
     font-weight: 400;
     color: var(--red);
     position: relative;
     top: -9px;
-    right: 7px;
+    right: 5.8px;
 }
 .daily__date_container {
     display: flex;

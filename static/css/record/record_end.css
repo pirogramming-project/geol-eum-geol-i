@@ -1,3 +1,7 @@
+.landing__container {
+    display: flex;
+    flex-direction: column;
+}
 .record__e_info{
     padding-top: 30px;
     display: flex;
@@ -23,12 +27,43 @@
 .record__e_bottle_btn {
     position: absolute;
     left: 35px;
-    top: 390px;
+    bottom: 260px;
     z-index: 50;
 }
 .record__e_person{
-    top: 480px;
     left: 150px;
+    bottom: 170px;
     position: absolute;
     z-index: 4;
+}
+@media (max-width: 480px) {
+    .record__title_container {
+        padding: 0px 15px 15px 10px;
+        transform: scale(0.85);
+    }
+    .record__e_info{
+        padding-top: 15px;
+    }
+    .record__e_total_dist, .record__e_total_cal,
+    .record__e_total_time, .record__e_status {
+        font-size: 24px;
+    }
+    .record__e_total_time{
+        font-size: 50px;
+        font-weight: 900;
+    }
+    .record__e_bottle_btn {
+        left: 35px;
+        bottom: 260px;
+    }
+    .record__e_person{
+        left: 150px;
+        bottom: 170px;
+    }
+}
+@media (max-width: 768px) {
+
+}
+@media (min-width: 1024px) {
+
 }
