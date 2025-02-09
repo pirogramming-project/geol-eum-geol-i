@@ -1,170 +1,168 @@
 @import url("../root.css");
 
 body {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background: var(--white);
-    overflow-y: scroll;
-    overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: var(--white);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
-.ranking_layout{
-    /* background: var(--background-beige); */
-    width: 400px;
-    height: 100dvh;
-    font-family: 'VITRO INSPIRE OTF';
-    position: relative;
-    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+.ranking_layout {
+  /* background: var(--background-beige); */
+  width: 400px;
+  height: 100dvh;
+  font-family: "VITRO INSPIRE OTF";
+  position: relative;
+  background: linear-gradient(180deg, #fff3e9 0%, #fff 100%);
 }
 .crown {
-    position: absolute;
-    width: 37.6px;
-    height: 47px;
-    left: 194px;
-    top: 25px;
+  position: absolute;
+  width: 37.6px;
+  height: 47px;
+  left: 194px;
+  top: 25px;
 }
 .ranking_title {
-    font-size: 37px;
-    display: flex;
-    padding-bottom: 10px;
+  font-size: 37px;
+  display: flex;
+  padding-bottom: 10px;
 }
 .ranking_title_firstword {
-    color: var(--soft-red);
+  color: var(--soft-red);
 }
 .ranking_title_secondword {
-    color: var(--red);
+  color: var(--red);
 }
 
 .ranking_header {
-    display: flex;
-    align-items: center;
-    padding: 50px 0 10px 20px;
+  display: flex;
+  align-items: center;
+  padding: 50px 0 10px 20px;
 }
 
 .ranking_container_header {
-    color: var(--deep-brown);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+  color: var(--deep-brown);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 .ranking_container_header_text {
-    font-size: 26px;
+  font-size: 26px;
 }
 .ranking_date {
-    font-size: 18px;
-    font-family: 'Kartrider Kor OTF', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: inherit;
+  font-size: 18px;
+  font-family: "Kartrider Kor OTF", sans-serif;
+  display: flex;
+  align-items: center;
+  gap: inherit;
 }
 
 .ranking_nowdate {
-    height: 30px;
+  height: 30px;
 }
 .ranking_container_main {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 5px 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px 0 20px 0;
 }
 
 .ranking_card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .ranking_cardImage img {
-    width: 60px;
-    height: 60px;
-    left: 40px;
-    top: 191px;
-    border: 1.82759px solid #E6E6E6;
-    filter: drop-shadow(0px 2.43678px 2.43678px rgba(0, 0, 0, 0.25));
-    border-radius: 50px;
+  width: 60px;
+  height: 60px;
+  left: 40px;
+  top: 191px;
+  border: 1.82759px solid #e6e6e6;
+  filter: drop-shadow(0px 2.43678px 2.43678px rgba(0, 0, 0, 0.25));
+  border-radius: 50px;
 }
 
 .ranking {
-    width: 270px;
-    height: 60px;
-    background: #FFFFFF;
-    border: 4px solid #E6E6E6;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    font-family: 'Kartrider Kor OTF', sans-serif;
-    display: flex;
-    align-items: center;
-    color: var(--gray);
-    font-size: 20px;
-    position: relative;
-    left: 0;
-    top: 0;
+  width: 270px;
+  height: 60px;
+  background: #ffffff;
+  border: 4px solid #e6e6e6;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  font-family: "Kartrider Kor OTF", sans-serif;
+  display: flex;
+  align-items: center;
+  color: var(--gray);
+  font-size: 20px;
+  position: relative;
+  left: 0;
+  top: 0;
 }
 
 .ranking_top {
-    color: var(--deep-brown);
-    font-size: 25px;
-    padding-right: 15px;
-    padding-left: 45px;
+  color: var(--deep-brown);
+  font-size: 25px;
+  padding-right: 15px;
+  padding-left: 45px;
 }
 
 .ranking_username {
-    width: 80px;
-    padding-right: 10px;
+  width: 80px;
+  padding-right: 10px;
 }
 
-.medal{
-    position: absolute;
-    top:-2px;
-    left: -3px;
+.medal {
+  position: absolute;
+  top: -2px;
+  left: -3px;
 }
 
 .myranking_header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding-top: 50px;
-    padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 50px;
+  padding-bottom: 10px;
 }
-
 
 .myranking {
-    color: var(--deep-brown);
-    font-size: 24px;
+  color: var(--deep-brown);
+  font-size: 24px;
 }
 
-
 .myranking_text {
-    font-family: 'Kartrider Kor OTF', sans-serif;
-    color: var(--deep-brown);
-    font-size: 17px;
-} 
+  font-family: "Kartrider Kor OTF", sans-serif;
+  color: var(--deep-brown);
+  font-size: 17px;
+}
 
 .myranking_card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .wrapper {
-    overflow-y: auto;
-    padding-bottom: 150px;
-    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
-  }
-  
-  ::-webkit-scrollbar {
-    width: 12px;
-    background-color: transparent;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(transparent, rgb(118, 69, 59));
-    border-radius: 6px;
-    border-radius: 20px;
-  }
+  overflow-y: auto;
+  padding-bottom: 150px;
+  background: linear-gradient(180deg, #fff3e9 0%, #fff 100%);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, rgb(118, 69, 59));
+  border-radius: 6px;
+  border-radius: 20px;
+}
