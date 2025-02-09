@@ -53,12 +53,13 @@
         font-weight: 900;
     }
     .record__e_bottle_btn {
-        left: 35px;
-        bottom: 260px;
+        left: 62px;
+        bottom: 245px;
     }
     .record__e_person{
-        left: 150px;
-        bottom: 170px;
+        left: 160px;
+        bottom: 160px;
+        transform: scale(0.9);
     }
 }
 @media (max-width: 768px) {
