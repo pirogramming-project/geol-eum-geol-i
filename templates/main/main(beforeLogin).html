@@ -15,31 +15,33 @@
   <body>
     <div class="landing__layout">
       <div class="body_container">
-        <section class="title">
-          <div class="title_top">오늘의 <span class="title_red">걸음</span>을</div>
-          <div class="title_bottom">기록해요! <img src="{% static 'image/noun-celebration-7471133 4.svg' %}" width="100" height="100" /></div>
-        </section>
-
-        <section class="center">
-          <a href="{% url 'users:login' %}">
-            <div class="center_button">
-              <div class="center_button_box_outside">
-                <div class="center_button_box_inside">
-                  <img src="{% static 'image/Vector.svg' %}" width="30" height="50" />
+        <div class="wrapper">
+          <section class="title">
+            <div class="title_top">오늘의 <span class="title_red">걸음</span>을</div>
+            <div class="title_bottom">기록해요! <img src="{% static 'image/noun-celebration-7471133 4.svg' %}" width="100" height="100" /></div>
+          </section>
+  
+          <section class="center">
+            <a href="{% url 'users:login' %}">
+              <div class="center_button">
+                <div class="center_button_box_outside">
+                  <div class="center_button_box_inside">
+                    <img src="{% static 'image/Vector.svg' %}" width="30" height="50" />
+                  </div>
                 </div>
               </div>
+            </a>
+  
+            <div class="center_text1">
+              <span>걸음 남기러 가기</span>
             </div>
-          </a>
-
-          <div class="center_text1">
-            <span>걸음 남기러 가기</span>
-          </div>
-
-          <div class="center_text2">
-            <img src="{% static 'image/noun-person-7399214 1.svg' %}" width="30" height="36" />
-            <span><a href="{% url "users:login" %}">로그인 하러가기</a></span>
-          </div>
-        </section>
+  
+            <div class="center_text2">
+              <img src="{% static 'image/noun-person-7399214 1.svg' %}" width="30" height="36" />
+              <span><a href="{% url "users:login" %}">로그인 하러가기</a></span>
+            </div>
+          </section>
+        </div>
 
         <!-- footer(로그인 전)  -->
         <footer>
