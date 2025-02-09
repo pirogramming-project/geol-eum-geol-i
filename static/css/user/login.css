@@ -11,6 +11,7 @@ body {
 .daily__layout {
     display: flex;
     align-items: center;
+    height: 100dvh;
 }
 .login-container {
     background: var(--white);

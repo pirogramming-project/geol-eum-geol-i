@@ -28,14 +28,14 @@ body {
 
 .body_container {
   padding: 0px;
-  padding-left: 20px;
+  padding: 9.4px 20px 0px 20px;
   position: relative;
 }
 
 .link-ranking {
   position: absolute;
-  left: 80%;
-  top: 2%;
+  left: 78.4%;
+  top: 3.8%;
   z-index: 10;
 }
 
@@ -47,7 +47,8 @@ body {
   line-height: normal;
   color: var(--red);
   position: relative;
-  top: -9px;
+  top: -13px;
+  left: -0.4px;
 }
 
 .together_header {
@@ -68,8 +69,7 @@ body {
 .together_title_text_all {
   display: flex;
   flex-direction: row;
-
-  margin-top: 15px;
+  margin-top: 30px;
   padding-left: 3px;
 }
 
@@ -260,4 +260,34 @@ body {
   background: linear-gradient(transparent, rgb(118, 69, 59));
   border-radius: 6px;
   border-radius: 20px;
+}
+
+.together_btn {
+  width: 175px;
+  height: 44px;
+  border-radius: 17px;
+  background: var(--deep-brown);
+  color: var(--white);
+  font-family: "Kartrider Kor OTF";
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  cursor: pointer;
+}
+.together_btn > a:hover,
+.together_btn > a:visited {
+  color: var(--white);
+}
+.together_btn:hover {
+  background-color: #967474;
+}
+.back_to_list_btn {
+  display: flex;
+  align-items: center;
+}
+.back_to_list {
+  font-size: 22px;
+  font-weight: 400;
+  margin-left: 5px;
 }

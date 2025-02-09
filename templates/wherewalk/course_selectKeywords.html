@@ -4,13 +4,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>어디 걸음?</title>
+    <title>걸음걸이_어디걸음</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/root.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
     <link rel="stylesheet" href="{% static 'css/wherewalk/courserecommand.css' %}" />
     <link rel="stylesheet" href="{% static 'css/wherewalk/course_selectKeywords.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+    <link rel="icon" href="{% static 'image/geoleum.png' %}">
   </head>
   <body>
     <div class="landing__layout">
@@ -61,7 +62,7 @@
             {% endfor %}
           </div>
           {% endfor %} {% else %}
-          <p class="nocourse">선택한 키워드를 포함하는 코스가 없습니다.</p>
+          <p class="nocourse">선택한 키워드를 모두 만족하는 코스가 없습니다.🥲</p>
           {% endif %}
 
           <div class="center_second_more">
