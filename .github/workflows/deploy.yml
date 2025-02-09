@@ -1,0 +1,30 @@
+name: Django Auto Deploy
+
+on:
+  push:
+    branches:
+      - main  # 🚀 main 브랜치에 push될 때 실행됨
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # GitHub Actions에서 사용할 OS 환경
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3  # GitHub 저장소의 코드를 가져옴
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"  # Python 버전 설정
+
+      - name: Install Dependencies
+        run: pip install fabric  # Fabric 설치
+
+      - name: Deploy with Fabric
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # GitHub Secrets에서 SSH 키 가져오기
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem  # 비밀키 저장
+          chmod 600 private_key.pem  # SSH 키 권한 설정
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@your_server_ip "cd ~/your-project && python deploy.py"
