@@ -141,7 +141,7 @@ a:hover {
 
 .wrapper {
   overflow-y: auto;
-  padding-bottom: 150px;
+  padding-bottom: 180px;
 }
 
 ::-webkit-scrollbar {
