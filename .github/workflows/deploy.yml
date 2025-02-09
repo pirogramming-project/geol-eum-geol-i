@@ -25,6 +25,10 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # GitHub Secrets에서 SSH 키 가져오기
         run: |
-          echo "$SSH_PRIVATE_KEY" > github_actions_key  # 비밀키 저장
+          printf "%s" "$SSH_PRIVATE_KEY" > github_actions_key
           chmod 600 github_actions_key  # SSH 키 권한 설정
-          ssh -o StrictHostKeyChecking=no -i github_actions_key root@101.79.11.121 "cd ~/home/ubuntu/geol-eum-geol-i && python deploy.py"
+
+	  mkdir -p ~/.ssh
+	  ssh-keyscan -H 101.79.11.121 >> ~/.ssh/known_hosts
+
+          ssh -i github_actions_key root@101.79.11.121 "cd /home/ubuntu/geol-eum-geol-i && python deploy.py"
