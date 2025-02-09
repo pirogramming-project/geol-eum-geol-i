@@ -313,3 +313,20 @@ a:hover {
   border-color: #9c1a2a;
   box-shadow: 0 0 5px rgba(184, 33, 50, 0.5);
 }
+
+.wrapper {
+  overflow-y: auto;
+  padding-bottom: 100px;
+  background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, rgb(118, 69, 59));
+  border-radius: 6px;
+  border-radius: 20px;
+}

@@ -449,6 +449,7 @@ svg {
 .wrapper {
   overflow-y: auto;
   padding-bottom: 140px;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
