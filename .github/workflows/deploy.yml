@@ -27,4 +27,4 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem  # 비밀키 저장
           chmod 600 private_key.pem  # SSH 키 권한 설정
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@your_server_ip "cd ~/your-project && python deploy.py"
+          ssh -o StrictHostKeyChecking=no -i private_key.pem root@101.79.11.121 "cd ~/home/ubuntu/geol-eum-geol-i && python deploy.py"
