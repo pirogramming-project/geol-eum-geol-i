@@ -21,7 +21,7 @@ a:hover {
 .link-ranking {
   position: absolute;
   left: 80%;
-  top: 2%;
+  top: 3.3%;
   z-index: 10;
 }
 
@@ -33,7 +33,7 @@ a:hover {
   line-height: normal;
   color: var(--red);
   position: relative;
-  top: -9px;
+  top: -13px;
   right: 7px;
 }
 

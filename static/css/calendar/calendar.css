@@ -39,6 +39,7 @@ body {
   font-weight: 900;
   line-height: normal;
   gap: 10px;
+  padding-left: 3px;
 }
 
 .calender-title-firstword {
@@ -56,6 +57,7 @@ body {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  padding-left: 3px;
 }
 
 .calendar-container {

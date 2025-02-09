@@ -26,7 +26,7 @@ body {
 .container {
   max-width: 400px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 5px 20px 20px 20px;
 }
 
 .courserecommand-page-header-icon {
@@ -53,11 +53,13 @@ body {
 .course-recommand-introduction {
   text-align: start;
   color: var(--soft-red);
-  font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 24px;
+  font-family: "Kartrider Kor OTF";
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  padding-left: 7px;
+  margin-bottom: 7px;
 }
 
 .courserecommand-title-firstword {
@@ -111,6 +113,7 @@ header i {
   outline: none;
   flex: 1;
   font-size: 16px;
+  font-family: "Kartrider Kor OTF";
 }
 
 .search-box i {
@@ -430,8 +433,8 @@ svg {
 
 .link-ranking {
   position: absolute;
-  left: 80%;
-  top: 2%;
+  left: 79.8%;
+  top: 3.3%;
   z-index: 10;
 }
 
@@ -443,7 +446,8 @@ svg {
   line-height: normal;
   color: var(--red);
   position: relative;
-  top: -9px;
+  top: -13px;
+  left: -0.4px;
 }
 
 .wrapper {
