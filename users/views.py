@@ -29,6 +29,14 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileUpdateForm
 
 
+def terms_of_service(request):
+    return render(request, 'terms-of-service.html')
+
+def privacy_policy(request):
+    return render(request, 'privacy-policy.html')
+
+
+
 def landing_view(request):
     return render(request, 'main/landing.html')
 

@@ -1,0 +1,38 @@
+body {
+  font-family: "Kartrider Kor OTF";
+}
+
+.landing__layout {
+  background: var(--background_beige, #fff3e9);
+}
+
+.body_container {
+  padding: 20px 20px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 20px;
+  font-family: "Kartrider Kor OTF";
+}
+
+.center {
+  font-size: 12px;
+  font-family: "Kartrider Kor OTF";
+}
+
+.center_title {
+  margin-top: 20px;
+  font-family: "Kartrider Kor OTF";
+}
+
+.center_content {
+  color: gray;
+  font-size: 10px;
+  font-family: "Kartrider Kor OTF";
+
+  margin-top: 5px;
+}
