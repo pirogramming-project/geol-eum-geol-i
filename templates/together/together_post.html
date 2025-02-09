@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>함께 걸어요(detail)</title>
+    <title>함께 걸어요(post)</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/root.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
@@ -30,114 +30,112 @@
           </div>
         </a>
 
-        <div class="together_header">
-          <div class="together_title">
-            <a href="{% url 'users:success' %}" class="home-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -13 47 57" fill="none">
-                <path
-                  d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z"
-                  fill="#B82132"
-                />
-              </svg>
-            </a>
-            <div class="together_title_text_all">
-              <div class="together_title_title">
-                <div class="together_title_text_red">함께</div>
-                <div class="together_title_text">걸어요</div>
+        <div class="wrapper">
+          <div class="together_header">
+            <div class="together_title">
+              <a href="{% url 'users:success' %}" class="home-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -13 47 57" fill="none">
+                  <path
+                    d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z"
+                    fill="#B82132"
+                  />
+                </svg>
+              </a>
+              <div class="together_title_text_all">
+                <div class="together_title_title">
+                  <div class="together_title_text_red">함께</div>
+                  <div class="together_title_text">걸어요</div>
+                </div>
+                <div class="together_title_explain">함께 걸을 러닝메이트를 손쉽게 구해요</div>
               </div>
-
-              <div class="together_title_explain">함께 걸을 러닝메이트를 손쉽게 구해요</div>
             </div>
+          </div>
+
+          <div class="center">
+            <form method="post" enctype="multipart/form-data" action="{% url 'post:together_post' %}">
+              {% csrf_token %}
+              <div class="post_all">
+                <div class="post_title_box">
+                  <div class="post_title_title">게시글 제목</div>
+                  <div class="post_title_input"><input type="text" id="title" name="title" required /></div>
+                </div>
+                <div class="post_picture_box">
+                  <div class="post_picture_title">게시글 사진</div>
+                  <div class="post_picture_input_and_register">
+                    <div class="post_picture_input">
+                      <input type="file" id="picture" name="picture" onchange="updateFileName()" />
+                      <span id="file-name">선택된 파일 없음</span>
+                      <!-- 추가된 부분 -->
+                    </div>
+                    <label for="picture" class="post_picture_register">등록</label>
+                  </div>
+                </div>
+
+                <div class="post_content_box">
+                  <div class="post_content_title">게시글 내용</div>
+                  <div class="post_content_input"><textarea id="content" name="content" rows="5" required></textarea></div>
+                </div>
+
+                <div class="together_button">
+                  <button type="submit" class="recommend-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M18.4803 0.958252C19.7063 0.958252 20.7033 1.95479 20.7033 3.18064C20.7033 4.41413 19.7059 5.40357 18.4803 5.40357C17.2469 5.40357 16.2467 4.41413 16.2467 3.18064C16.2467 1.95479 17.2469 0.958252 18.4803 0.958252ZM6.45021 0.958252C7.67612 0.958252 8.67313 1.95479 8.67313 3.18064C8.67313 4.41413 7.67578 5.40357 6.45021 5.40357C5.21675 5.40357 4.21715 4.41413 4.21715 3.18064C4.21715 1.95479 5.21675 0.958252 6.45021 0.958252ZM19.7675 6.05941C21.6651 6.05941 23.7818 7.39057 24.7263 8.90938C25.3843 10.0031 25.4448 11.242 25.4397 12.9452C25.4457 13.4321 25.0516 13.8291 24.5647 13.8276C24.0778 13.8262 23.6861 13.4267 23.6945 12.9399C23.6997 11.2931 23.6038 10.4293 23.2306 9.80889C22.9454 9.33489 22.4168 8.87589 21.4236 8.29406C21.7336 9.73008 22.0192 11.1694 22.3093 12.6002C20.928 15.8815 19.5465 19.163 18.1652 22.4442C17.9047 23.0891 17.1671 23.3961 16.5261 23.1262C15.885 22.8563 15.5885 22.1141 15.8676 21.477L19.2012 13.5584L18.7763 11.7865L18.4654 10.4893C17.5753 12.1055 15.5105 12.5442 14.0947 12.8801C14.2212 12.6727 14.2893 12.4271 14.2755 12.1683C14.2553 11.7909 14.2136 11.4257 14.1587 11.0683C15.4542 10.7428 16.1642 10.4596 16.6275 10.0051C16.8976 9.74005 17.1605 9.37063 17.3649 8.8022C17.5692 8.23378 17.665 7.60571 17.8469 7.04423L17.8485 7.03943C18.2291 6.05722 18.9155 6.06261 19.7675 6.05941ZM7.73789 6.05941C9.80736 6.05941 11.3176 6.7344 12.3042 7.75872C13.3273 8.8608 13.8028 10.3958 13.8985 12.1886C13.9242 12.669 13.5552 13.0795 13.0747 13.1052C12.5943 13.1308 12.1843 12.7618 12.1587 12.2814C12.0765 10.742 11.6817 9.649 11.0272 8.94404C10.61 8.49457 10.0664 8.1634 9.32844 7.97627L9.39402 8.29406L9.39509 8.30046L10.2781 12.5938C10.2785 12.5961 10.2791 12.598 10.2797 12.6002C8.89844 15.8815 7.51692 19.1624 6.13562 22.4437C5.87506 23.0886 5.13695 23.3961 4.49602 23.1262C3.85491 22.8563 3.5589 22.1135 3.83805 21.4764L7.1711 13.5584L6.74667 11.7865L6.43581 10.4893C5.54476 12.1073 3.47625 12.5451 2.06034 12.8812C1.58812 12.9996 1.11033 12.7088 0.998737 12.235C0.887228 11.7611 1.18505 11.2877 1.66044 11.183C3.26342 10.8056 4.08105 10.5122 4.59786 10.0051C4.86803 9.74005 5.13092 9.37063 5.33528 8.8022C5.53955 8.23378 5.63544 7.60571 5.8173 7.04423L5.81889 7.03943C6.1995 6.05724 6.88588 6.06261 7.73789 6.05941ZM22.5812 13.9007L23.4258 18.0911L25.3592 21.3218C25.7247 21.9134 25.5353 22.6897 24.9385 23.0467C24.3417 23.4038 23.5679 23.2034 23.2194 22.6015L21.1165 19.0856C21.0048 18.8989 20.9435 18.6862 20.9395 18.4686L20.9352 17.8107C21.4838 16.5074 22.0326 15.204 22.5812 13.9007ZM10.5511 13.9007L11.3962 18.0911L13.3291 21.3218C13.6946 21.9134 13.5051 22.6897 12.9084 23.0467C12.3116 23.4038 11.5383 23.2034 11.1898 22.6015L9.08636 19.0856C8.97468 18.8989 8.91392 18.6862 8.90987 18.4686L8.90507 17.8107C9.45371 16.5074 10.0024 15.204 10.5511 13.9007Z"
+                        fill="white"
+                      />
+                    </svg>
+                    <span class="runningmate">등록하기</span>
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-
-
-        <div class="center">
-          <form method="post" enctype="multipart/form-data" action="{% url 'post:together_post' %}">
-            {% csrf_token %}
-
-          <div class="post_all">
-            <div class="post_title_box">
-              <div class="post_title_title">게시글 제목</div>
-              <div class="post_title_input"><input type="text" id="title" name="title" required /></div>
-            </div>
-
-            <div class="post_picture_box">
-              <div class="post_picture_title">게시글 사진</div>
-              <div class="post_picture_input_and_register">
-                <div class="post_picture_input">
-                  <input type="file" id="picture" name="picture" onchange="updateFileName()" />
-                  <span id="file-name">선택된 파일 없음</span> <!-- 추가된 부분 -->
-                </div>
-                <label for="picture" class="post_picture_register">등록</label>
-              </div>
-            </div>
-            
-
-
-
-            <div class="post_content_box">
-              <div class="post_content_title">게시글 내용</div>
-              <div class="post_content_input"><textarea id="content" name="content" rows="5" required></textarea></div>
-            </div>
-
-
-            
-            <div class="together_button">
-              <button type="submit" class="recommend-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.4803 0.958252C19.7063 0.958252 20.7033 1.95479 20.7033 3.18064C20.7033 4.41413 19.7059 5.40357 18.4803 5.40357C17.2469 5.40357 16.2467 4.41413 16.2467 3.18064C16.2467 1.95479 17.2469 0.958252 18.4803 0.958252ZM6.45021 0.958252C7.67612 0.958252 8.67313 1.95479 8.67313 3.18064C8.67313 4.41413 7.67578 5.40357 6.45021 5.40357C5.21675 5.40357 4.21715 4.41413 4.21715 3.18064C4.21715 1.95479 5.21675 0.958252 6.45021 0.958252ZM19.7675 6.05941C21.6651 6.05941 23.7818 7.39057 24.7263 8.90938C25.3843 10.0031 25.4448 11.242 25.4397 12.9452C25.4457 13.4321 25.0516 13.8291 24.5647 13.8276C24.0778 13.8262 23.6861 13.4267 23.6945 12.9399C23.6997 11.2931 23.6038 10.4293 23.2306 9.80889C22.9454 9.33489 22.4168 8.87589 21.4236 8.29406C21.7336 9.73008 22.0192 11.1694 22.3093 12.6002C20.928 15.8815 19.5465 19.163 18.1652 22.4442C17.9047 23.0891 17.1671 23.3961 16.5261 23.1262C15.885 22.8563 15.5885 22.1141 15.8676 21.477L19.2012 13.5584L18.7763 11.7865L18.4654 10.4893C17.5753 12.1055 15.5105 12.5442 14.0947 12.8801C14.2212 12.6727 14.2893 12.4271 14.2755 12.1683C14.2553 11.7909 14.2136 11.4257 14.1587 11.0683C15.4542 10.7428 16.1642 10.4596 16.6275 10.0051C16.8976 9.74005 17.1605 9.37063 17.3649 8.8022C17.5692 8.23378 17.665 7.60571 17.8469 7.04423L17.8485 7.03943C18.2291 6.05722 18.9155 6.06261 19.7675 6.05941ZM7.73789 6.05941C9.80736 6.05941 11.3176 6.7344 12.3042 7.75872C13.3273 8.8608 13.8028 10.3958 13.8985 12.1886C13.9242 12.669 13.5552 13.0795 13.0747 13.1052C12.5943 13.1308 12.1843 12.7618 12.1587 12.2814C12.0765 10.742 11.6817 9.649 11.0272 8.94404C10.61 8.49457 10.0664 8.1634 9.32844 7.97627L9.39402 8.29406L9.39509 8.30046L10.2781 12.5938C10.2785 12.5961 10.2791 12.598 10.2797 12.6002C8.89844 15.8815 7.51692 19.1624 6.13562 22.4437C5.87506 23.0886 5.13695 23.3961 4.49602 23.1262C3.85491 22.8563 3.5589 22.1135 3.83805 21.4764L7.1711 13.5584L6.74667 11.7865L6.43581 10.4893C5.54476 12.1073 3.47625 12.5451 2.06034 12.8812C1.58812 12.9996 1.11033 12.7088 0.998737 12.235C0.887228 11.7611 1.18505 11.2877 1.66044 11.183C3.26342 10.8056 4.08105 10.5122 4.59786 10.0051C4.86803 9.74005 5.13092 9.37063 5.33528 8.8022C5.53955 8.23378 5.63544 7.60571 5.8173 7.04423L5.81889 7.03943C6.1995 6.05724 6.88588 6.06261 7.73789 6.05941ZM22.5812 13.9007L23.4258 18.0911L25.3592 21.3218C25.7247 21.9134 25.5353 22.6897 24.9385 23.0467C24.3417 23.4038 23.5679 23.2034 23.2194 22.6015L21.1165 19.0856C21.0048 18.8989 20.9435 18.6862 20.9395 18.4686L20.9352 17.8107C21.4838 16.5074 22.0326 15.204 22.5812 13.9007ZM10.5511 13.9007L11.3962 18.0911L13.3291 21.3218C13.6946 21.9134 13.5051 22.6897 12.9084 23.0467C12.3116 23.4038 11.5383 23.2034 11.1898 22.6015L9.08636 19.0856C8.97468 18.8989 8.91392 18.6862 8.90987 18.4686L8.90507 17.8107C9.45371 16.5074 10.0024 15.204 10.5511 13.9007Z" fill="white"/>
-                </svg>
-                <span class="runningmate">등록하기</span>
-              </button>
-            </div>
-          </div>
-        </form>
-
       </div>
-      <footer>
-        <nav class="bottom_nav together__navBar">
-          <div class="nav_item">
-            <a href="{% url 'post:together_main' %}">
-              <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
-              <span>함께걸음!</span>
-            </a>
-          </div>
-          <div class="nav_item">
-            <a href="{% url 'course:course_list' %}">
-              <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
-              <span>어디걸음?</span>
-            </a>
-          </div>
-          <div class="nav_item">
-            <a href="{% url 'course:calendar_view' %}">
-              <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
-              <span>걸음캘린더</span>
-            </a>
-          </div>
-          <div class="nav_item">
-            <a href="{% url 'users:mypage_view' %}">
-              <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
-              <span>마이걸음</span>
-            </a>
-          </div>
-        </nav>
-      </footer>
+    </div>
 
+    <footer>
+      <nav class="bottom_nav together__navBar">
+        <div class="nav_item">
+          <a href="{% url 'post:together_main' %}">
+            <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+            <span>함께걸음!</span>
+          </a>
+        </div>
+        <div class="nav_item">
+          <a href="{% url 'course:course_list' %}">
+            <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+            <span>어디걸음?</span>
+          </a>
+        </div>
+        <div class="nav_item">
+          <a href="{% url 'course:calendar_view' %}">
+            <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+            <span>걸음캘린더</span>
+          </a>
+        </div>
+        <div class="nav_item">
+          <a href="{% url 'users:mypage_view' %}">
+            <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+            <span>마이걸음</span>
+          </a>
+        </div>
+      </nav>
+    </footer>
 
     <script>
       function updateFileName() {
         const input = document.getElementById("picture");
         const fileNameSpan = document.getElementById("file-name");
-      
+
         if (input.files.length > 0) {
-          fileNameSpan.textContent = input.files[0].name; 
+          fileNameSpan.textContent = input.files[0].name;
         } else {
-          fileNameSpan.textContent = "선택된 파일 없음"; 
+          fileNameSpan.textContent = "선택된 파일 없음";
         }
       }
-      
-      
     </script>
   </body>
 </html>
