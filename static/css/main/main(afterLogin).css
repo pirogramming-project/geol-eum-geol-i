@@ -9,6 +9,8 @@ a:hover {
 
 .landing__layout {
   background: var(--background_beige, #fff3e9);
+
+  height: 100%;
 }
 
 .title {
