@@ -1,0 +1,199 @@
+@import url("../root.css");
+
+@font-face {
+    font-family: 'VITRO INSPIRE OTF';
+    font-style: normal;
+    src: url('../fonts/VITRO INSPIRE OTF.otf') format('truetype');
+}
+@font-face {
+    font-family: 'Kartrider Kor OTF';
+    font-style: normal;
+    src: url('../fonts/NEXON Kart Gothic Kor OTF Bold.otf') format('truetype');
+}
+
+body {
+    background-color: #fef8f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.landing__layout {
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+
+.container {
+    width: 328px;
+    height: 537px;
+    margin: 5px auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+h1 {
+    color: #b22222;
+}
+.course-info {
+    font-size: 16px;
+    color: #333;
+}
+.course-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.home-btn {
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 185px;
+    height: 46px;
+    text-align: center;
+    display: block;
+    background: var(--deep-brown);
+    color: var(--white) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 18px;
+    text-decoration: none;
+    margin-top: 15px;
+}
+.home-btn:hover {
+    background: #a02020;
+}
+
+iframe {
+    width: 280px;
+    height: 107px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: 0;
+}
+
+.coursedetail-page-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 328px;
+    margin: 10px auto;
+}
+
+.coursedetail-title {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+
+.coursedetail-title {
+    display: flex;
+    align-items: flex-end;
+    font-family: 'Vitro Inspire OTF', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.coursedetail-title-firstword {
+    color: var(--red);
+}
+
+.coursedetail-title-secondword {
+    color: var(--soft-red);
+}
+
+.course-title {
+    color: var(--deep-brown);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.course-detail-information {
+    display: flex;
+    gap: 30px;
+}
+.course-info {
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.course-distance, .course-time {
+    color: var(--deep-brown);
+}
+
+img {
+    width: 302px;
+    height: 137px;
+}
+
+.course-introduction {
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.course-introduction-start {
+    color: var(--deep-brown);
+}
+
+.gotohome-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.home-icon {
+    position: relative;
+    top: 7px;
+}
+
+.course-keywords {
+    display: flex;
+    flex-wrap: wrap;  /* 아이템이 넘치면 자동으로 줄바꿈 */
+}
+  
+.course-keyword {
+    margin-right: 10px;  /* 키워드 간 간격 */
+    margin-bottom: 5px;  /* 줄바꿈 후 아래 여백 */
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 16px;
+}
+
+.wrapper {
+    overflow-y: auto;
+    padding-bottom: 150px;
+    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: transparent;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(transparent, rgb(118, 69, 59));
+    border-radius: 6px;
+    border-radius: 20px;
+}

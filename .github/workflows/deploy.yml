@@ -1,0 +1,31 @@
+name: Deploy to Naver Cloud
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: pip install fabric paramiko  # Fabric 설치
+
+      - name: Deploy with Fabric
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > github_actions_key
+          chmod 600 github_actions_key
+          ssh -o StrictHostKeyChecking=no -i github_actions_key root@101.79.11.121 "echo '✅ SSH 연결 성공!'"
+

@@ -51,8 +51,8 @@
     padding-top: 35px;
 }
 .record__person {
-    bottom: 175px;
-    left: 140px;
+    bottom: 160px;
+    left: 160px;
     position: absolute;
     z-index: 4;
 }
@@ -86,6 +86,13 @@
     .record__date {
         font-size: 35px;
         padding-top: 20px;
+    }
+    .record__person {
+        bottom: 160px;
+        left: 160px;
+        position: absolute;
+        z-index: 4;
+        transform: scale(0.9);
     }
 }
 @media (max-width: 768px) {

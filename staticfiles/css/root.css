@@ -1,0 +1,39 @@
+:root {
+  --soft-red: #d2665a;
+  --red: #b82132;
+  --soft-green: #9abf80;
+  --green: #419049;
+  --deep-brown: #76453b;
+  --background-beige: #fff3e9;
+  --light-gray: #e6e6e6;
+  --gray: #898989;
+  --mint: #f1f8e8;
+  --white: #ffffff;
+  --black: #000000;
+  --peach: #ffa79d;
+  --light-skyblue: #c6fffa;
+  --light-coral: #ffe5d0;
+  --flash-green: #5eff39;
+  --flash-purple: #a67dd9;
+}
+
+@font-face {
+    font-family: 'VITRO INSPIRE OTF';
+    font-style: normal;
+    src: url('../fonts/VITRO INSPIRE OTF.otf') format('truetype');
+}
+@font-face {
+    font-family: 'Kartrider Kor OTF';
+    font-style: normal;
+    src: url('../fonts/NEXON Kart Gothic Kor OTF Bold.otf') format('truetype');
+}
+@font-face {
+  font-family: 'NanumSquareOTF_ac';
+  font-style: normal;
+  src: url('../fonts/NanumSquareOTF_acB.otf') format('truetype');
+}
+@font-face {
+  font-family: "Nanum OenSonJabIDoYeBbeo";
+  font-style: normal;
+  src: url('../fonts/나눔손글씨 왼손잡이도 예뻐.ttf') format('truetype');
+}
