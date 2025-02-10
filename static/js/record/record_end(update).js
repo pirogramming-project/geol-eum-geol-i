@@ -97,7 +97,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateDisNCal() {
         totalDistance = calcDistance(path);
-        let durationSec = Math.floor((new Date() - startTime) / 1000) - totalPausedTime;
+
+         // 현재 시간을 KST로 변환
+        let currentTime = new Date();
+        currentTime.setHours(currentTime.getHours() + 9); // UTC → KST 변환
+
+        // KST 기준으로 경과 시간 계산
+        let durationSec = Math.floor((currentTime - startTime) / 1000) - totalPausedTime;
 
         showCalories.textContent = `durationSec : ${durationSec}`;
 
@@ -107,6 +113,9 @@ document.addEventListener("DOMContentLoaded", function () {
         showCalories.textContent = `minutes : ${minutes}`;
 
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
+
+        console.log(`시작 시간: ${startTime}`);
+        console.log(`현재 시간: ${new Date()}`);
 
         // 1. 시간이 1분 미만이면서 거리가 0.01km 이상인 경우
         if (minutes < 0.5 && totalDistance >= 0.01) {
