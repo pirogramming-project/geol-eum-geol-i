@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    localStorage.removeItem('gpsData'); // 새로운 걸음기록 시작마다 GPS 데이터 초기화
     let path = [];
     let watchID;
     let totalDistance = 0;
@@ -63,9 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             path.push(newPosition);
                             console.log(`📍 실시간 좌표 추가됨 (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
                             updateDisNCal();
-
-                            // Background Sync 등록 -> 백그라운드 모드(모바일 화면 종료 or 오프라인) GPS 유지
-                            registerBackgroundSync(path);
                         } else {
                             console.log(`⚠️ 이동 거리 너무 작음 (${(distance * 1000).toFixed(2)}m) → 무시됨`);
                         }
@@ -101,55 +97,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateDisNCal() {
         totalDistance = calcDistance(path);
-
-        // 현재 시간을 KST로 변환
-        let currentTime = new Date();
-        currentTime.setHours(currentTime.getHours() + 9); // UTC → KST 변환
-
-        // KST 기준으로 경과 시간 계산
-        let durationSec = Math.floor((currentTime - startTime) / 1000) - totalPausedTime;
+        let durationSec = Math.floor((new Date() - startTime) / 1000) - totalPausedTime;
 
         let minutes = durationSec / 60;
-
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
-    // UI 업데이트 최적화: 이전 값과 비교하여 DOM 업데이트 최소화
-    const newDistanceText = `⏱ 시간: ${durationSec}초 (${minutes.toFixed(2)}분) 얼마걸음: ${totalDistance.toFixed(2)}km`;
-    const newCaloriesText = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
-
-    // 조건별 동작
-    if (minutes < 0.5 && totalDistance >= 0.01) {
-        console.log("⚠️ 30초 미만이지만, 거리가 충분함 → 거리만 표시");
-        if (showDistance.textContent !== newDistanceText) {
-            showDistance.textContent = newDistanceText;
-        }
-        if (showCalories.textContent !== `총 소비칼로리: 0kcal(1번문제)`) {
-            showCalories.textContent = `총 소비칼로리: 0kcal(1번문제)`; // 칼로리는 계산하지 않음
-        }
-        return;
+        showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
+        showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
     }
-
-    if (minutes < 0.5 && totalDistance < 0.01) {
-        console.log("⚠️ 30초 미만 & 거리 부족 → UI 초기화");
-        if (showDistance.textContent !== `얼마걸음: 0.00km`) {
-            showDistance.textContent = `얼마걸음: 0.00km`;
-        }
-        if (showCalories.textContent !== `총 소비칼로리: 0kcal(2번문제)`) {
-            showCalories.textContent = `총 소비칼로리: 0kcal(2번문제)`;
-        }
-        return;
-    }
-
-    if (minutes >= 0.5) {
-        console.log("✅ 30초 이상 경과 → 거리와 칼로리 표시");
-        if (showDistance.textContent !== newDistanceText) {
-            showDistance.textContent = newDistanceText;
-        }
-        if (showCalories.textContent !== newCaloriesText) {
-            showCalories.textContent = newCaloriesText;
-        }
-    }
-}
 
     function updateTime() {
         if (isPaused) {
@@ -179,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 칼로리 오류 수정중
     function calcCalories(dist, time, weight) {
-        const minTimeThreshold = 0.5; // 최소 시간 기준 (분 단위: 30초)
+        const minTimeThreshold = 1; // 최소 시간 기준 (분 단위: 1분)
 
         // 1. 시간 확인: 너무 짧은 경우 계산 제외
         if (time < minTimeThreshold) {
@@ -190,6 +145,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // 2. 속도 계산 
         let speed = dist / (time / 60);
 
+        // 3. 비정상 속도 필터링 (20km/h 이상은 오류 가능성)
+        if (speed > 20 || dist < 0.01) {
+            console.log(`⚠️ 비정상 속도(${speed.toFixed(2)} km/h) 또는 거리(${dist.toFixed(2)} km) → 계산 제외`);
+            return 0;
+        }
 
         // 4. MET 값 설정 (걷기 ~ 런닝 속도에 따라 구분)
         let METs = 2.8; // 기본값: 천천히 걷기
@@ -204,66 +164,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return parseInt(calories); // 정수형
 
     }
-
-    // Background Sync API 등록
-    function registerBackgroundSync(path) {
-        if ('serviceWorker' in navigator && 'SyncManager' in window) {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.sync.register('syncGPSData').then(() => {
-                    console.log('Background Sync 등록 완료');
-                    localStorage.setItem('gpsData', JSON.stringify(path));
-                }).catch(err => console.error('Background Sync 등록 실패', err));
-            });
-        }
-    }
     
-    // Service Worker 등록
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register(service_worker_url)
-            .then(reg => console.log('Service Worker 등록 완료:', reg))
-            .catch(err => console.log('Service Worker 등록 실패', err));
-    }
 
     let timeUpdate = setInterval(updateTime, 1000);
     getUserGPS();
-
-    // 백그라운드 모드 감지
-    document.addEventListener("visibilitychange", function() {
-        if (document.visibilityState === "hidden") {
-            console.log("백그라운드 모드 진입 감지 -> Background Sync 실행");
-            if('serviceWorker' in navigator && 'SyncManager' in window) {
-                registerBackgroundSync(path);
-            }
-        }
-    });
-
-    navigator.serviceWorker.addEventListener("message", function(event) {
-        if (event.data.action === "clearGPSData") {
-            localStorage.removeItem('gpsData');
-            console.log("localStorage GPS 데이터 삭제");
-        }
-        if (event.data.action === "getCSRFToken") {
-            let csrfToken = getCookie("csrftoken");
-            event.ports[0].postMessage({ action: "CSRFToken", token: csrfToken });
-        }
-        if (event.data.action === "sendGPSData") {
-            let gpsData = localStorage.getItem("gpsData");
-            let response = {
-                action: "GPSData",
-                gpsData: gpsData ? JSON.parse(gpsData) : null
-            };
-            // service-worker로 응답 전달
-            if(event.ports && event.ports.length > 0) {
-                event.ports[0].postMessage(response);
-                // service worker와 클라이언트 간 응답 채널(source 사용보다 명시적)
-                // ports => service worker가 응답 받기 위한 배열
-            } else if (event.source) {
-                event.source.postMessage(response); // 포트가 없는 경우 source 사용
-            } else {
-                console.error("포트가 비어있어 GPS 데이터 전송 불가");
-            }
-        }
-    });
 
     document.getElementById("bottleBtn").addEventListener("click", function() {
         if (isPaused) {
@@ -345,7 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             console.log("오늘걸음 기록 저장완료:", data);
             alert(`기록이 저장되었습니다.`);
-            localStorage.removeItem('gpsData');
             window.location.href = `/record/history/${formattedDate}/`;
         })
         .catch(error => console.error("기록 저장에 실패했습니다.", error));
