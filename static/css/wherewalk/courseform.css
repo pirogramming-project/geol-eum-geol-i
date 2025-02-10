@@ -287,3 +287,7 @@ textarea {
 #register_btn {
   margin-top: 60px;
 }
+
+textarea {
+  resize: none;
+}
