@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -192,3 +192,13 @@ def select_keywords_view(request):
         'sorted_course_groups': sorted_course_groups,
         'selected_keywords': selected_keywords
     })
+
+def course_delete(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    # course의 작성자가 현재 사용자와 일치하는지 확인
+    if request.user == course.user:
+        course.delete()  # course 삭제
+
+    # course 삭제 후 course_list 페이지로 리다이렉트
+    return redirect('course:course_list')
