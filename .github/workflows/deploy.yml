@@ -21,14 +21,47 @@ jobs:
       - name: Install dependencies
         run: pip install fabric paramiko  # Fabric 설치
 
-      - name: Deploy with Fabric
+      - name: Deploy with SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > github_actions_key
           chmod 600 github_actions_key
-          ssh -o StrictHostKeyChecking=no -i github_actions_key root@101.79.11.121 "
-            cd /home/ubuntu/geol-eum-geol-i &&
-            source venv/bin/activate &&
-            python deploy.py
-          "
+          ssh -o StrictHostKeyChecking=no -i github_actions_key root@101.79.11.121 << 'EOF'
+            set -e  # 스크립트 실행 중 오류 발생 시 즉시 종료
+            echo "🚀 배포 시작!"
+
+            # 프로젝트 디렉토리 이동
+            cd /home/ubuntu/geol-eum-geol-i
+
+            # 최신 코드 가져오기
+            git pull origin main
+            echo "최신 코드 가져오기 완료"
+
+            # 가상환경 활성화 및 패키지 업데이트
+            source venv/bin/activate
+            pip install -r requirements.txt
+            echo "패키지 업데이트 완료"
+
+            # DB 마이그레이션
+            python manage.py migrate
+            echo "DB 마이그레이션 완료"
+
+            # 기존 collectstatic 파일 삭제 후 다시 생성
+            rm -rf staticfiles/
+            python manage.py collectstatic --noinput
+            echo "정적 파일 생성 완료"
+
+            # 정적 파일 권한 변경
+            sudo chmod -R 755 /home/ubuntu/geol-eum-geol-i/staticfiles/
+            sudo chown -R www-data:www-data /home/ubuntu/geol-eum-geol-i/staticfiles/
+            echo "정적 파일 권한 설정 완료"
+
+            # Gunicorn & Nginx 재시작
+            sudo systemctl restart gunicorn
+            sudo systemctl restart nginx
+            sudo systemctl reload nginx
+            echo "Gunicorn & Nginx 재시작 완료"
+
+            echo "자동 배포 완료"
+          EOF
