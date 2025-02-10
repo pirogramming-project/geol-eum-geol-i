@@ -26,6 +26,32 @@ def record_page(request):
 def ready_record(request):
     return render(request, "record/before_record.html") # 페이지 확인용(삭제 예정)
 
+def calculate_calories(distance, minutes, weight=75):
+    speed = distance / (minutes / 60) if minutes > 0 else 0  # km/h 속도 계산
+
+    # 운동 강도(METs) 값 설정
+    if speed < 5.5:
+        METs = 3.8  
+    elif speed < 8.0:
+        METs = 4.3  
+    # 속도 구간에 따른 MET 값
+    if speed >= 3.0 and speed < 5.5:
+        METs = 3.8
+    elif speed >= 5.5 and speed < 7.0:
+        METs = 4.3
+    elif speed >= 7.0 and speed < 9.0:
+        METs = 7.0
+    elif speed >= 9.0 and speed < 12.0:
+        METs = 9.8
+    elif speed >= 12.0 and speed < 16.0:
+        METs = 11.0
+    elif speed >= 16.0 and speed < 20.0:
+        METs = 12.8
+    else:
+        METs = 7.0    
+        METs = 2.8  # 기본값 (천천히 걷기)
+
+    return int(round(METs * weight * (minutes / 60)))
 
 #운동 종료 시, 기록 저장 함수
 @login_required
