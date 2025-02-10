@@ -209,6 +209,12 @@ def ranking_view(request):
             user_rank = index
             break
     
+    # 기록이 없는 경우
+    if user_rank == 0 :
+        user_rank = len(all_rankings) + 1
+        user_record = {'total_distance': '00.00'}
+        
+    
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
     # ✅ 다음 달의 마지막 날을 구하는 로직
