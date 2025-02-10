@@ -23,6 +23,12 @@ body {
     height: 600px;
     margin-inline: auto;
 }
+.home-icon > svg {
+    transition: transform 0.3s ease;
+  }
+.home-icon > svg:hover {
+    transform: scale(1.1);
+}
 .login-container h1 {
     text-align: center;
     margin-bottom: 30px;
