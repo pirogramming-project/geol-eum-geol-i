@@ -105,6 +105,10 @@ body {
   border-radius: 10px;
   background: var(--white);
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
 }
 .walkForm {
   display: flex;
