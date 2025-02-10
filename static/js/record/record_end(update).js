@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateDisNCal() {
         totalDistance = calcDistance(path);
         let durationSec = Math.floor((new Date() - startTime) / 1000) - totalPausedTime;
+
         let minutes = durationSec / 60;
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
@@ -130,19 +131,40 @@ document.addEventListener("DOMContentLoaded", function () {
         return totalDistance;
     }
 
-    function calcCalories(dist, time, weight) {
-        let speed = dist / (time/60); // km/h 계산하기 위함
-        let METs;
 
-        if (speed < 5.5) {
-            METs = 3.8;
-        } else if (speed < 8.0) {
-            METs = 4.3;
-        } else {
-            METs = 7.0;
+    // 칼로리 오류 수정중
+    function calcCalories(dist, time, weight) {
+        const minTimeThreshold = 1; // 최소 시간 기준 (분 단위: 1분)
+
+        // 1. 시간 확인: 너무 짧은 경우 계산 제외
+        if (time < minTimeThreshold) {
+            console.log(`⚠️ 시간(${time}분)가 기준(${minTimeThreshold}분)보다 짧음 → 칼로리 계산 제외`);
+            return 0; // 계산 제외
         }
-        return parseInt(METs * weight * (time/60)); // 정수형으로 변환
+
+        // 2. 속도 계산 
+        let speed = dist / (time / 60);
+
+        // 3. 비정상 속도 필터링 (20km/h 이상은 오류 가능성)
+        if (speed > 20 || dist < 0.01) {
+            console.log(`⚠️ 비정상 속도(${speed.toFixed(2)} km/h) 또는 거리(${dist.toFixed(2)} km) → 계산 제외`);
+            return 0;
+        }
+
+        // 4. MET 값 설정 (걷기 ~ 런닝 속도에 따라 구분)
+        let METs = 2.8; // 기본값: 천천히 걷기
+        if (speed >= 3.0 && speed < 5.5) METs = 3.8; // 일반 걷기
+        else if (speed >= 5.5 && speed < 7.0) METs = 4.3; // 빠르게 걷기
+        else if (speed >= 7.0 && speed < 9.0) METs = 7.0; // 조깅
+        else if (speed >= 9.0 && speed < 12.0) METs = 9.8; // 런닝
+        else if (speed >= 12.0 && speed < 16.0) METs = 11.0; // 빠른 런닝
+        else if (speed >= 16.0 && speed < 20.0) METs = 12.8; // 전력질주
+
+        let calories = METs * weight * (time / 60);
+        return parseInt(calories); // 정수형
+
     }
+    
 
     let timeUpdate = setInterval(updateTime, 1000);
     getUserGPS();
