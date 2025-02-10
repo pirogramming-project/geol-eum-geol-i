@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
     // UI 업데이트 최적화: 이전 값과 비교하여 DOM 업데이트 최소화
-    const newDistanceText = `⏱ 시간: ${durationSec}초 (${minutes.toFixed(2)}분) 얼마걸음: ${totalDistance.toFixed(2)}km`;
+    const newDistanceText = ` 얼마걸음: ${totalDistance.toFixed(2)}km`;
     const newCaloriesText = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
 
     // 조건별 동작
