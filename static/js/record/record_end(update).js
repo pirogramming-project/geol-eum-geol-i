@@ -118,18 +118,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const newCaloriesText = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
 
     // 조건별 동작
-    if (minutes < 0.5 && totalDistance >= 0.01) {
-        console.log("⚠️ 30초 미만이지만, 거리가 충분함 → 거리만 표시");
-        if (showDistance.textContent !== newDistanceText) {
-            showDistance.textContent = newDistanceText;
-        }
-        if (showCalories.textContent !== `총 소비칼로리: 0kcal(1번문제)`) {
-            showCalories.textContent = `총 소비칼로리: 0kcal(1번문제)`; // 칼로리는 계산하지 않음
-        }
-        return;
-    }
+    // if (minutes < 0.5 && totalDistance >= 0.01) {
+    //     console.log("⚠️ 30초 미만이지만, 거리가 충분함 → 거리만 표시");
+    //     if (showDistance.textContent !== newDistanceText) {
+    //         showDistance.textContent = newDistanceText;
+    //     }
+    //     if (showCalories.textContent !== `총 소비칼로리: 0kcal(1번문제)`) {
+    //         showCalories.textContent = `총 소비칼로리: 0kcal(1번문제)`; // 칼로리는 계산하지 않음
+    //     }
+    //     return;
+    // }
 
-    if (minutes < 0.5 && totalDistance < 0.01) {
+    if (totalDistance < 0.01) {
         console.log("⚠️ 30초 미만 & 거리 부족 → UI 초기화");
         if (showDistance.textContent !== `얼마걸음: 0.00km`) {
             showDistance.textContent = `얼마걸음: 0.00km`;
@@ -140,15 +140,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    if (minutes >= 0.5) {
-        console.log("✅ 30초 이상 경과 → 거리와 칼로리 표시");
-        if (showDistance.textContent !== newDistanceText) {
-            showDistance.textContent = newDistanceText;
-        }
-        if (showCalories.textContent !== newCaloriesText) {
-            showCalories.textContent = newCaloriesText;
-        }
+    if (showDistance.textContent !== newDistanceText) {
+        showDistance.textContent = newDistanceText;
     }
+    if (showCalories.textContent !== newCaloriesText) {
+        showCalories.textContent = newCaloriesText;
+    }
+
+    // if (minutes >= 0.5) {
+    //     console.log("✅ 30초 이상 경과 → 거리와 칼로리 표시");
+    //     if (showDistance.textContent !== newDistanceText) {
+    //         showDistance.textContent = newDistanceText;
+    //     }
+    //     if (showCalories.textContent !== newCaloriesText) {
+    //         showCalories.textContent = newCaloriesText;
+    //     }
+    // }
 }
 
     function updateTime() {
@@ -179,13 +186,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 칼로리 오류 수정중
     function calcCalories(dist, time, weight) {
-        const minTimeThreshold = 0.5; // 최소 시간 기준 (분 단위: 30초)
+        // const minTimeThreshold = 0.5; // 최소 시간 기준 (분 단위: 30초)
 
-        // 1. 시간 확인: 너무 짧은 경우 계산 제외
-        if (time < minTimeThreshold) {
-            console.log(`⚠️ 시간(${time}분)가 기준(${minTimeThreshold}분)보다 짧음 → 칼로리 계산 제외`);
-            return 0; // 계산 제외
-        }
+        // // 1. 시간 확인: 너무 짧은 경우 계산 제외
+        // if (time < minTimeThreshold) {
+        //     console.log(`⚠️ 시간(${time}분)가 기준(${minTimeThreshold}분)보다 짧음 → 칼로리 계산 제외`);
+        //     return 0; // 계산 제외
+        // }
 
         // 2. 속도 계산 
         let speed = dist / (time / 60);
