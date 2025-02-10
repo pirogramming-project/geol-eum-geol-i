@@ -27,7 +27,7 @@ from datetime import datetime, timedelta
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileUpdateForm
-
+import logging
 
 def terms_of_service(request):
     return render(request, 'terms-of-service.html')
@@ -115,6 +115,31 @@ def signup(request):
 
     return render(request, 'usermanage/signup.html', {'form': CustomUserCreationForm()})
 
+
+
+"회원 탈퇴"
+logger = logging.getLogger(__name__)
+
+@login_required
+def delete_account(request):
+    user = request.user
+
+    if request.method == "POST":
+        logger.info(f"회원 탈퇴 요청: {user.email} (ID: {user.user_id})")
+
+        try:
+            user.delete()
+            logger.info(f"회원 삭제 완료: {user.email} (ID: {user.user_id})")
+
+            logout(request)
+
+            return JsonResponse({"message": "회원 탈퇴가 완료되었습니다."}, status=200)
+
+        except Exception as e:
+            logger.error(f"회원 삭제 실패: {user.email} (ID: {user.user_id}), 오류: {str(e)}")
+            return JsonResponse({"error": "회원 탈퇴 중 오류가 발생했습니다."}, status=500)
+
+    return JsonResponse({"error": "잘못된 요청입니다."}, status=400)
 
 
 def activate(request, uidb64, token):
@@ -313,9 +338,6 @@ def naver_login(request):
     request_url = f"{base_url}?{'&'.join([f'{key}={value}' for key, value in params.items()])}"
     return redirect(request_url)
 
-import logging
-
-logger = logging.getLogger(__name__)
 
 def naver_callback(request):
     # 네이버에서 전달받은 인증 코드와 state 값

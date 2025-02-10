@@ -12,6 +12,7 @@ urlpatterns = [
     path('success/', success_view, name='success'),
     path('logout/', logout_view, name='logout_view'),
     path('signup/', signup, name='signup'),
+    path("delete_account/", delete_account, name="delete_account"),
     path('activate/<uidb64>/<token>/', activate, name='activate'),  # 이메일 인증 URL
     path('password_reset/', password_reset_request, name='password_reset'),
     path('reset/<uidb64>/<token>/', password_reset_confirm, name='password_reset_confirm'),
