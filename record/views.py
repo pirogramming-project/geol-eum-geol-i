@@ -61,7 +61,7 @@ def save_walk_record(request):
         # 🔹 거리, 속도, 칼로리 계산
         distance = float(data.get("distance", 0))
         pace = round((minutes / distance), 2) if distance > 0 else 0
-        calories = int(data.get("calories", 0))
+        calories = round(float(data.get("calories", 0)))  # 🔹 반올림 후 저장
         path = data.get("path", [])  
 
         # 🔹 MySQL에 저장 (UTC 변환 제거, 그대로 저장)

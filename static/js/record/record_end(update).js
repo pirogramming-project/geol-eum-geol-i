@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let formattedDate = `${year}-${month}-${day}`;
 
         // ✅ **칼로리 계산을 프론트에서 수행 후 전송**
-        caloriesBurned = calcCalories(totalDistance, minutes, weight);
+        caloriesBurned = calcCalories(totalDistance, minutes, weight); 
 
         // API에 보낼 데이터 구조
         let daily_record = {
