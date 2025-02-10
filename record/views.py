@@ -17,14 +17,19 @@ def main_view(request):
 def record_stop(request):
     return render(request, 'record/record_end.html')
 
-def daily_record(request):
-    return render(request, 'record/daily_record.html')
-
 def record_page(request):
     return render(request, "record/record_start.html")
 
 def ready_record(request):
-    return render(request, "record/before_record.html") # 페이지 확인용(삭제 예정)
+    return render(request, "record/before_record.html")
+
+def record_delete(request, pk):
+    if request.method == 'POST':
+        record = Detail.objects.get(id=pk)
+        record_date = record.created_at
+        record.delete()
+        return redirect('record:record_history', date=record_date)
+    return redirect('review:record_history', date=datetime.today().strftime("%Y-%m-%d"))
 
 def calculate_calories(distance, minutes, weight=75):
     speed = distance / (minutes / 60) if minutes > 0 else 0  # km/h 속도 계산
