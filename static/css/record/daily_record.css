@@ -11,7 +11,7 @@ body {
 }
 .daily__container {
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   padding: 28px 20px;
   display: flex;
   flex-direction: column;
@@ -240,11 +240,12 @@ body {
   color: var(--deep-brown);
   font-family: "Kartrider Kor OTF";
   font-size: 20px;
+
+  padding-bottom: 25px;
 }
 
 .wrapper {
   overflow-y: auto;
-  padding-bottom: 15px;
 }
 
 ::-webkit-scrollbar {
