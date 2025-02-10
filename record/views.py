@@ -24,7 +24,15 @@ def record_page(request):
     return render(request, "record/record_start.html")
 
 def ready_record(request):
-    return render(request, "record/before_record.html") # 페이지 확인용(삭제 예정)
+    return render(request, "record/before_record.html")
+
+def record_delete(request, pk):
+    if request.method == 'POST':
+        record = Detail.objects.get(id=pk)
+        record_date = record.created_at
+        record.delete()
+        return redirect('record:record_history', date=record_date)
+    return redirect('review:record_history', date=datetime.today().strftime("%Y-%m-%d"))
 
 # 칼로리 계산 
 def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
