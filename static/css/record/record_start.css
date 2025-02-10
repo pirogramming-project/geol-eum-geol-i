@@ -94,6 +94,38 @@
         z-index: 4;
         transform: scale(0.9);
     }
+    .landing__ground_1, .landing__ground_3,
+    .landing__ground_2, .landing__ground_4 {
+        position: absolute;
+        bottom: 0px;
+        width: 400px;
+        height: 351px;
+        border-radius: 0px 500px 0px 0px;
+        border-top: 8px solid var(--light-gray);
+        -webkit-border-top: 8px solid var(--light-gray);
+        border-right: 8px solid var(--light-gray);
+        -webkit-border-right: 8px solid var(--light-gray);
+        background: linear-gradient(180deg, var(--soft-green) 0%, var(--mint) 100%);
+        z-index: 1;
+    }
+    .landing__ground_2, .landing__ground_4 {
+        background: linear-gradient(180deg, var(--soft-green) 0%, var(--green) 100%);
+    }
+    .landing__ground_2 {
+        width: 342px;
+        height: 300px;
+        z-index: 2;
+    }
+    .landing__ground_3 {
+        width: 283px;
+        height: 249px;
+        z-index: 3;
+    }
+    .landing__ground_4 {
+        width: 216px;
+        height: 191px;
+        z-index: 4;
+    }
 }
 @media (max-width: 768px) {
 
