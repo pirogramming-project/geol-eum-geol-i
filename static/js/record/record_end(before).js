@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    localStorage.removeItem('gpsData'); // 새로운 걸음기록 시작마다 GPS 데이터 초기화
     let path = [];
     let watchID;
     let totalDistance = 0;
@@ -63,9 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             path.push(newPosition);
                             console.log(`📍 실시간 좌표 추가됨 (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
                             updateDisNCal();
-
-                            // Background Sync 등록 -> 백그라운드 모드(모바일 화면 종료 or 오프라인) GPS 유지
-                            registerBackgroundSync(path);
                         } else {
                             console.log(`⚠️ 이동 거리 너무 작음 (${(distance * 1000).toFixed(2)}m) → 무시됨`);
                         }
@@ -168,66 +164,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return parseInt(calories); // 정수형
 
     }
-
-    // Background Sync API 등록
-    function registerBackgroundSync(path) {
-        if ('serviceWorker' in navigator && 'SyncManager' in window) {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.sync.register('syncGPSData').then(() => {
-                    console.log('Background Sync 등록 완료');
-                    localStorage.setItem('gpsData', JSON.stringify(path));
-                }).catch(err => console.error('Background Sync 등록 실패', err));
-            });
-        }
-    }
     
-    // Service Worker 등록
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register(service_worker_url)
-            .then(reg => console.log('Service Worker 등록 완료:', reg))
-            .catch(err => console.log('Service Worker 등록 실패', err));
-    }
 
     let timeUpdate = setInterval(updateTime, 1000);
     getUserGPS();
-
-    // 백그라운드 모드 감지
-    document.addEventListener("visibilitychange", function() {
-        if (document.visibilityState === "hidden") {
-            console.log("백그라운드 모드 진입 감지 -> Background Sync 실행");
-            if('serviceWorker' in navigator && 'SyncManager' in window) {
-                registerBackgroundSync(path);
-            }
-        }
-    });
-
-    navigator.serviceWorker.addEventListener("message", function(event) {
-        if (event.data.action === "clearGPSData") {
-            localStorage.removeItem('gpsData');
-            console.log("localStorage GPS 데이터 삭제");
-        }
-        if (event.data.action === "getCSRFToken") {
-            let csrfToken = getCookie("csrftoken");
-            event.ports[0].postMessage({ action: "CSRFToken", token: csrfToken });
-        }
-        if (event.data.action === "sendGPSData") {
-            let gpsData = localStorage.getItem("gpsData");
-            let response = {
-                action: "GPSData",
-                gpsData: gpsData ? JSON.parse(gpsData) : null
-            };
-            // service-worker로 응답 전달
-            if(event.ports && event.ports.length > 0) {
-                event.ports[0].postMessage(response);
-                // service worker와 클라이언트 간 응답 채널(source 사용보다 명시적)
-                // ports => service worker가 응답 받기 위한 배열
-            } else if (event.source) {
-                event.source.postMessage(response); // 포트가 없는 경우 source 사용
-            } else {
-                console.error("포트가 비어있어 GPS 데이터 전송 불가");
-            }
-        }
-    });
 
     document.getElementById("bottleBtn").addEventListener("click", function() {
         if (isPaused) {
@@ -309,7 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             console.log("오늘걸음 기록 저장완료:", data);
             alert(`기록이 저장되었습니다.`);
-            localStorage.removeItem('gpsData');
             window.location.href = `/record/history/${formattedDate}/`;
         })
         .catch(error => console.error("기록 저장에 실패했습니다.", error));
