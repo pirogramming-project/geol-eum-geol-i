@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (minutes < 0.5 && totalDistance >= 0.01) {
             console.log("⚠️ 30초 미만이지만, 거리가 충분함 → 거리만 표시");
             showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
-            showCalories.textContent = `총 소비칼로리: 0kcal`; // 칼로리는 계산하지 않음
+            showCalories.textContent = `총 소비칼로리: 0kcal(1번문제)`; // 칼로리는 계산하지 않음
             return;
         }
 
@@ -113,13 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (minutes < 0.5 && totalDistance < 0.01) {
             console.log("⚠️ 30초 미만 & 거리 부족 → UI 초기화");
             showDistance.textContent = `얼마걸음: 0.00km`;
-            showCalories.textContent = `총 소비칼로리: 0kcal`;
+            showCalories.textContent = `총 소비칼로리: 0kcal(2번문제)`;
             return;
         }
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
         showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
-        showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
+        showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
 }
 
     function updateTime() {
