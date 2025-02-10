@@ -17,9 +17,6 @@ def main_view(request):
 def record_stop(request):
     return render(request, 'record/record_end.html')
 
-def daily_record(request):
-    return render(request, 'record/daily_record.html')
-
 def record_page(request):
     return render(request, "record/record_start.html")
 
