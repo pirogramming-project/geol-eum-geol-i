@@ -143,6 +143,11 @@ body {
 }
 .walkForm > textarea {
   border-radius: 10px;
+  resize: none;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
+  font-family: "Kartrider Kor OTF";
+  border: 2px var(--light-gray) solid;
+  color: var(--gray);
 }
 .walkForm > button {
   border-radius: 18px;
@@ -176,7 +181,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 43px;
-  color: #555;
+  color: var(--gray);
   border-radius: 10.61px;
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
   font-family: "Kartrider Kor OTF";

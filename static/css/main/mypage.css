@@ -37,6 +37,13 @@ a:hover {
   right: 7px;
 }
 
+.to-ranking > svg {
+  transition: transform 0.3s ease;
+}
+.to-ranking > svg:hover {
+  transform: scale(1.1);
+}
+
 .mypage_header {
   width: 317px;
   display: flex;
@@ -49,6 +56,13 @@ a:hover {
   position: relative;
   top: 7px;
   margin-bottom: 3px;
+}
+
+.home-icon > svg {
+  transition: transform 0.3s ease;
+}
+.home-icon > svg:hover {
+  transform: scale(1.1);
 }
 
 .mypage_title_text {
