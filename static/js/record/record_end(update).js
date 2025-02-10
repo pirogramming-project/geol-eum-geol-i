@@ -310,6 +310,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let day = String(today.getDate()).padStart(2, "0");
         let formattedDate = `${year}-${month}-${day}`;
 
+        // ✅ **칼로리 계산을 프론트에서 수행 후 전송**
+        caloriesBurned = calcCalories(totalDistance, minutes, weight);
+
         // API에 보낼 데이터 구조
         let daily_record = {
             start_time: startTime.toISOString().slice(0, 19), // ✅ 프론트에서 KST로 변환한 값 사용
@@ -317,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
             distance: totalDistance.toFixed(2),
             time: durationSec,
             pace: pace,
-            calories: caloriesBurned.toFixed(1),
+            calories: caloriesBurned.toFixed(1), // 🔹 프론트에서 계산한 칼로리 값을 포함
             path: path
         };
 
