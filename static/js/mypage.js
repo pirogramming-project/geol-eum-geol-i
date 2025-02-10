@@ -48,3 +48,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const deleteAccountBtn = document.getElementById("delete-account-btn");
+
+  if (deleteAccountBtn) {
+      deleteAccountBtn.addEventListener("click", function (event) {
+          event.preventDefault(); // 기본 링크 기능 방지
+
+          const confirmDelete = confirm("정말로 회원 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.");
+          
+          if (confirmDelete) {
+              fetch(deleteAccountUrl, {  // HTML에서 전달받은 deleteAccountUrl 사용
+                  method: "POST",
+                  headers: {
+                      "X-CSRFToken": csrfToken,  // HTML에서 전달받은 CSRF 토큰 사용
+                      "Content-Type": "application/json"
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  alert(data.message); // 탈퇴 완료 메시지
+                  window.location.href = "/login/"; // 로그인 페이지로 이동
+              })
+              .catch(error => console.error("Error:", error));
+          }
+      });
+  }
+});
+
+
