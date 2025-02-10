@@ -10,6 +10,7 @@ from .form__test import RecordUpdateTestForm
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import json
+from .utils import update_monthly_record
 
 def main_view(request):
     return render(request, 'main/landing.html')
@@ -65,7 +66,7 @@ def save_walk_record(request):
     user = request.user
     data = request.data
 
-    print("🚀 받은 데이터:", data, flush=True)  # ✅ 프론트에서 보낸 원본 데이터 확인
+    print("받은 데이터:", data, flush=True)  # 프론트에서 보낸 원본 데이터 확인
 
     try:
         if not isinstance(data, dict):
@@ -76,26 +77,25 @@ def save_walk_record(request):
         total_seconds = int(data.get("time", 0))
 
         if start_time and end_time:
-
-            # ✅ 프론트에서 KST로 보내므로, UTC 변환 없이 그대로 사용!
+            # 프론트에서 KST로 보내므로, UTC 변환 없이 그대로 사용!
             kst_start_dt = datetime.fromisoformat(start_time)
             kst_end_dt = datetime.fromisoformat(end_time)
         else:
             return JsonResponse({"error": "Invalid start_time or end_time"}, status=400)
 
-        # 🔹 시, 분, 초 변환
+        # 시, 분, 초 변환
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
         seconds = total_seconds % 60
         time_str = f"{hours}h{minutes:02d}m{seconds:02d}s"
 
-        # 🔹 거리, 속도, 칼로리 계산
+        # 거리, 속도, 칼로리 계산
         distance = float(data.get("distance", 0))
         pace = round((minutes / distance), 2) if distance > 0 else 0
         calories = round(float(data.get("calories", 0)))  # 🔹 반올림 후 저장
         path = data.get("path", [])  
 
-        # 🔹 MySQL에 저장 (UTC 변환 제거, 그대로 저장)
+        # MySQL에 저장 (UTC 변환 제거, 그대로 저장)
         walk_record = Detail.objects.create(
             user=user,
             created_at=kst_start_dt.date(),  # YYYY-MM-DD 형식
@@ -108,13 +108,17 @@ def save_walk_record(request):
             path=path
         )
 
-        # 🔹 JSON 변환 후 응답 반환
+        # 월간 기록 업데이트 실행
+        update_monthly_record(user)
+
+        # JSON 변환 후 응답 반환
         serializer = DetailSerializer(walk_record)
         return JsonResponse(serializer.data, status=201)
 
     except Exception as e:
-        print("🚨 서버 오류:", str(e), flush=True)
+        print("서버 오류:", str(e), flush=True)
         return JsonResponse({"error": str(e)}, status=400)
+
 
 
 
@@ -172,60 +176,6 @@ def check_record(request, date):
     logger.info(f"기록 여부: {record_exists}")
     return JsonResponse({"has_record": record_exists, "total_distance": float(total_distance)})
 
-from .utils import update_monthly_record  # 새로 만든 함수 가져오기
-
-# 월간 걷기 기록 업데이트, 걷기 기록 저장 기능 만들 때 참고(김규일)
-@api_view(["POST"])
-def save_monthly_record(request):
-    user = request.user
-    data = request.data
-    print("받은 데이터:", data)
-
-    try:
-        start_time = data.get("start_time", None)
-        end_time = data.get("end_time", None)
-        
-        if start_time and end_time:
-            start_dt = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
-            end_dt = datetime.fromisoformat(end_time.replace("Z", "+00:00"))
-            total_seconds = int((end_dt - start_dt).total_seconds()) 
-        else:
-            total_seconds = 0 
-
-        hours = total_seconds // 3600
-        minutes = (total_seconds % 3600) // 60
-        seconds = total_seconds % 60
-        time_str = f"{hours}h{minutes:02d}m{seconds:02d}s"
-
-        distance = float(data.get("distance",0))
-        pace = round((minutes / distance),2) if distance > 0 else 0 
-        calories = calculate_calories(distance, minutes)
-        path = data.get("path",[]) 
-
-        # 운동 기록 저장
-        walk_record = Detail.objects.create(
-            user=user,
-            created_at=start_dt.date(),
-            start_time=start_dt.time(),
-            end_time=end_dt.time(),
-            distance=distance,
-            time=time_str,
-            pace=pace,
-            calories=calories,
-            path=path
-        )
-
-        # `Record` 업데이트
-        update_monthly_record(user)
-
-        serializer = DetailSerializer(walk_record)
-        return Response(serializer.data, status=201)
-
-    except Exception as e:
-        print("서버 오류:", str(e))
-        return Response({"error": str(e)}, status=400)
-
-
 # 랭킹 
 @login_required
 def ranking_view(request):
@@ -233,7 +183,7 @@ def ranking_view(request):
     today = datetime.now() # 현재
     year = int(request.GET.get("year", today.year)) 
     month = int(request.GET.get("month", today.month))
-     
+
     # 선택된 월의 전체 랭킹 조회 (정렬된 상태)
     all_rankings = list(
         Record.objects.filter(date__year=year, date__month=month)
@@ -258,6 +208,12 @@ def ranking_view(request):
         if record.user == request.user:
             user_rank = index
             break
+    
+    # 기록이 없는 경우
+    if user_rank == 0 :
+        user_rank = len(all_rankings) + 1
+        user_record = {'total_distance': '00.00'}
+        
     
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
