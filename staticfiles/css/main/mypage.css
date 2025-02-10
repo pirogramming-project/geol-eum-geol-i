@@ -1,0 +1,332 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.landing__layout {
+  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+}
+
+.body_container {
+  width: 100%;
+  height: 100%;
+
+  padding: 40px 20px;
+}
+
+.link-ranking {
+  position: absolute;
+  left: 80%;
+  top: 2%;
+  z-index: 10;
+}
+
+.ranking-word {
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 13.656px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--red);
+  position: relative;
+  top: -9px;
+  right: 7px;
+}
+
+.mypage_header {
+  width: 317px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.home-icon {
+  position: relative;
+  top: 7px;
+  margin-bottom: 3px;
+}
+
+.mypage_title_text {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 51.238px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+
+  margin-top: 5px;
+  padding-left: 3px;
+}
+
+.center_1_box {
+  display: flex;
+  flex-direction: row;
+}
+
+.center_1,
+.center_2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.center_1 {
+  margin-top: 40px;
+}
+
+.center_2 {
+  margin-top: 40px;
+}
+
+.center_1_img,
+.center_2_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center_2_img {
+  margin-bottom: 8px;
+}
+
+.center_1_profile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.center_1_profile_img {
+  width: 87px;
+  height: 87px;
+  flex-shrink: 0;
+
+  border-radius: 87px;
+  border: 3px solid var(--light_gray, #e6e6e6);
+  background: lightgray 50% / cover no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+}
+
+.center_1_profile_img img {
+  width: 100%; /* 프로필 박스를 꽉 채우도록 */
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.center_1_profile_change {
+  width: 78px;
+  height: 32px;
+
+  border-radius: 12.522px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 2.783px 2.783px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 4px;
+}
+
+.box_text {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.center_1_text1,
+.center_1_text2,
+.center_1_text3,
+.center_2_text1,
+.center_2_text2,
+.center_2_text3 {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+
+  padding: 10px;
+}
+
+.center_text_red {
+  color: var(--soft_red, #d2665a);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.logout_button {
+  width: 100px;
+  height: 46px;
+  border-radius: 18px;
+  background: var(--deep_brown, #76453b);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 60px auto;
+}
+
+.logout_button_text {
+  color: var(--white, #fff);
+  font-family: "Kartrider Kor OTF";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* 모달 스타일 */
+.modal {
+  display: none; /* 기본적으로 숨김 */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 모달 내부 콘텐츠 */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  position: relative;
+}
+
+.modal-content h2{
+  margin-bottom: 10px;
+}
+
+/* 닫기 버튼 */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 프로필 미리보기 스타일 */
+.profile-preview-box {
+  margin-bottom: 10px;
+}
+.profile-preview-box img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+#profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#profile-upload{
+  padding-left: 65px;
+  margin-bottom: 10px;
+}
+
+/* 기본 파일 업로드 버튼 숨기기 */
+.hidden-input {
+  display: none;
+}
+
+/* 커스텀 파일 선택 버튼 */
+.custom-file-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: var(--soft_red, #b82132);;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin: 10px;
+  width: 78px;
+}
+
+.custom-file-btn:hover {
+  background-color: #8f181f;
+}
+
+.profile-upload-btn {
+  display: inline-block;
+  background-color: #76453B;
+  font-family: 'VITRO INSPIRE OTF';
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.profile-upload-btn:hover {
+  background-color: #5a322b;
+}
+
+.nickname-change-box{
+  display: flex;
+  align-items: center;
+}
+
+.nickname-change-box label{
+  margin-right: 9px;
+}
+
+.nickname-input {
+  width: 180px;
+  height: 25px;
+  border-radius: 20px;
+  border: 2px solid var(--soft_red, #b82132);
+  text-align: center;
+  font-size: 16px;
+  padding: 8px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.nickname-input:focus {
+  border-color: #9c1a2a;
+  box-shadow: 0 0 5px rgba(184, 33, 50, 0.5);
+}
+
+.wrapper {
+  overflow-y: auto;
+  padding-bottom: 100px;
+  background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, rgb(118, 69, 59));
+  border-radius: 6px;
+  border-radius: 20px;
+}

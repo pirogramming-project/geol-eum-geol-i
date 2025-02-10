@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap');
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.daily__layout {
+    display: flex;
+    align-items: center;
+}
+.login-container {
+    background: var(--white);
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    height: 600px;
+    margin-inline: auto;
+}
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--red);
+    font-family: "VITRO INSPIRE OTF";
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: "Kartrider Kor OTF";
+    color: var(--soft-red);
+    font-size: 20px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: var(--soft-red);
+}
+.login-button{
+    width: 100%;
+    padding: 10px;
+    background-color: var(--red);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: "VITRO INSPIRE OTF";
+}
+.login-button:hover {
+    background-color: var(--white);
+    color: var(--red);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+.register-link {
+    text-align: center;
+    margin-top: 10px;
+    display: block;
+    color: var(--gray);
+    font-family: "Kartrider Kor OTF";
+}
+.register-link:hover, .login__findPW:hover {
+    text-decoration: underline;
+}
+.login__a_container {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Kartrider Kor OTF";
+}
+.login__with_naver {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.login__with_naver, .login__with_google{
+    width: 80%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: "Kartrider Kor OTF";
+}
+.login__with_naver, .login__with_naver:visited {
+    background-color: #03C75A;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    font-family: 'NanumSquareOTF_ac';
+    font-size: 14px;
+    font-weight: 500;
+}
+.login__with_google, .login__with_google:visited {
+    background-color: var(--white);
+    border: 1.5px var(--light-gray) solid;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+}

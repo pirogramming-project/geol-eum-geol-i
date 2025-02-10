@@ -5,12 +5,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>함께 걸어요(post)</title>
+    <title>걸음걸이_함께걸음</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/root.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
     <link rel="stylesheet" href="{% static 'css/together/together_post.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+    <link rel="icon" type="image/png" href="{% static 'image/favicon/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{% static 'image/favicon/favicon.svg' %}" />
+    <link rel="shortcut icon" href="{% static 'image/favicon/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'image/favicon/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="걸음걸이" />
+    <link rel="manifest" href="{% static 'image/favicon/site.webmanifest' %}" />
   </head>
 
   <body>
@@ -94,36 +100,36 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <footer>
-      <nav class="bottom_nav together__navBar">
-        <div class="nav_item">
-          <a href="{% url 'post:together_main' %}">
-            <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
-            <span>함께걸음!</span>
-          </a>
-        </div>
-        <div class="nav_item">
-          <a href="{% url 'course:course_list' %}">
-            <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
-            <span>어디걸음?</span>
-          </a>
-        </div>
-        <div class="nav_item">
-          <a href="{% url 'course:calendar_view' %}">
-            <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
-            <span>걸음캘린더</span>
-          </a>
-        </div>
-        <div class="nav_item">
-          <a href="{% url 'users:mypage_view' %}">
-            <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
-            <span>마이걸음</span>
-          </a>
-        </div>
-      </nav>
-    </footer>
+      <footer>
+        <nav class="bottom_nav together__navBar">
+          <div class="nav_item">
+            <a href="{% url 'post:together_main' %}">
+              <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+              <span>함께걸음!</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'course:course_list' %}">
+              <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+              <span>어디걸음?</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'course:calendar_view' %}">
+              <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+              <span>걸음캘린더</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'users:mypage_view' %}">
+              <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+              <span>마이걸음</span>
+            </a>
+          </div>
+        </nav>
+      </footer>
+    </div>
 
     <script>
       function updateFileName() {
