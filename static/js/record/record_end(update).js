@@ -111,52 +111,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let minutes = durationSec / 60;
 
+        // 초기에는 칼로리 계산을 하지 않음
+        if (minutes < 0.5) {
+            console.log("⚠️ 30초 미만 → 칼로리 계산 제외");
+            showDistance.textContent = ` 얼마걸음: ${totalDistance.toFixed(2)}km`;
+            showCalories.textContent = `총 소비칼로리: 0kcal`;
+            return;
+        }
+
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
-    // UI 업데이트 최적화: 이전 값과 비교하여 DOM 업데이트 최소화
-    const newDistanceText = ` 얼마걸음: ${totalDistance.toFixed(2)}km`;
-    const newCaloriesText = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
+        // UI 업데이트 최적화: 이전 값과 비교하여 DOM 업데이트 최소화
+        const newDistanceText = ` 얼마걸음: ${totalDistance.toFixed(2)}km`;
+        const newCaloriesText = `총 소비칼로리: ${caloriesBurned}kcal`;
 
-    // 조건별 동작
-    // if (minutes < 0.5 && totalDistance >= 0.01) {
-    //     console.log("⚠️ 30초 미만이지만, 거리가 충분함 → 거리만 표시");
-    //     if (showDistance.textContent !== newDistanceText) {
-    //         showDistance.textContent = newDistanceText;
-    //     }
-    //     if (showCalories.textContent !== `총 소비칼로리: 0kcal(1번문제)`) {
-    //         showCalories.textContent = `총 소비칼로리: 0kcal(1번문제)`; // 칼로리는 계산하지 않음
-    //     }
-    //     return;
-    // }
-
-    if (totalDistance < 0.01) {
-        console.log("⚠️ 30초 미만 & 거리 부족 → UI 초기화");
-        if (showDistance.textContent !== `얼마걸음: 0.00km`) {
-            showDistance.textContent = `얼마걸음: 0.00km`;
+        if (totalDistance < 0.01) {
+            console.log("⚠️ 30초 미만 & 거리 부족 → UI 초기화");
+            if (showDistance.textContent !== `얼마걸음: 0.00km`) {
+                showDistance.textContent = `얼마걸음: 0.00km`;
+            }
+            if (showCalories.textContent !== `총 소비칼로리: 0kcal`) {
+                showCalories.textContent = `총 소비칼로리: 0kcal`;
+            }
+            return;
         }
-        if (showCalories.textContent !== `총 소비칼로리: 0kcal(2번문제)`) {
-            showCalories.textContent = `총 소비칼로리: 0kcal(2번문제)`;
+
+        if (showDistance.textContent !== newDistanceText) {
+            showDistance.textContent = newDistanceText;
         }
-        return;
+        if (showCalories.textContent !== newCaloriesText) {
+            showCalories.textContent = newCaloriesText;
+        }
     }
-
-    if (showDistance.textContent !== newDistanceText) {
-        showDistance.textContent = newDistanceText;
-    }
-    if (showCalories.textContent !== newCaloriesText) {
-        showCalories.textContent = newCaloriesText;
-    }
-
-    // if (minutes >= 0.5) {
-    //     console.log("✅ 30초 이상 경과 → 거리와 칼로리 표시");
-    //     if (showDistance.textContent !== newDistanceText) {
-    //         showDistance.textContent = newDistanceText;
-    //     }
-    //     if (showCalories.textContent !== newCaloriesText) {
-    //         showCalories.textContent = newCaloriesText;
-    //     }
-    // }
-}
 
     function updateTime() {
         if (isPaused) {
@@ -184,21 +170,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // 칼로리 오류 수정중
+    // 칼로리 계산
     function calcCalories(dist, time, weight) {
-        // const minTimeThreshold = 0.5; // 최소 시간 기준 (분 단위: 30초)
+        if (time < 0.5) {
+            return 0; // 초기에는 칼로리 계산 제외
+        }
 
-        // // 1. 시간 확인: 너무 짧은 경우 계산 제외
-        // if (time < minTimeThreshold) {
-        //     console.log(`⚠️ 시간(${time}분)가 기준(${minTimeThreshold}분)보다 짧음 → 칼로리 계산 제외`);
-        //     return 0; // 계산 제외
-        // }
-
-        // 2. 속도 계산 
+        // 속도 계산 
         let speed = dist / (time / 60);
 
 
-        // 4. MET 값 설정 (걷기 ~ 런닝 속도에 따라 구분)
+        // MET 값 설정 (걷기 ~ 런닝 속도에 따라 구분)
         let METs = 2.8; // 기본값: 천천히 걷기
         if (speed >= 3.0 && speed < 5.5) METs = 3.8; // 일반 걷기
         else if (speed >= 5.5 && speed < 7.0) METs = 4.3; // 빠르게 걷기
@@ -208,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
         else if (speed >= 16.0 && speed < 20.0) METs = 12.8; // 전력질주
 
         let calories = METs * weight * (time / 60);
-        return parseInt(calories); // 정수형
+        return Math.round(calories); // 반올림 후 반환
 
     }
 
