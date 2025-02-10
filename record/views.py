@@ -214,7 +214,6 @@ def ranking_view(request):
         user_rank = len(all_rankings) + 1
         user_record = {'total_distance': '00.00'}
         
-        
     
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
