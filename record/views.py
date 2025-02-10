@@ -34,8 +34,7 @@ def record_delete(request, pk):
         return redirect('record:record_history', date=record_date)
     return redirect('review:record_history', date=datetime.today().strftime("%Y-%m-%d"))
 
-# 칼로리 계산 
-def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
+def calculate_calories(distance, minutes, weight=75):
     speed = distance / (minutes / 60) if minutes > 0 else 0  # km/h 속도 계산
 
     # 운동 강도(METs) 값 설정
@@ -43,11 +42,24 @@ def calculate_calories(distance, minutes, weight=75):  # 체중 기본값 75kg
         METs = 3.8  
     elif speed < 8.0:
         METs = 4.3  
+    # 속도 구간에 따른 MET 값
+    if speed >= 3.0 and speed < 5.5:
+        METs = 3.8
+    elif speed >= 5.5 and speed < 7.0:
+        METs = 4.3
+    elif speed >= 7.0 and speed < 9.0:
+        METs = 7.0
+    elif speed >= 9.0 and speed < 12.0:
+        METs = 9.8
+    elif speed >= 12.0 and speed < 16.0:
+        METs = 11.0
+    elif speed >= 16.0 and speed < 20.0:
+        METs = 12.8
     else:
         METs = 7.0    
+        METs = 2.8  # 기본값 (천천히 걷기)
 
     return int(round(METs * weight * (minutes / 60)))
-
 
 #운동 종료 시, 기록 저장 함수
 @login_required
@@ -83,7 +95,7 @@ def save_walk_record(request):
         # 🔹 거리, 속도, 칼로리 계산
         distance = float(data.get("distance", 0))
         pace = round((minutes / distance), 2) if distance > 0 else 0
-        calories = calculate_calories(distance, minutes)
+        calories = round(float(data.get("calories", 0)))  # 🔹 반올림 후 저장
         path = data.get("path", [])  
 
         # 🔹 MySQL에 저장 (UTC 변환 제거, 그대로 저장)
