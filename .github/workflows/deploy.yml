@@ -27,5 +27,8 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > github_actions_key
           chmod 600 github_actions_key
-          ssh -o StrictHostKeyChecking=no -i github_actions_key root@101.79.11.121 "echo '✅ SSH 연결 성공!'"
-
+          ssh -o StrictHostKeyChecking=no -i github_actions_key root@101.79.11.121 "
+            cd /home/ubuntu/geol-eum-geol-i &&
+            source venv/bin/activate &&
+            python deploy.py
+          "
