@@ -31,6 +31,13 @@ body {
   justify-content: start;
 }
 
+.home-icon > svg {
+  transition: transform 0.3s ease;
+}
+.home-icon > svg:hover {
+  transform: scale(1.1);
+}
+
 .calender-title {
   display: flex;
   font-family: 'Vitro Inspire OTF', sans-serif;
@@ -188,6 +195,13 @@ body {
   position: relative;
   top: -13px;
   right: 7px;
+}
+
+.to-ranking > svg {
+  transition: transform 0.3s ease;
+}
+.to-ranking > svg:hover {
+  transform: scale(1.1);
 }
 
 .wrapper {
