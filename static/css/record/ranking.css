@@ -11,6 +11,7 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
 .ranking_layout {
   /* background: var(--background-beige); */
   width: 400px;
@@ -154,7 +155,6 @@ body {
 .wrapper {
   overflow-y: auto;
   padding-bottom: 150px;
-  background: linear-gradient(180deg, #fff3e9 0%, #fff 100%);
 }
 
 ::-webkit-scrollbar {
