@@ -124,9 +124,17 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   padding-left: 58px;
   padding-top: 60px;
+  width: fit-content;
+}
+
+.lanking > svg {
+  transition: transform 0.3s ease;
+}
+
+.lanking > svg:hover {
+  transform: scale(1.1);
 }
 
 .lanking svg {
