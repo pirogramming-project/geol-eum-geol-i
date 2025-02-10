@@ -100,11 +100,27 @@ document.addEventListener("DOMContentLoaded", function () {
         let durationSec = Math.floor((new Date() - startTime) / 1000) - totalPausedTime;
 
         let minutes = durationSec / 60;
+
+        // 1. 시간이 1분 미만이면서 거리가 0.01km 이상인 경우
+        if (minutes < 1 && totalDistance >= 0.01) {
+            console.log("⚠️ 1분 미만이지만, 거리가 충분함 → 거리만 표시");
+            showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
+            showCalories.textContent = `총 소비칼로리: 0kcal`; // 칼로리는 계산하지 않음
+            return;
+        }
+
+        // 2. 시간이 1분 미만이고 거리도 부족한 경우
+        if (minutes < 1 && totalDistance < 0.01) {
+            console.log("⚠️ 1분 미만 & 거리 부족 → UI 초기화");
+            showDistance.textContent = `얼마걸음: 0.00km`;
+            showCalories.textContent = `총 소비칼로리: 0kcal`;
+            return;
+        }
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
         showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
         showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal`;
-    }
+}
 
     function updateTime() {
         if (isPaused) {
@@ -145,8 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // 2. 속도 계산 
         let speed = dist / (time / 60);
 
-        // 3. 비정상 속도 필터링 (20km/h 이상은 오류 가능성)
-        if (speed > 20 || dist < 0.01) {
+        // 3. 비정상 속도 및 거리 처리
+        if (speed > 20 || speed < 0.5 || dist < 0.01) {
             console.log(`⚠️ 비정상 속도(${speed.toFixed(2)} km/h) 또는 거리(${dist.toFixed(2)} km) → 계산 제외`);
             return 0;
         }
