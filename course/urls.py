@@ -12,6 +12,7 @@ urlpatterns = [
     path("submit-course/", submit_course, name="submit_course"),  # 데이터 저장 API
     path('course/<int:pk>/', CourseDetailView.as_view(), name='course_detail'),
     path('selectKeyWords/', select_keywords_view, name='select_keywords'),
+    path('delete/<int:course_id>/', course_delete, name='course_delete'),
 ]
 
 if settings.DEBUG:
