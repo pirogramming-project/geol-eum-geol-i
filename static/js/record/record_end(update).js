@@ -99,7 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
         totalDistance = calcDistance(path);
         let durationSec = Math.floor((new Date() - startTime) / 1000) - totalPausedTime;
 
+        showCalories.textContent = `durationSec : ${durationSec}`;
+
+
         let minutes = durationSec / 60;
+
+        showCalories.textContent = `minutes : ${minutes}`;
+
+        caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
         // 1. 시간이 1분 미만이면서 거리가 0.01km 이상인 경우
         if (minutes < 0.5 && totalDistance >= 0.01) {
@@ -116,10 +123,11 @@ document.addEventListener("DOMContentLoaded", function () {
             showCalories.textContent = `총 소비칼로리: 0kcal(2번문제)`;
             return;
         }
-        caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
-        showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
-        showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
+        if (minutes >= 0.5) {
+            showDistance.textContent = `얼마걸음: ${totalDistance.toFixed(2)}km`;
+            showCalories.textContent = `총 소비칼로리: ${caloriesBurned}kcal(3번)`;
+        }
 }
 
     function updateTime() {
@@ -150,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 칼로리 오류 수정중
     function calcCalories(dist, time, weight) {
-        const minTimeThreshold = 0.3; // 최소 시간 기준 (분 단위: 30초)
+        const minTimeThreshold = 0.5; // 최소 시간 기준 (분 단위: 30초)
 
         // 1. 시간 확인: 너무 짧은 경우 계산 제외
         if (time < minTimeThreshold) {
