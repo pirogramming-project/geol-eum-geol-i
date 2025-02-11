@@ -65,13 +65,13 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         // 기록동안 한번도 중지버튼을 사용하지 않은 경우
-        if (currentSegment.length > 0) {
+        if (segments.length === 0 && currentSegment.length > 0) {
             segments.push(currentSegment); 
         }
 
         segments.forEach(segment => {
             if (segment.length > 1) {
-                let polyline = new google.maps.Poliyline({
+                let polyline = new google.maps.Polyline({
                     path: segment,
                     geodesic: true,
                     strokeColor: "#b82132",
