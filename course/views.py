@@ -26,6 +26,9 @@ def course_list(request):
         courses = Course.objects.filter(title__icontains=search_term)
     else:
         courses = Course.objects.all()
+        
+    # 최신순 정렬
+    courses = courses.order_by('-id')
 
     # 3km 이내의 코스만 필터링
     if selected_location:
