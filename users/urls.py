@@ -23,6 +23,7 @@ urlpatterns = [
     path('mypage/', mypage_view, name='mypage_view'),
     path('terms-of-service/', terms_of_service, name="terms-of-service"),
     path('privacy-policy/', privacy_policy, name="privacy_policy"),
+    path('aboutus/', aboutus_view, name='aboutus_view'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

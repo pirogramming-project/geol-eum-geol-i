@@ -1,0 +1,59 @@
+body {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.landing__layout {
+  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+}
+
+.title {
+  color: var(--soft_red, #d2665a);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 60px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.title_red {
+  color: var(--red, #b82132);
+  font-family: "VITRO INSPIRE OTF";
+  font-size: 60px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+}
+
+/* .title_top {
+  margin-top: 60px;
+} */
+
+.home-icon {
+  position: relative;
+  top: 28px;
+}
+
+.home-icon > svg {
+  transition: transform 0.3s ease;
+}
+
+.home-icon > svg:hover {
+  transform: scale(1.1);
+}
