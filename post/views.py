@@ -60,3 +60,13 @@ def together_comment(request, post_id):
         return redirect('post:together_detail', post_id=post.id)
 
     return JsonResponse({'success': False, 'error': '잘못된 요청입니다.'})
+
+@login_required
+def together_delete(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.user == post.user:  # 현재 로그인한 사용자가 글 작성자인 경우
+        post.delete()
+        return JsonResponse({'success': True})  # 성공하면 JSON 응답 반환
+    else:
+        return JsonResponse({'success': False, 'message': '삭제 권한이 없습니다.'})  # 실패 메시지 반환
