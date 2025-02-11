@@ -268,11 +268,6 @@ document.addEventListener("DOMContentLoaded", function () {
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
             console.log(totalPausedTime); // 확인용(삭제예정)
             pauseStartTime = null; // 기록중단용 bottleBtn 클릭 시간 초기화
-
-            // 경로 수집 재개 전, 'gap' 표식 추가
-            if (path.length > 0) {
-                path.push("gap"); // 경로 분리를 위한 마커
-            }
             
             getUserGPS();
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
@@ -284,6 +279,16 @@ document.addEventListener("DOMContentLoaded", function () {
             pauseStartTime.setHours(pauseStartTime.getHours() + 9);
             stopUserGPS();
             showStatus.textContent="지금은 쉬는 중! 다시 걸을 땐 물통 누르기";
+
+            // gap 추가 전 path 상태 확인
+            console.log("gap 추가 전 path: ", JSON.stringify(path));
+
+            // 경로 수집 중지, 'gap' 표식 추가
+            if (path.length > 0) {
+                path.push("gap"); // 경로 분리를 위한 마커
+            }
+
+            console.log("gap 추가 후 path: ", JSON.stringify(path));
         }
     });
 
