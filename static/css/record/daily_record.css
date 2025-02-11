@@ -3,10 +3,9 @@ body {
 }
 .daily__layout {
   width: 400px;
-  /* height: 100dvh; */
   background: var(--background-beige);
   margin-inline: auto;
-  font-family: "VITRO INSPIRE OTF";
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   position: relative;
 }
 .daily__container {
@@ -43,7 +42,7 @@ body {
 }
 .daily__ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 13.656px;
+  font-size: 13.5px;
   font-weight: 400;
   color: var(--red);
   position: relative;
@@ -57,7 +56,7 @@ body {
 }
 .daily__date {
   color: var(--soft-red);
-  font-family: "VITRO INSPIRE OTF";
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   font-size: 40px;
   font-weight: 900;
 }
@@ -73,7 +72,7 @@ body {
 }
 .daily__time_info {
   color: var(--soft-red);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
   font-weight: 600;
   padding: 5px;
@@ -100,7 +99,7 @@ body {
 .daily__route_info,
 .daily__empty_alert {
   color: var(--soft-red);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
   font-weight: 600;
 }
@@ -113,7 +112,7 @@ body {
 .walkForm > label {
   font-size: 16px;
   color: var(--soft-red);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 .daily__empty_alert {
   width: 60%;
@@ -145,7 +144,7 @@ body {
   border-radius: 10px;
   resize: none;
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   border: 2px var(--light-gray) solid;
   color: var(--gray);
 }
@@ -158,14 +157,15 @@ body {
   width: 120px;
   margin-inline: auto;
   margin-block: 8px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-weight: 500;
   font-size: 18px;
+  height: 40px;
 }
 .walkForm > button:hover {
-  background: var(--white);
-  color: var(--deep-brown);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 .daily__img_container {
   display: flex;
@@ -181,15 +181,16 @@ body {
   justify-content: center;
   align-items: center;
   height: 43px;
-  color: var(--gray);
   border-radius: 10.61px;
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
+  color: var(--gray);
   border: 2px var(--light-gray) solid;
+  text-overflow: ellipsis; /* 파일명이 너무 길면 '...' 처리 */
 }
 .custom-file-btn {
   padding: 10px 16px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
   font-weight: 400;
   background-color: var(--deep-brown);
@@ -198,11 +199,12 @@ body {
   cursor: pointer;
   display: inline-block;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  height: 40px;
 }
 .custom-file-btn:hover {
-  background-color: var(--white);
-  color: var(--deep-brown);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 .daily__user_image {
   width: 70%;
@@ -213,7 +215,7 @@ body {
   overflow: hidden;
 }
 .daily__user_comment {
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-weight: 600;
   font-size: 20px;
   color: var(--deep-brown);
@@ -224,7 +226,7 @@ body {
   height: 100%;
 }
 .comment__deco {
-  font-family: "Nanum OenSonJabIDoYeBbeo";
+  font-family: "Nanum OenSonJabIDoYeBbeo", sans-serif;
   font-weight: 700;
 }
 
@@ -253,7 +255,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-weight: 600;
   font-size: 20px;
   color: var(--soft-red);
@@ -278,9 +280,8 @@ body {
   margin-top: 20px;
   gap: 8px;
   color: var(--deep-brown);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-
   padding-bottom: 25px;
 }
 

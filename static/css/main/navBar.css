@@ -6,9 +6,9 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: linear-gradient(180deg, #fff 0%, #f1f8e8 100%);
+  background: linear-gradient(180deg, var(--white) 0%, var(--mint) 100%);
   padding: 10px 0;
-  border-top: 6px solid var(--gray, #898989);
+  border-top: 6px solid var(--gray);
   z-index: 1000;
 }
 
@@ -36,7 +36,6 @@
   width: 42px;
   height: 50px;
   object-fit: contain;
-
   margin-left: 10px;
 }
 
@@ -47,12 +46,10 @@
 .nav_item span {
   font-size: 16px;
   font-weight: 400;
-  color: var(--red, #b82132);
+  color: var(--red);
   text-align: center;
-
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
 }

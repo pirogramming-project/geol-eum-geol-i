@@ -12,7 +12,7 @@
 }
 
 body {
-    background-color: white;
+    background-color: var(--white);
     margin: 0;
     padding: 0;
     display: flex;
@@ -23,7 +23,7 @@ body {
 }
 
 .landing__layout {
-    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+    background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 .home-icon > svg {
     transition: transform 0.3s ease;
@@ -32,19 +32,18 @@ body {
     transform: scale(1.1);
 }
 
-
 .container {
     position: relative;
     width: 328px;
     height: 560px;
     margin: 5px auto;
-    background: white;
+    background: var(--white);
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
 h1 {
-    color: #b22222;
+    color: var(--red);
 }
 .course-info {
     font-size: 16px;
@@ -65,7 +64,6 @@ h1 {
 .home-btn {
     font-family: 'Kartrider Kor OTF', sans-serif;
     font-size: 24px;
-    font-style: normal;
     font-weight: 400;
     line-height: normal;
     width: 185px;
@@ -83,7 +81,10 @@ h1 {
     margin-top: 15px;
 }
 .home-btn:hover {
-    background: #a02020;
+    background: var(--white);
+    color: var(--deep-brown);
+    box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+    border: 2px solid var(--light-gray);
 }
 
 iframe {
@@ -114,7 +115,6 @@ iframe {
     align-items: flex-end;
     font-family: 'Vitro Inspire OTF', sans-serif;
     font-size: 30px;
-    font-style: normal;
     font-weight: 900;
     line-height: normal;
 }
@@ -131,7 +131,6 @@ iframe {
     color: var(--deep-brown);
     font-family: 'Kartrider Kor OTF', sans-serif;
     font-size: 24px;
-    font-style: normal;
     font-weight: 400;
     line-height: normal;
 }
@@ -144,7 +143,6 @@ iframe {
     color: var(--gray);
     font-family: 'Kartrider Kor OTF', sans-serif;
     font-size: 20px;
-    font-style: normal;
     font-weight: 400;
     line-height: normal;
 }
@@ -162,7 +160,6 @@ img {
     color: var(--gray);
     font-family: 'Kartrider Kor OTF', sans-serif;
     font-size: 20px;
-    font-style: normal;
     font-weight: 400;
     line-height: 24px;
 }
@@ -197,7 +194,7 @@ img {
 .wrapper {
     overflow-y: auto;
     padding-bottom: 150px;
-    background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+    background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 ::-webkit-scrollbar {
@@ -224,7 +221,6 @@ img {
     color: var(--gray);
     font-family: 'Kartrider Kor OTF', sans-serif;
     font-size: 20px;
-    font-style: normal;
     font-weight: 400;
     line-height: normal;
 }

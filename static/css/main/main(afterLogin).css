@@ -4,28 +4,26 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 .landing__layout {
-  background: var(--background_beige, #fff3e9);
+  background: var(--background-beige);
 }
 
 .title {
-  color: var(--soft_red, #d2665a);
-  font-family: "VITRO INSPIRE OTF";
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   font-size: 67px;
-  font-style: normal;
   font-weight: 900;
   line-height: normal;
   padding-left: 55px;
 }
 
 .title_red {
-  color: var(--red, #b82132);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 67.902px;
-  font-style: normal;
+  color: var(--red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 67px;
   font-weight: 900;
   line-height: normal;
 }
@@ -39,7 +37,6 @@ a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   margin-top: 50px;
 }
 
@@ -59,12 +56,10 @@ a:hover {
   width: 163px;
   height: 108px;
   flex-shrink: 0;
-
-  border-radius: 359.031px;
-  border: 4px solid var(--light_gray, #e6e6e6);
-  background: linear-gradient(180deg, #ffa79d 0%, #d2665a 100%);
+  border-radius: 360px;
+  border: 4px solid var(--light-gray);
+  background: linear-gradient(180deg, var(--peach) 0%, var(--soft-red) 100%);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,28 +69,24 @@ a:hover {
   width: 127px;
   height: 84px;
   flex-shrink: 0;
-
-  border-radius: 279.736px;
-  border: 8px solid var(--red, #b82132);
-  background: var(--light_coral, #ffe5d0);
-
+  border-radius: 280px;
+  border: 8px solid var(--red);
+  background: var(--light-coral);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .center_button_box_inside img {
-  fill: var(--red, #b82132);
+  fill: var(--red);
 }
 
 .center_text1 {
-  color: var(--red, #b82132);
-  font-family: "Kartrider Kor OTF";
+  color: var(--red);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
-
   margin-top: 12px;
 }
 
@@ -105,10 +96,9 @@ a:hover {
 }
 
 .center_text2 > span {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   text-decoration-line: underline;
   text-decoration-style: solid;
@@ -116,15 +106,13 @@ a:hover {
   text-decoration-thickness: auto;
   text-underline-offset: auto;
   text-underline-position: from-font;
-
   margin-top: 5px;
 }
 
 .center_text_aboutus {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 17px;
-  font-style: normal;
   font-weight: 400;
   text-decoration-line: underline;
   text-decoration-style: solid;
@@ -132,7 +120,6 @@ a:hover {
   text-decoration-thickness: auto;
   text-underline-offset: auto;
   text-underline-position: from-font;
-
   margin-top: 2px;
 }
 
@@ -156,15 +143,13 @@ a:hover {
 .lanking svg {
   width: 44.412px;
   height: 45.953px;
-
   margin-left: 5px;
 }
 
 .lanking_text {
-  color: var(--red, #b82132);
-  font-family: "Kartrider Kor OTF";
+  color: var(--red);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 13.656px;
-  font-style: normal;
   font-weight: 400;
 }
 

@@ -4,7 +4,7 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 }
 
 .landing__layout {
-  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 .body_container {
@@ -31,7 +31,6 @@ body {
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 13.656px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: var(--red);
@@ -52,7 +51,6 @@ body {
   flex-direction: column;
   align-items: start;
   justify-content: start;
-
   text-align: start;
 }
 
@@ -75,18 +73,16 @@ body {
 }
 
 .together_title_text_red {
-  color: var(--red, #b82132);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 51px;
   font-weight: 900;
 }
 
 .together_title_text {
-  color: var(--soft_red, #d2665a);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 51px;
   font-weight: 900;
   margin-left: 10px;
 }
@@ -94,23 +90,19 @@ body {
 .center {
   display: flex;
   flex-direction: column;
-
   padding-top: 8px;
-
   justify-content: center;
 }
 
 .post_box {
   border-radius: 10px;
-  border: 4px solid var(--light_gray, #e6e6e6);
-  background: var(--white, #fff);
+  border: 4px solid var(--light-gray);
+  background: var(--white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
-
   margin-top: 20px;
   padding-left: 8px;
   padding-right: 10px;
@@ -119,24 +111,20 @@ body {
 .post_text {
   display: flex;
   flex-direction: column;
-
   margin-top: 12px;
 }
 
 .post_title_and_writer {
   display: flex;
   flex-direction: row;
-
   padding-bottom: 10px;
 }
 
 .post_title {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   max-width: 165px; /* 제목이 너무 길어지지 않도록 최대 너비 설정 */
   word-wrap: break-word; /* 단어가 길면 자동 줄바꿈 */
   overflow-wrap: break-word; /* 자동 줄바꿈 보조 */
@@ -144,29 +132,22 @@ body {
 }
 
 .post_writer {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
   justify-content: center;
-
   padding-left: 18px;
-
   margin-top: 3px;
 }
 
 .post_content {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
-
   margin-bottom: 5px;
 }
 
@@ -174,13 +155,10 @@ body {
   width: 78px;
   height: 75.111px;
   flex-shrink: 0;
-
-  border-radius: 13.684px;
-  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
-  box-shadow: 0px 2.737px 2.737px 0px rgba(0, 0, 0, 0.25);
-
+  border-radius: 13.5px;
+  background: url(<path-to-image>) var(--light-gray) 50% / cover no-repeat;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-
   margin-top: 8px;
   margin-bottom: 8px;
 }
@@ -189,7 +167,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 13.684px;
+  border-radius: 13.5px;
 }
 
 .pagination {
@@ -222,7 +200,7 @@ body {
 }
 
 .pagination a:hover {
-  color: white;
+  color: var(--white);
 }
 
 .pagination span {
@@ -231,7 +209,7 @@ body {
 }
 
 svg {
-  cursor: pointer; /* 마우스 커서가 손 모양으로 변경되어 클릭할 수 있음을 표시 */
+  cursor: pointer;
   pointer-events: all; /* 클릭 가능하도록 설정 */
 }
 
@@ -242,32 +220,29 @@ svg {
 
 .together_button {
   width: 231px;
-  height: 43.371px;
+  height: 43.5px;
   flex-shrink: 0;
-
-  border-radius: 16.971px;
-  background: var(--deep_brown, #76453b);
+  border-radius: 17px;
+  background: var(--deep-brown);
   box-shadow: 0px 3.771px 3.771px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 10px auto;
-
   cursor: pointer;
 }
 
 .together_button:hover {
-  background-color: #967474;
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .runningmate {
-  color: var(--white, #fff);
-  font-family: "Kartrider Kor OTF";
+  color: var(--white);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   margin-bottom: 3px;
   margin-left: 5px;
 }

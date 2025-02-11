@@ -4,20 +4,17 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 textarea {
   all: unset;
-  display: block; /* 또는 inline-block */
+  display: block;
   width: 237px;
-
-  color: #898989;
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 18px;
-  font-style: normal;
   font-weight: 400;
-
   margin-left: 3px;
   margin-top: 3px;
 }
@@ -27,7 +24,7 @@ body {
 }
 
 .landing__layout {
-  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 .body_container {
@@ -45,8 +42,7 @@ body {
 
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 13.656px;
-  font-style: normal;
+  font-size: 13.5px;
   font-weight: 400;
   line-height: normal;
   color: var(--red);
@@ -67,7 +63,6 @@ body {
   flex-direction: column;
   align-items: start;
   justify-content: start;
-
   text-align: start;
 }
 
@@ -90,32 +85,27 @@ body {
 }
 
 .together_title_text_red {
-  color: var(--red, #b82132);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 50px;
   font-weight: 900;
 }
 
 .together_title_text {
-  color: var(--soft_red, #d2665a);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 50px;
   font-weight: 900;
   margin-left: 10px;
 }
 
 /* 여기까지 공통 */
-
 .post_box {
   width: 350px;
-
   border-radius: 10px;
-  border: 4px solid var(--light_gray, #e6e6e6);
-  background: var(--white, #fff);
+  border: 4px solid var(--light-gray);
+  background: var(--white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   margin: 7px;
   margin-top: 30px;
 }
@@ -124,7 +114,6 @@ body {
   display: flex;
   flex-direction: column;
   text-align: start;
-
   gap: 10px;
   padding: 14px;
 }
@@ -136,10 +125,9 @@ body {
 }
 
 .post_title {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
   margin-bottom: 7px;
 }
@@ -150,27 +138,24 @@ body {
 }
 
 .post_writer {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
 }
 
 .post_writer_name {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
 }
 
 .post_img {
   width: 295px;
   height: 114px;
-
   border-radius: 20px;
-  background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+  background: url(<path-to-image>) var(--light-gray) 50% / cover no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -182,31 +167,27 @@ body {
 }
 
 .post_content {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: 24px;
 }
 
 .post_content_text {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: 24px;
 }
 
 .comment_box {
   width: 350px;
-
   border-radius: 10px;
-  border: 4px solid var(--light_gray, #e6e6e6);
-  background: var(--light_gray, #e6e6e6);
+  border: 4px solid var(--light-gray);
+  background: var(--light-gray);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   margin: 7px;
   margin-top: 15px;
 }
@@ -220,22 +201,19 @@ body {
 }
 
 .comment_1 {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 120% */
+  line-height: 24px;
 }
 
 .comment_context {
-  color: var(--gray, #898989);
-  font-family: "Kartrider Kor OTF";
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: 24px;
-
   margin-left: 5px;
 }
 
@@ -247,33 +225,31 @@ body {
 .comment_input_box {
   width: 250px;
   height: 35px;
-
-  border-radius: 10.61px;
-  background: var(--white, #fff);
+  border-radius: 11px;
+  background: var(--white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-
   margin-top: 2px;
 }
 
 .comment_register {
   width: 48px;
   height: 35px;
-
   border-radius: 14px;
-  background: var(--deep_brown, #76453b);
+  background: var(--deep-brown);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-  color: var(--white, #fff);
-  font-family: "Kartrider Kor OTF";
+  color: var(--white);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 18px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin-left: 15px;
+}
+.comment_register:hover {
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .wrapper {
@@ -298,7 +274,7 @@ body {
   border-radius: 17px;
   background: var(--deep-brown);
   color: var(--white);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
@@ -312,7 +288,9 @@ body {
 }
 
 .together_btn:hover {
-  background-color: #967474;
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .back_to_list_btn {
@@ -339,7 +317,7 @@ body {
 }
 
 .modal_content {
-  background: white;
+  background: var(--white);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -348,13 +326,13 @@ body {
 .modal_content button {
   margin-top: 10px;
   padding: 5px 10px;
-  background-color: #76453b;
-  color: white;
+  background-color: var(--deep-brown);
+  color: var(--white);
   border: none;
   cursor: pointer;
   border-radius: 5px;
 }
 
 .modal_content button:hover {
-  background-color: #5a3228;
+  background-color: var(--deep-brown);
 }

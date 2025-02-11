@@ -10,7 +10,7 @@ body {
     height: 100dvh;
     background: linear-gradient(180deg, var(--light-coral) 0%, var(--mint) 50%, var(--light-skyblue) 100%);
     margin-inline: auto;
-    font-family: 'VITRO INSPIRE OTF';
+    font-family: 'VITRO INSPIRE OTF', sans-serif;
     position: relative;
 }
 .landing__container {
@@ -52,7 +52,7 @@ body {
 }
 .landing__title_bottom {
     color: var(--soft-red);
-    font-family: "Kartrider Kor OTF";
+    font-family: "Kartrider Kor OTF", sans-serif;
     font-size: 20px;
     transform: skewX(14deg);
     padding-left: 12px;
@@ -138,10 +138,4 @@ body {
         height: 191px;
         z-index: 4;
     }
-}
-@media (max-width: 768px) {
-
-}
-@media (min-width: 1024px) {
-
 }
