@@ -120,6 +120,22 @@ a:hover {
   margin-top: 5px;
 }
 
+.center_text_aboutus {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+
+  margin-top: 2px;
+}
+
 .lanking {
   display: flex;
   flex-direction: column;
