@@ -219,3 +219,16 @@ img {
     left: 50%;
     transform: translateX(-50%);
 }
+
+.writer {
+    color: var(--gray);
+    font-family: 'Kartrider Kor OTF', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.course-writer {
+    color: var(--deep-brown);
+}
