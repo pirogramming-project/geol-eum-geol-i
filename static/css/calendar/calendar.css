@@ -42,7 +42,6 @@ body {
   display: flex;
   font-family: 'Vitro Inspire OTF', sans-serif;
   font-size: 51.238px;
-  font-style: normal;
   font-weight: 900;
   line-height: normal;
   gap: 10px;
@@ -61,7 +60,6 @@ body {
   color: var(--soft-red);
   font-family: 'Kartrider Kor OTF', sans-serif;
   font-size: 23px;
-  font-style: normal;
   font-weight: 600;
   line-height: normal;
   padding-left: 3px;
@@ -86,7 +84,6 @@ body {
 #currentMonth {
   color: var(--deep-brown);
   font-size: 24px;
-  font-style: normal;
   font-weight: 900;
   line-height: normal;
 }
@@ -102,7 +99,6 @@ body {
   color: var(--deep-brown);
   font-family: 'Vitro Inspire OTF', sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 900;
   line-height: normal;
   display: grid;
@@ -131,7 +127,6 @@ body {
   color: var(--red);
   font-family: 'Kartrider Kor OTF', sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-align: center;
@@ -172,7 +167,6 @@ body {
   color: var(--deep-brown);
   font-family: 'Kartrider Kor OTF', sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-right: 10px;
@@ -188,7 +182,6 @@ body {
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 13.656px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: var(--red);

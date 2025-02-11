@@ -5,7 +5,7 @@
     height: 100dvh;
     background: var(--background-beige);
     margin-inline: auto;
-    font-family: 'VITRO INSPIRE OTF';
+    font-family: 'VITRO INSPIRE OTF', sans-serif;
     position: relative;
 }
 .signup__container {
@@ -25,7 +25,7 @@
 .signup__container > h1 {
     margin-bottom: 30px;
     color: var(--red);
-    font-family: "VITRO INSPIRE OTF";
+    font-family: "VITRO INSPIRE OTF", sans-serif;
     font-size: 50px;
     font-weight: 900;
 }
@@ -33,7 +33,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    font-family: "Kartrider Kor OTF";
+    font-family: "Kartrider Kor OTF", sans-serif;
     width: 100%;
 }
 form > p {
@@ -59,7 +59,7 @@ form > p > input {
     font-size: 1rem;
 }
 form > ul, #id_password2_helptext {
-    font-family: 'NanumSquareOTF_ac';
+    font-family: 'NanumSquareOTF_ac', sans-serif;
     font-size: 13px;
     color: var(--gray);
 }
@@ -80,7 +80,7 @@ form > p > input:focus {
     border-radius: 8px;
     font-size: 20px;
     cursor: pointer;
-    font-family: "VITRO INSPIRE OTF";
+    font-family: "VITRO INSPIRE OTF", sans-serif;
     text-align: center;
 }
 .signup__btn:hover {

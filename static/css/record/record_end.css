@@ -13,7 +13,7 @@
 .record__e_total_time,
 .record__e_status {
   color: var(--soft-red);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 30px;
   font-weight: 600;
 }
@@ -21,7 +21,7 @@
   font-size: 24px;
 }
 .record__e_total_time {
-  font-family: "VITRO INSPIRE OTF";
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   font-size: 68px;
   font-weight: 900;
   padding-block: 8px;
@@ -101,8 +101,4 @@
         height: 191px;
         z-index: 4;
     }
-}
-@media (max-width: 768px) {
-}
-@media (min-width: 1024px) {
 }

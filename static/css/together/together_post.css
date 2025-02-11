@@ -4,24 +4,19 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 textarea {
   all: unset;
   display: block;
-
   width: 300px;
   height: 140px;
-
   margin-top: 8px;
-
-  color: var(--deep_brown, #76453b);
+  color: var(--deep-brown);
   font-size: 16px;
-
   text-align: left;
   padding-left: 10px;
-
   word-wrap: break-word;
   white-space: pre-wrap;
   overflow-y: auto;
@@ -31,15 +26,11 @@ textarea {
 input {
   all: unset;
   display: block;
-
   width: 100%;
   max-width: 300px;
-
-  color: var(--deep_brown, #76453b);
+  color: var(--deep-brown);
   font-size: 16px;
-
   margin-top: 8px;
-
   text-align: left;
   padding-left: 10px;
   box-sizing: border-box;
@@ -50,7 +41,7 @@ body {
 }
 
 .landing__layout {
-  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 .body_container {
@@ -69,7 +60,6 @@ body {
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 13.656px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: var(--red);
@@ -89,7 +79,6 @@ body {
   flex-direction: column;
   align-items: start;
   justify-content: start;
-
   text-align: start;
 }
 
@@ -112,35 +101,30 @@ body {
 .together_title_title {
   display: flex;
   flex-direction: row;
-
   margin-top: 15px;
   padding-left: 3px;
 }
 
 .together_title_text_red {
-  color: var(--red, #b82132);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 51px;
   font-weight: 900;
 }
 
 .together_title_text {
-  color: var(--soft_red, #d2665a);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 51px;
   font-weight: 900;
   margin-left: 10px;
 }
 
 .together_title_explain {
-  color: var(--soft_red, #d2665a);
-  font-family: "Kartrider Kor OTF";
+  color: var(--soft-red);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   margin-left: 4px;
   margin-top: 8px;
 }
@@ -148,18 +132,15 @@ body {
 .post_title_box {
   display: flex;
   flex-direction: column;
-
   margin-top: 20px;
   margin-left: 4px;
 }
 
 .post_title_title {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
   justify-content: start;
 }
@@ -167,29 +148,24 @@ body {
 .post_title_input {
   width: 313px;
   height: 43px;
-
-  border-radius: 10.61px;
-  background: var(--white, #fff);
+  border-radius: 11px;
+  background: var(--white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-
   margin-top: 8px;
 }
 
 .post_picture_box {
   display: flex;
   flex-direction: column;
-
   margin-top: 20px;
   margin-left: 4px;
 }
 
 .post_picture_title {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
   justify-content: start;
 }
@@ -197,11 +173,22 @@ body {
 .post_picture_input_and_register {
   display: flex;
   flex-direction: row;
-  align-items: center; /* 세로 정렬 */
+  align-items: center;
 }
 
 input[type="file"] {
   display: none; /* 파일 선택 버튼 숨기기 */
+}
+
+.post_picture_input {
+  width: 237px;
+  border-radius: 11px;
+  background: var(--white);
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
 
 #file-name {
@@ -210,61 +197,45 @@ input[type="file"] {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; /* 파일명이 너무 길면 '...' 처리 */
-  color: var(--deep_brown, #76453b);
   font-size: 16px;
-  margin-left: 10px;
-}
-
-.post_picture_input {
-  width: 237px;
-
-  border-radius: 10.61px;
-  background: var(--white, #fff);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-
-  display: flex;
-
-  padding-top: 15px;
-  padding-bottom: 15px;
+  font-family: "Kartrider Kor OTF", sans-serif;
+  color: var(--gray);
 }
 
 .post_picture_register {
   width: 63px;
   height: 46px;
-
   border-radius: 18px;
-  background: var(--deep_brown, #76453b);
+  background: var(--deep-brown);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-  color: var(--white, #fff);
-  font-family: "Kartrider Kor OTF";
+  color: var(--white);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin-top: 6px;
   margin-left: 20px;
+}
+.post_picture_register:hover {
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .post_content_box {
   display: flex;
   flex-direction: column;
-
   margin-top: 20px;
   margin-left: 4px;
 }
 
 .post_content_title {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   display: flex;
   justify-content: start;
 }
@@ -272,42 +243,37 @@ input[type="file"] {
 .post_content_input {
   width: 311px;
   height: 147px;
-
-  border-radius: 10.61px;
-  background: var(--white, #fff);
+  border-radius: 11px;
+  background: var(--white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-
   margin-top: 8px;
 }
 
 .together_button {
   width: 147px;
-  height: 43.371px;
+  height: 43px;
   flex-shrink: 0;
-
-  border-radius: 16.971px;
-  background: var(--deep_brown, #76453b);
+  border-radius: 17px;
+  background: var(--deep-brown);
   box-shadow: 0px 3.771px 3.771px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 30px auto;
-
   cursor: pointer;
 }
 
 .together_button:hover {
-  background-color: #967474;
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .runningmate {
-  color: var(--white, #fff);
-  font-family: "Kartrider Kor OTF";
+  color: var(--white);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   margin-bottom: 3px;
   margin-left: 5px;
 }
@@ -320,11 +286,6 @@ input[type="file"] {
 .together__layout {
   position: relative;
 }
-
-/* .together__navBar {
-  position: absolute;
-  left: 0;
-} */
 
 .wrapper {
   overflow-y: auto;

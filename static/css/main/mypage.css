@@ -4,17 +4,16 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 .landing__layout {
-  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 .body_container {
   width: 100%;
   height: 100%;
-
   padding: 40px 20px;
 }
 
@@ -27,8 +26,7 @@ a:hover {
 
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 13.656px;
-  font-style: normal;
+  font-size: 13.5px;
   font-weight: 400;
   line-height: normal;
   color: var(--red);
@@ -66,13 +64,11 @@ a:hover {
 }
 
 .mypage_title_text {
-  color: var(--soft_red, #d2665a);
-  font-family: "VITRO INSPIRE OTF";
-  font-size: 51.238px;
-  font-style: normal;
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 50px;
   font-weight: 900;
   line-height: normal;
-
   margin-top: 5px;
   padding-left: 3px;
 }
@@ -117,17 +113,15 @@ a:hover {
   width: 87px;
   height: 87px;
   flex-shrink: 0;
-
   border-radius: 87px;
-  border: 3px solid var(--light_gray, #e6e6e6);
-  background: lightgray 50% / cover no-repeat;
+  border: 3px solid var(--light-gray);
+  background: var(--light-gray) 50% / cover no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   overflow: hidden;
 }
 
 .center_1_profile_img img {
-  width: 100%; /* 프로필 박스를 꽉 채우도록 */
+  width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
@@ -136,22 +130,24 @@ a:hover {
 .center_1_profile_change {
   width: 78px;
   height: 32px;
-
-  border-radius: 12.522px;
-  background: var(--deep_brown, #76453b);
+  border-radius: 12.5px;
+  background: var(--deep-brown);
   box-shadow: 0px 2.783px 2.783px 0px rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin-left: 4px;
+}
+.center_1_profile_change:hover {
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .box_text {
-  color: var(--white, #fff);
-  font-family: "Kartrider Kor OTF";
+  color: var(--white);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 15px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
@@ -162,20 +158,17 @@ a:hover {
 .center_2_text1,
 .center_2_text2,
 .center_2_text3 {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
-
   padding: 10px;
 }
 
 .center_text_red {
-  color: var(--soft_red, #d2665a);
-  font-family: "Kartrider Kor OTF";
+  color: var(--soft-red);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
 }
 
@@ -187,35 +180,39 @@ a:hover {
   width: 100px;
   height: 46px;
   border-radius: 18px;
-  background: var(--deep_brown, #76453b);
+  background: var(--deep-brown);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin: 60px auto;
+}
+.logout_button:hover {
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .secession_button{
   width: 100px;
   height: 46px;
   border-radius: 18px;
-  background: var(--soft_red, #b82132);
+  background: var(--soft-red);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin: 60px auto;
+}
+.secession_button:hover {
+  background: var(--red);
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25);
 }
 
 .out_button_text {
-  color: var(--white, #fff);
-  font-family: "Kartrider Kor OTF";
+  color: var(--white);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
-  font-style: normal;
   font-weight: 400;
 }
 
@@ -236,7 +233,7 @@ a:hover {
 
 /* 모달 내부 콘텐츠 */
 .modal-content {
-  background: white;
+  background: var(--white);
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -288,8 +285,8 @@ a:hover {
 .custom-file-btn {
   display: inline-block;
   padding: 8px 15px;
-  background-color: var(--soft_red, #b82132);;
-  color: white;
+  background-color: var(--soft-red);
+  color: var(--white);
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
@@ -299,14 +296,14 @@ a:hover {
 }
 
 .custom-file-btn:hover {
-  background-color: #8f181f;
+  background-color: var(--red);
 }
 
 .profile-upload-btn {
   display: inline-block;
-  background-color: #76453B;
-  font-family: 'VITRO INSPIRE OTF';
-  color: white;
+  background-color: var(--deep-brown);
+  font-family: 'VITRO INSPIRE OTF', sans-serif;
+  color: var(--white);
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
@@ -315,7 +312,7 @@ a:hover {
 }
 
 .profile-upload-btn:hover {
-  background-color: #5a322b;
+  background-color: var(--deep-brown);
 }
 
 .nickname-change-box{
@@ -331,7 +328,7 @@ a:hover {
   width: 180px;
   height: 25px;
   border-radius: 20px;
-  border: 2px solid var(--soft_red, #b82132);
+  border: 2px solid var(--soft-red);
   text-align: center;
   font-size: 16px;
   padding: 8px;
@@ -341,7 +338,7 @@ a:hover {
 
 
 .nickname-input:focus {
-  border-color: #9c1a2a;
+  border-color: var(--red);
   box-shadow: 0 0 5px rgba(184, 33, 50, 0.5);
 }
 

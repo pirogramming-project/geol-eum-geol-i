@@ -34,8 +34,8 @@
 }
 
 #ready_countdown {
-    color: var(--soft_red, #D2665A);
-    font-family: "VITRO INSPIRE OTF";
+    color: var(--soft-red);
+    font-family: "VITRO INSPIRE OTF", sans-serif;
     font-size: 128px;
     font-weight: 900;
     -webkit-text-stroke-width: 4px;

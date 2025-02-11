@@ -12,7 +12,7 @@
 }
 
 body {
-  background: #fff;
+  background: var(--white);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ body {
 }
 
 .landing__layout {
-  background: linear-gradient(180deg, #fff3e9 0%, #fff 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 .container {
@@ -53,9 +53,8 @@ body {
 .course-recommand-introduction {
   text-align: start;
   color: var(--soft-red);
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   padding-left: 7px;
@@ -75,7 +74,7 @@ body {
   align-items: center;
   gap: 5px;
   margin-top: 10px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 header {
   display: flex;
@@ -101,9 +100,9 @@ header i {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: white;
+  background: var(--white);
   border-radius: 25px;
-  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25), 0px 3px 3px 0px rgba(0, 0, 0, 0.25);
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -113,7 +112,7 @@ header i {
   outline: none;
   flex: 1;
   font-size: 16px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .search-box i {
@@ -127,7 +126,7 @@ header i {
 }
 
 .keywords-container {
-  position: relative; /* 상대 위치 기준 */
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -147,53 +146,52 @@ header i {
   background: var(--light-coral);
   color: var(--deep-brown);
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   flex-shrink: 0;
-  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25), 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
   border: none;
   padding: 8px 12px;
-  border-radius: 14.972px;
+  border-radius: 15px;
   font-size: 14px;
   cursor: pointer;
   width: 89px;
-  height: 38.262px;
+  height: 38px;
 }
 
 .keyword.active {
   background: #a1887f;
-  color: white;
+  color: var(--white);
 }
 
 #loadMoreKeywords {
   margin-left: auto;
   display: inline-flex; /* 기본적으로 inline-flex로 설정하여 가로로 배치되도록 */
   align-items: center; /* 세로 정렬 */
-  background-color: transparent; /* 배경색 제거 */
-  box-shadow: none; /* 그림자 제거 */
-  border: none; /* 테두리 제거 */
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
 }
 
 #loadMoreKeywords {
   position: absolute; /* 절대 위치 */
   top: 0; /* 상단 고정 */
   right: -65px; /* 우측 고정 */
-  background-color: transparent; /* 배경색 제거 */
-  box-shadow: none; /* 그림자 제거 */
-  border: none; /* 테두리 제거 */
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
   cursor: pointer;
   font-size: 20px;
 }
 
 .find-btn {
   background: var(--soft-red);
-  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25);
-  color: white;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25);
+  color: var(--white);
   border: none;
   padding: 12px 8px;
   font-size: 20px;
-  border-radius: 14.972px;
+  border-radius: 15px;
   cursor: pointer;
 }
 
@@ -204,13 +202,13 @@ header i {
 .recommendations {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 카드 배치 */
-  gap: 10px; /* 카드들 사이의 간격 */
+  gap: 10px;
   padding: 20px 0; /* 상하 여백 */
-  justify-items: center; /* 카드가 가운데로 정렬되도록 */
+  justify-items: center;
 }
 
 .tag {
-  background: #fff;
+  background: var(--white);
   padding: 5px 15px;
   border-radius: 15px;
   font-size: 14px;
@@ -218,7 +216,7 @@ header i {
 
 .green {
   background: #26a69a;
-  color: white;
+  color: var(--white);
 }
 
 .card {
@@ -226,7 +224,6 @@ header i {
   color: var(--deep-brown);
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 18px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   padding: 10px;
@@ -258,9 +255,7 @@ header i {
   align-items: center;
   margin: 10px auto;
   background: var(--deep-brown);
-  font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 24px;
-  font-style: normal;
+  font-family: "Kartrider Kor OTF", sans-serif, sans-serif;
   font-weight: 400;
   line-height: normal;
   color: var(--white);
@@ -272,7 +267,9 @@ header i {
 }
 
 .recommend-btn:hover {
-  background-color: #a02020;
+  background: #a46d62;
+  box-shadow: 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25), 0px 3.743px 3.743px 0px rgba(0, 0, 0, 0.25) inset;
+  border: 2px solid var(--light-gray);
 }
 
 .recommend-btn svg {
@@ -295,7 +292,7 @@ header i {
 
 .keyword.active {
   background-color: #a1887f;
-  color: white;
+  color: var(--white);
 }
 
 .course-row {
@@ -322,8 +319,8 @@ header i {
 .pagination-backward,
 .pagination-forward {
   display: inline-flex; /* inline 요소이면서 flex 정렬 */
-  align-items: center; /* 세로축 가운데 정렬 */
-  justify-content: center; /* 가로축 중앙 정렬 (필요하면 추가) */
+  align-items: center;
+  justify-content: center;
 }
 
 .pagination-status {
@@ -338,7 +335,7 @@ header i {
 }
 
 .pagination a:hover {
-  color: white;
+  color: var(--white);
 }
 
 .pagination span {
@@ -347,7 +344,7 @@ header i {
 }
 
 svg {
-  cursor: pointer; /* 마우스 커서가 손 모양으로 변경되어 클릭할 수 있음을 표시 */
+  cursor: pointer;
   pointer-events: all; /* 클릭 가능하도록 설정 */
 }
 
@@ -363,17 +360,17 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #9abf80;
+  background: var(--soft-green);
   color: var(--white);
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: normal;
   flex-shrink: 0;
-  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25);
   border: none;
   padding: 8px 12px;
-  border-radius: 14.972px;
+  border-radius: 15px;
   cursor: pointer;
   width: max-content; /* 크기 조정 */
   height: 54px;
@@ -405,7 +402,7 @@ svg {
     transform: translate(-50%, -50%);
     width: 90%;
     height: 68%;
-    background: white;
+    background: var(--white);
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -413,14 +410,14 @@ svg {
   width: 100%;
 }
 .close-btn {
-  background: #a83232;
-  color: white;
+  background: var(--red);
+  color: var(--white);
   padding: 5px;
   border: none;
   cursor: pointer;
   display: block;
   margin-top: 10px;
-  box-shadow: 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25), 0px 3.327px 3.327px 0px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25), 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
   border-radius: 14.972px;
   width: 100%;
 }
@@ -447,8 +444,7 @@ svg {
 
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 13.656px;
-  font-style: normal;
+  font-size: 13.5px;
   font-weight: 400;
   line-height: normal;
   color: var(--red);

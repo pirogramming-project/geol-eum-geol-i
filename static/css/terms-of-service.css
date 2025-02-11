@@ -1,9 +1,9 @@
 body {
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .landing__layout {
-  background: var(--background_beige, #fff3e9);
+  background: var(--background-beige);
 }
 
 .body_container {
@@ -14,26 +14,24 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-size: 20px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .center {
   font-size: 12px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .center_title {
   margin-top: 20px;
-  font-family: "Kartrider Kor OTF";
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .center_content {
-  color: gray;
+  color: var(--gray);
   font-size: 10px;
-  font-family: "Kartrider Kor OTF";
-
+  font-family: "Kartrider Kor OTF", sans-serif;
   margin-top: 5px;
 }
 
