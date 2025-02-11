@@ -214,7 +214,14 @@ def ranking_view(request):
         user_rank = len(all_rankings) + 1
         user_record = {'total_distance': '00.00'}
         
-    
+    if user_rank <= 5 :
+        is_already_in_ranking = any (
+            item["record"].user == request.user for item in rankings
+        ) # 사용자가 랭킹에 있는지 확인
+        if not is_already_in_ranking:
+            rankings.append({"rank": user_rank, "record": user_record})
+
+
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
     # ✅ 다음 달의 마지막 날을 구하는 로직
