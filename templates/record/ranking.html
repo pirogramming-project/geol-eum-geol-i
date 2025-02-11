@@ -46,7 +46,7 @@
             <div class="ranking_container">
                 <div class="ranking_container_header">
                     <div class="ranking_container_header_text">
-                        {명예의 전당}
+                        {명예의 전당 TOP5}
                     </div>
                     <div class="ranking_date">
                         <a class="ranking_prev_button" href="?year={{ prev_year }}&month={{ prev_month }}">
@@ -83,12 +83,22 @@
                     <div class="ranking_card">
                         {% if item.rank == 1%}
                         <div class="ranking_cardImage">
-                            {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
-                                <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
-                            {% elif item.record.user.profile_image_url %}
-                                <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                            {% if user_rank == 1%}
+                                {% if user.profile_image_file %}
+                                    <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                                {% elif user.profile_image_url %}
+                                    <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% else %}
-                                <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                                    <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
+                                {% elif item.record.user.profile_image_url %}
+                                    <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% endif %}
                         </div>
                         <div class="ranking">
@@ -101,10 +111,14 @@
                                 </svg>
                             </div>
                             <div class="ranking_top">
-                                Top{{ item.rank }}
+                                Top1
                             </div>
                             <div class="ranking_username">
-                                {{item.record.user.nickname}}
+                                {% if user_rank == 1%}
+                                    {{ user.nickname}}
+                                {% else %}
+                                    {{item.record.user.nickname}}
+                                {% endif %}
                             </div>
                             <div class="rankking_distance">
                                 {{item.record.total_distance}}km
@@ -112,12 +126,22 @@
                         </div>
                         {% elif item.rank == 2%}
                         <div class="ranking_cardImage">
-                            {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
-                                <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
-                            {% elif item.record.user.profile_image_url %}
-                                <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                            {% if user_rank == 2%}
+                                {% if user.profile_image_file %}
+                                    <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                                {% elif user.profile_image_url %}
+                                    <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% else %}
-                                <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                                    <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
+                                {% elif item.record.user.profile_image_url %}
+                                    <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% endif %}
                         </div>
                         <div class="ranking">
@@ -131,10 +155,14 @@
                                     
                             </div>
                             <div class="ranking_top">
-                                Top{{ item.rank }}
+                                Top2
                             </div>
                             <div class="ranking_username">
-                                {{item.record.user.nickname}}
+                                {% if user_rank == 2%}
+                                    {{ user.nickname}}
+                                {% else %}
+                                    {{item.record.user.nickname}}
+                                {% endif %}
                             </div>
                             <div class="rankking_distance">
                                 {{item.record.total_distance}}km
@@ -142,12 +170,22 @@
                         </div>
                         {% elif item.rank == 3%}
                         <div class="ranking_cardImage">
-                            {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
-                                <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
-                            {% elif item.record.user.profile_image_url %}
-                                <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                            {% if user_rank == 3%}
+                                {% if user.profile_image_file %}
+                                    <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                                {% elif user.profile_image_url %}
+                                    <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% else %}
-                                <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                                    <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
+                                {% elif item.record.user.profile_image_url %}
+                                    <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% endif %}
                         </div>
                         <div class="ranking">
@@ -161,24 +199,38 @@
                                     
                             </div>
                             <div class="ranking_top">
-                                Top{{ item.rank }}
+                                Top3
                             </div>
                             <div class="ranking_username">
-                                {{item.record.user.nickname}}
+                                {% if user_rank == 3%}
+                                    {{ user.nickname}}
+                                {% else %}
+                                    {{item.record.user.nickname}}
+                                {% endif %}
                             </div>
                             <div class="rankking_distance">
                                 {{item.record.total_distance}}km
                             </div>
                         </div>
                         
-                        {% else %}
+                        {% elif item.rank == 4 %}
                         <div class="ranking_cardImage">
-                            {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
-                                <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
-                            {% elif item.record.user.profile_image_url %}
-                                <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                            {% if user_rank == 4 %}
+                                {% if user.profile_image_file %}
+                                    <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                                {% elif user.profile_image_url %}
+                                    <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% else %}
-                                <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                                    <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
+                                {% elif item.record.user.profile_image_url %}
+                                    <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
                             {% endif %}
                         </div>
                         <div class="ranking">
@@ -186,7 +238,50 @@
                                 Top{{ item.rank }}
                             </div>
                             <div class="ranking_username">
-                                {{item.record.user.nickname}}
+                                {% if item.record.user.nickname %}
+                                    {{item.record.user.nickname}}
+                                {% else %}
+                                    {% if user_rank == 4 or user_rank == 5%}
+                                        {{user.nickname}}
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="rankking_distance">
+                                {{item.record.total_distance}}km
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="ranking_cardImage">
+                            {% if user_rank == 5 %}
+                                {% if user.profile_image_file %}
+                                    <img src="{{ user.profile_image_file.url }}" alt="{{ user.nickname }}">
+                                {% elif user.profile_image_url %}
+                                    <img src="{{ user.profile_image_url }}" alt="{{ user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
+                            {% else %}
+                                {% if item.record.user.profile_image_file and item.record.user.profile_image_file.name %}
+                                    <img src="{{ item.record.user.profile_image_file.url }}" alt="{{ item.record.user.nickname }}">
+                                {% elif item.record.user.profile_image_url %}
+                                    <img src="{{ item.record.user.profile_image_url }}" alt="{{ item.record.user.nickname }}">
+                                {% else %}
+                                    <img src="/static/geoleum.jpg" alt="기본 이미지">
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="ranking">
+                            <div class="ranking_top">
+                                Top{{ item.rank }}
+                            </div>
+                            <div class="ranking_username">
+                                {% if item.record.user.nickname %}
+                                    {{item.record.user.nickname}}
+                                {% else %}
+                                    {% if user_rank == 4 or user_rank == 5%}
+                                        {{user.nickname}}
+                                    {% endif %}
+                                {% endif %}
                             </div>
                             <div class="rankking_distance">
                                 {{item.record.total_distance}}km
@@ -349,9 +444,6 @@
                 </div>
             </nav>
         </footer>
-
-
     </div>
 </body>
 </html>
-
