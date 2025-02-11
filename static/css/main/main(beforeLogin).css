@@ -122,6 +122,12 @@ a:hover {
 .center_text2 {
   display: flex;
   flex-direction: row;
+
+  align-items: center;
+}
+
+.center_text2 img {
+  margin-top: 3px;
 }
 
 .center_text2 > span {
