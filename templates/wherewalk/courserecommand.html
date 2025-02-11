@@ -126,13 +126,13 @@
             {% for course in page_obj %}
             <div class="card" data-id="{{ course.id }}">
               <img
-                src="{% if course.image %}{{ course.image.url }}{% else %}{% static 'defaultimage/default-image.jpg' %}{% endif %}"
+                src="{% if course.image %}{{ course.image.url }}{% else %}{% static 'defaultimage/geoleumi.png' %}{% endif %}"
                 alt="{{ course.title }}"
                 class="course-image"
                 style="width: 77px; height: 74px"
               />
 
-              <p>{{ course.title|slice:":4" }}{% if course.title|length > 4 %}...{% endif %}</p>
+              <p>{{ course.title|slice:":6" }}{% if course.title|length > 6 %}...{% endif %}</p>
             </div>
             {% endfor %}
           </div>

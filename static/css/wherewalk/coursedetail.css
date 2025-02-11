@@ -50,10 +50,16 @@ h1 {
     font-size: 16px;
     color: #333;
 }
+.course-img-container {
+    width: fit-content;
+    display: flex;
+    margin-inline: auto;
+    margin-block: 7px;
+    border-radius: 10px;
+}
 .course-image {
     width: 100%;
     border-radius: 10px;
-    margin-top: 10px;
 }
 
 .home-btn {

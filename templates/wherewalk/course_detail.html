@@ -53,9 +53,13 @@
           >
           </iframe>
           {% if course.image %}
-          <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-image" />
+          <div class="course-img-container">
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-image" />
+          </div>
           {% else %}
-          <img src="{% static 'defaultimage/default-image.jpg' %}" alt="기본 이미지" class="course-image" />
+          <div class="course-img-container">
+            <img src="{% static 'defaultimage/geoleumi.png' %}" alt="기본 이미지" class="course-image" />
+          </div>
           {% endif %}
           <div class="course-introduction"><strong class="course-introduction-start">장소설명: </strong>{{ course.description }}</div>
           {% if request.user == course.user %}
