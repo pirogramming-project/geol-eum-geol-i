@@ -9,21 +9,19 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 .landing__layout {
-  background: linear-gradient(180deg, var(--background_beige, #fff3e9) 0%, var(--white, #fff) 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 .title {
-  color: var(--soft_red, #d2665a);
-  font-family: "VITRO INSPIRE OTF";
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   font-size: 55px;
-  font-style: normal;
   font-weight: 900;
   line-height: normal;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,17 +31,12 @@ a:hover {
 }
 
 .title_red {
-  color: var(--red, #b82132);
-  font-family: "VITRO INSPIRE OTF";
+  color: var(--red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   font-size: 55px;
-  font-style: normal;
   font-weight: 900;
   line-height: normal;
 }
-
-/* .title_top {
-  margin-top: 60px;
-} */
 
 .home-icon {
   position: relative;
@@ -61,7 +54,6 @@ a:hover {
 .us {
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   align-items: center;
 }
@@ -69,13 +61,11 @@ a:hover {
 .profile {
   width: 250px;
   border-radius: 5px;
-  border: 1px solid var(--light_gray, #e6e6e6);
+  border: 1px solid var(--light-gray);
   background: rgb(244, 244, 244) 50% / cover no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
   display: flex;
   flex-direction: row;
-
   padding: 6px;
   margin: 10px;
 }
@@ -85,11 +75,10 @@ a:hover {
   height: 60px;
   flex-shrink: 0;
   border-radius: 87px;
-  border: 2px solid var(--light_gray, #e6e6e6);
-  background: lightgray 50% / cover no-repeat;
+  border: 2px solid var(--light-gray);
+  background: var(--light-gray) 50% / cover no-repeat;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 5px;
@@ -106,28 +95,23 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   padding-left: 8px;
 }
 
 .profile_name,
 .profile_email {
-  color: var(--deep_brown, #76453b);
-  font-family: "Kartrider Kor OTF";
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 15px;
-  font-style: normal;
   font-weight: 400;
-
   padding: 5px;
 }
 
 .profile_position {
-  color: var(--soft_red, #d2665a);
-  font-family: "Kartrider Kor OTF";
+  color: var(--soft-red);
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 15px;
-  font-style: normal;
   font-weight: 400;
-
   padding: 5px;
 }
 

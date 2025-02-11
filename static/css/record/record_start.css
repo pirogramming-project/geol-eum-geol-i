@@ -35,7 +35,7 @@
 }
 .record__date, .record__today_ment {
     color: var(--soft-red);
-    font-family: "VITRO INSPIRE OTF";
+    font-family: "VITRO INSPIRE OTF", sans-serif;
     font-size: 67px;
     padding-top: 28px;
 }
@@ -130,10 +130,4 @@
         height: 191px;
         z-index: 4;
     }
-}
-@media (max-width: 768px) {
-
-}
-@media (min-width: 1024px) {
-
 }
