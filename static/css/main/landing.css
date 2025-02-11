@@ -31,6 +31,7 @@ body {
     left: 64px;
 }
 .landing__title {
+    font-family: 'VITRO INSPIRE OTF', "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     font-size: 60px;
     font-weight: 900;
     line-height: normal;
