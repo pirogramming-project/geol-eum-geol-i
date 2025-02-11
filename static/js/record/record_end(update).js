@@ -223,6 +223,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if('serviceWorker' in navigator && 'SyncManager' in window) {
                 registerBackgroundSync(path);
             }
+        } else {
+            // 02.11 수정
+            console.log("포그라운드 복귀 -> GPS 업데이트");
+            getUserGPS();
         }
     });
 
@@ -264,6 +268,12 @@ document.addEventListener("DOMContentLoaded", function () {
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
             console.log(totalPausedTime); // 확인용(삭제예정)
             pauseStartTime = null; // 기록중단용 bottleBtn 클릭 시간 초기화
+
+            // 경로 수집 재개 전, 'gap' 표식 추가
+            if (path.length > 0) {
+                path.push("gap"); // 경로 분리를 위한 마커
+            }
+            
             getUserGPS();
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {

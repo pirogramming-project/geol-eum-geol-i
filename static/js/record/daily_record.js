@@ -47,14 +47,40 @@ document.addEventListener("DOMContentLoaded", function() {
             // 기존 경로 지우기
             routePath.setMap(null);
         }
-        routePath = new google.maps.Polyline({
-            path: path.map((point) => ({ lat: point.latitude, lng: point.longitude })),
-            geodesic: true,
-            strokeColor: "#7200FF",
-            strokeOpacity: 1.0,
-            strokeWeight: 5,
+
+        let segments = []; // 전체 경로 저장
+        let currentSegment = []; // gap 구분별 경로 저장(임시 저장소)
+
+        // gap을 기준으로 경로 분리
+        path.forEach((point) => {
+            if(point === "gap") {
+                if (currentSegment.length > 0) {
+                    segments.push(currentSegment);
+                    currentSegment = []; // 임시 저장소 초기화
+                }
+            } else {
+                // gap이 나오기 전까지 임시 저장소 저장
+                currentSegment.push({ lat: point.latitude, lng: point.longitude });
+            }
         });
-        routePath.setMap(map);
+
+        // 기록동안 한번도 중지버튼을 사용하지 않은 경우
+        if (currentSegment.length > 0) {
+            segments.push(currentSegment); 
+        }
+
+        segments.forEach(segment => {
+            if (segment.length > 1) {
+                let polyline = new google.maps.Poliyline({
+                    path: segment,
+                    geodesic: true,
+                    strokeColor: "#b82132",
+                    strokeOpacity: 1.0,
+                    strokeWeight: 5,
+                });
+                polyline.setMap(map);
+            }
+        });
     }
 
     if(mapButton) {
