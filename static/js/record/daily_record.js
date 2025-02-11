@@ -64,7 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // 기록동안 한번도 중지버튼을 사용하지 않은 경우
+        // 1. 마지막 기록 강제 저장
+        // 2. 기록동안 한번도 중지버튼을 사용하지 않은 경우
         if (segments.length === 0 && currentSegment.length > 0) {
             segments.push(currentSegment); 
         }
