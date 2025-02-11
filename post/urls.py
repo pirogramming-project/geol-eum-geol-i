@@ -10,6 +10,7 @@ urlpatterns = [
     path('together_detail/<int:post_id>/', together_detail, name='together_detail'),
     path("together_post/", together_post, name="together_post"), 
     path('together_comment/<int:post_id>/', together_comment, name='together_comment'),
+    path('together_delete/<int:post_id>/', together_delete, name='together_delete'),
 
 ]
 

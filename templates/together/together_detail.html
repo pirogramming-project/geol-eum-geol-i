@@ -60,8 +60,30 @@
           <div class="center">
             <div class="post_box">
               <div class="post_box_all">
-                <div class="post_title">제목: {{ post.title }}</div>
-                <div class="post_writer">작성자: <span class="post_writer_name">{{ post.user.nickname }}</span></div>
+                <div class="post_top_all">
+                  <div class="post_top_left">
+                    <div class="post_title">제목: {{ post.title }}</div>
+                    <div class="post_writer">작성자: <span class="post_writer_name">{{ post.user.nickname }}</span></div>
+                  </div>
+                  <div class="post_top_right">
+                    <button class="post_delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="43" viewBox="0 0 35 43" fill="none">
+                        <path
+                          d="M12.0871 31.8182H22.9103C23.7605 31.8182 24.454 31.1508 24.4876 30.3006L25.0829 14.7705H9.91455L10.5099 30.3006C10.5435 31.1508 11.2369 31.8182 12.0871 31.8182ZM20.9923 17.4081C20.9961 17.1334 21.221 16.9221 21.4945 16.9221C21.7691 16.9283 21.9867 17.1533 21.9842 17.428L21.7555 29.1797C21.7517 29.4506 21.5305 29.6657 21.2633 29.6657H21.2533C20.9787 29.6619 20.7611 29.4345 20.7636 29.1598L20.9923 17.4081ZM17.0027 17.418C17.0027 17.1433 17.2239 16.9221 17.4986 16.9221C17.7733 16.9221 17.9945 17.1433 17.9945 17.418V29.1697C17.9945 29.4444 17.7733 29.6657 17.4986 29.6657C17.2239 29.6657 17.0027 29.4444 17.0027 29.1697V17.418ZM13.5014 16.9221C13.7661 16.9221 14.001 17.1334 14.0035 17.4081L14.2322 29.1598C14.2359 29.4345 14.0172 29.6619 13.7425 29.6656H13.7325C13.4653 29.6656 13.2428 29.4506 13.2403 29.1797L13.0117 17.4279C13.0079 17.1533 13.2267 16.9283 13.5014 16.9221Z"
+                          fill="#76453B"
+                        />
+                        <path
+                          d="M7.78301 12.2017C7.78301 13.0718 8.49023 13.779 9.36024 13.779H25.6384C26.5085 13.779 27.2181 13.0717 27.2181 12.2017C27.2181 11.3317 26.5072 10.6245 25.6384 10.6245H9.35897C8.48893 10.6245 7.78174 11.3317 7.78174 12.2017H7.78301Z"
+                          fill="#76453B"
+                        />
+                        <path
+                          d="M19.4725 6.36353H15.5252C14.107 6.36353 12.9536 7.51693 12.9536 8.93259V9.63358H13.9455V8.93259C13.9455 8.06255 14.6527 7.35536 15.5252 7.35536H19.4725C20.345 7.35536 21.0522 8.06258 21.0522 8.93259V9.63358H22.0441V8.93259C22.0441 7.51818 20.8907 6.36353 19.4725 6.36353Z"
+                          fill="#76453B"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
                 <div class="post_img">
                   <img
                     src="{% if post.picture %}{{ post.picture.url }}{% else %}{% static 'defaultimage/default-image.jpg' %}{% endif %}"
@@ -148,5 +170,70 @@
       </footer>
     </div>
     <!-- .landing__layout 닫힘 -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteButton = document.querySelector(".post_delete");
+            const navBar = document.querySelector(".bottom_nav");
+
+            if (deleteButton) {
+                deleteButton.addEventListener("click", function () {
+                    const postId = "{{ post.id }}";
+
+                    fetch(`/post/together_delete/${postId}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}",
+                            "X-Requested-With": "XMLHttpRequest",
+                        },
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            alert("게시글이 삭제되었습니다.");
+                            window.location.href = "{% url 'post:together_main' %}";
+                        } else {
+                            showModal(data.message);
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
+                });
+            }
+        });
+
+        function showModal(message) {
+            const modal = document.createElement("div");
+            modal.innerHTML = `
+                <div class="modal_overlay">
+                    <div class="modal_content">
+                        <p>${message}</p>
+                        <button onclick="closeModal()">확인</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            document.querySelector(".bottom_nav").style.filter = "brightness(50%)";
+        }
+
+        function closeModal() {
+            document.querySelector(".modal_overlay").remove();
+
+            document.querySelector(".wrapper").style.filter = "brightness(100%)";
+            document.querySelector(".bottom_nav").style.filter = "brightness(100%)";
+        }
+
+          {% comment %} function showModal(message) {
+            alert(message);
+        } {% endcomment %}
+
+
+        function closeModal() {
+          document.querySelector(".modal_overlay").remove();
+
+          document.querySelector(".wrapper").style.filter = "brightness(100%)";
+          document.querySelector(".bottom_nav").style.filter = "brightness(100%)";
+      }
+    </script>
   </body>
 </html>
