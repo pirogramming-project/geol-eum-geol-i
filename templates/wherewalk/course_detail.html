@@ -41,6 +41,7 @@
             {% endfor %}
           </div>
           <h1 class="course-title">제목: {{ course.title }}</h1>
+          <div class="writer"><strong class="course-writer">작성자:</strong> {{ course.user.nickname }}</div>
           <div class="course-detail-information">
             <p class="course-info"><strong class="course-distance">거리:</strong> {{ course.distance }} km</p>
             <p class="course-info"><strong class="course-time">예상 소요 시간:</strong> {{ course.time }} 분</p>
