@@ -38,6 +38,13 @@ body {
   width: 350px;
 }
 
+.home-icon > svg {
+  transition: transform 0.3s ease;
+}
+.home-icon > svg:hover {
+  transform: scale(1.1);
+}
+
 input,
 button,
 textarea {
@@ -286,4 +293,8 @@ textarea {
 
 #register_btn {
   margin-top: 60px;
+}
+
+textarea {
+  resize: none;
 }

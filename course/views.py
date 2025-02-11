@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -57,23 +57,65 @@ class CourseDetailView(DetailView):
 
 from record.models import Record
 from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 @login_required
-def calendar_view(request):
+def calendar_view(request, year=None, month=None):
     user = request.user
     today = datetime.today()
-    year, month = today.year, today.month
 
-    # `date` 필드를 기준으로 월별 데이터 조회
+    if year is None or month is None:
+        year, month = today.year, today.month
+    else:
+        year, month = int(year), int(month)
+
+    logger.info(f"[calendar_view] 요청한 사용자: {user.email}, year: {year}, month: {month}")
+
     record = Record.objects.filter(user=user, date__year=year, date__month=month).first()
-    total_distance = record.total_distance if record else 0
-    total_calories = record.total_calories if record else 0
+    
+    if record:
+        total_distance = record.total_distance
+        total_calories = record.total_calories
+        logger.info(f"[calendar_view] 조회된 데이터 - 거리: {total_distance}, 칼로리: {total_calories}")
+    else:
+        total_distance = 0
+        total_calories = 0
+        logger.warning(f"[calendar_view] 데이터 없음 - year: {year}, month: {month}")
 
     return render(request, "calendarpage/calendar.html", {
+        "year": year,
+        "month": month,
         "total_distance": total_distance,
         "total_calories": total_calories,
-        "user" : user,
+        "user": user,
     })
+
+
+@login_required
+def calendar_data(request, year, month):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "로그인이 필요합니다."}, status=403)  # JSON 응답으로 로그인 필요 메시지 반환
+
+    user = request.user
+    logger.info(f"[calendar_data] 요청한 사용자: {user.email}, year: {year}, month: {month}")
+
+    record = Record.objects.filter(user=user, date__year=year, date__month=month).first()
+
+    if record:
+        total_distance = record.total_distance
+        total_calories = record.total_calories
+        logger.info(f"[calendar_data] 조회된 데이터 - 거리: {total_distance}, 칼로리: {total_calories}")
+    else:
+        total_distance = 0
+        total_calories = 0
+        logger.warning(f"[calendar_data] 데이터 없음 - year: {year}, month: {month}")
+
+    return JsonResponse({
+        "total_distance": total_distance,
+        "total_calories": total_calories,
+    }, content_type="application/json")
 
 def course_form_view(request):
     if request.method == "POST":
@@ -192,3 +234,13 @@ def select_keywords_view(request):
         'sorted_course_groups': sorted_course_groups,
         'selected_keywords': selected_keywords
     })
+
+def course_delete(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    # course의 작성자가 현재 사용자와 일치하는지 확인
+    if request.user == course.user:
+        course.delete()  # course 삭제
+
+    # course 삭제 후 course_list 페이지로 리다이렉트
+    return redirect('course:course_list')

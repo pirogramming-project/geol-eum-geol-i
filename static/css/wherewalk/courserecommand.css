@@ -449,6 +449,19 @@ svg {
   top: -13px;
   left: -0.4px;
 }
+.to-ranking > svg {
+  transition: transform 0.3s ease;
+}
+.to-ranking > svg:hover {
+  transform: scale(1.1);
+}
+
+.home-icon > svg {
+  transition: transform 0.3s ease;
+}
+.home-icon > svg:hover {
+  transform: scale(1.1);
+}
 
 .wrapper {
   overflow-y: auto;

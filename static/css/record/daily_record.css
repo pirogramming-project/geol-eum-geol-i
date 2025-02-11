@@ -28,10 +28,18 @@ body {
 }
 .daily__back_to_main {
   margin-top: 2px;
+  transition: transform 0.3s ease;
+}
+.daily__back_to_main:hover {
+  transform: scale(1.1);
 }
 .daily__ranking > svg {
   margin-left: 1.5px;
   margin-top: 2px;
+  transition: transform 0.3s ease;
+}
+.daily__ranking > svg:hover {
+  transform: scale(1.1);
 }
 .daily__ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
@@ -52,6 +60,12 @@ body {
   font-family: "VITRO INSPIRE OTF";
   font-size: 40px;
   font-weight: 900;
+}
+.daily__back_to_cale > svg {
+  transition: transform 0.3s ease;
+}
+.daily__back_to_cale > svg:hover {
+  transform: scale(1.1);
 }
 .daily__time_container {
   display: flex;
@@ -90,6 +104,12 @@ body {
   font-size: 20px;
   font-weight: 600;
 }
+.daily__route_map > svg {
+  transition: transform 0.3s ease;
+}
+.daily__route_map > svg:hover {
+  transform: scale(1.1);
+}
 .walkForm > label {
   font-size: 16px;
   color: var(--soft-red);
@@ -105,6 +125,10 @@ body {
   border-radius: 10px;
   background: var(--white);
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
 }
 .walkForm {
   display: flex;
@@ -119,6 +143,11 @@ body {
 }
 .walkForm > textarea {
   border-radius: 10px;
+  resize: none;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
+  font-family: "Kartrider Kor OTF";
+  border: 2px var(--light-gray) solid;
+  color: var(--gray);
 }
 .walkForm > button {
   border-radius: 18px;
@@ -132,6 +161,11 @@ body {
   font-family: "Kartrider Kor OTF";
   font-weight: 500;
   font-size: 18px;
+}
+.walkForm > button:hover {
+  background: var(--white);
+  color: var(--deep-brown);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
 .daily__img_container {
   display: flex;
@@ -147,7 +181,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 43px;
-  color: #555;
+  color: var(--gray);
   border-radius: 10.61px;
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25) inset;
   font-family: "Kartrider Kor OTF";
@@ -163,6 +197,12 @@ body {
   border-radius: 10px;
   cursor: pointer;
   display: inline-block;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.custom-file-btn:hover {
+  background-color: var(--white);
+  color: var(--deep-brown);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
 .daily__user_image {
   width: 70%;

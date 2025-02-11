@@ -54,6 +54,12 @@ body {
   top: -13px;
   left: -0.4px;
 }
+.to-ranking > svg {
+  transition: transform 0.3s ease;
+}
+.to-ranking > svg:hover {
+  transform: scale(1.1);
+}
 
 .together_header {
   width: 317px;
@@ -68,6 +74,12 @@ body {
 .home-icon {
   position: relative;
   top: 7px;
+}
+.home-icon > svg {
+  transition: transform 0.3s ease;
+}
+.home-icon > svg:hover {
+  transform: scale(1.1);
 }
 
 .together_title_text_all {
