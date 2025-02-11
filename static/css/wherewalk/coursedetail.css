@@ -51,7 +51,6 @@ h1 {
     color: #333;
 }
 .course-img-container {
-    height: 230px;
     width: fit-content;
     display: flex;
     margin-inline: auto;
@@ -61,7 +60,6 @@ h1 {
 .course-image {
     width: 100%;
     border-radius: 10px;
-    margin-top: 10px;
 }
 
 .home-btn {
