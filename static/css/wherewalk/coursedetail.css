@@ -232,3 +232,17 @@ img {
 .course-writer {
     color: var(--deep-brown);
 }
+
+@media (max-width: 480px) {
+    .course-img-container {
+        width: fit-content;
+        display: flex;
+        margin-inline: auto;
+        margin-block: 7px;
+        border-radius: 10px;
+    }
+    .course-image {
+        width: 100%;
+        border-radius: 10px;
+    }
+}
