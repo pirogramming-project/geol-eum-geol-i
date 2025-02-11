@@ -29,6 +29,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileUpdateForm
 import logging
 
+def aboutus_view(request):
+    return render(request, 'aboutus.html')
+
 def terms_of_service(request):
     return render(request, 'terms-of-service.html')
 

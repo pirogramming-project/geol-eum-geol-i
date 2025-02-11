@@ -139,6 +139,20 @@ a:hover {
   text-underline-position: from-font;
 }
 
+.center_text_aboutus {
+  color: var(--gray, #898989);
+  font-family: "Kartrider Kor OTF";
+  font-size: 17px;
+  font-style: normal;
+  text-decoration-line: underline;
+  font-weight: 400;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+}
+
 .wrapper {
   overflow-y: auto;
   padding-bottom: 180px;
