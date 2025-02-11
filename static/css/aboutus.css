@@ -19,7 +19,7 @@ a:hover {
 .title {
   color: var(--soft_red, #d2665a);
   font-family: "VITRO INSPIRE OTF";
-  font-size: 60px;
+  font-size: 55px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
@@ -35,7 +35,7 @@ a:hover {
 .title_red {
   color: var(--red, #b82132);
   font-family: "VITRO INSPIRE OTF";
-  font-size: 60px;
+  font-size: 55px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
@@ -56,4 +56,93 @@ a:hover {
 
 .home-icon > svg:hover {
   transform: scale(1.1);
+}
+
+.us {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.profile {
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid var(--light_gray, #e6e6e6);
+  background: rgb(244, 244, 244) 50% / cover no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: row;
+
+  padding: 6px;
+  margin: 10px;
+}
+
+.profile_img {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 87px;
+  border: 2px solid var(--light_gray, #e6e6e6);
+  background: lightgray 50% / cover no-repeat;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.profile_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-left: 8px;
+}
+
+.profile_name,
+.profile_email {
+  color: var(--deep_brown, #76453b);
+  font-family: "Kartrider Kor OTF";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+
+  padding: 5px;
+}
+
+.profile_position {
+  color: var(--soft_red, #d2665a);
+  font-family: "Kartrider Kor OTF";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+
+  padding: 5px;
+}
+
+.wrapper {
+  overflow-y: auto;
+  padding-bottom: 180px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, rgb(118, 69, 59));
+  border-radius: 6px;
+  border-radius: 20px;
 }
