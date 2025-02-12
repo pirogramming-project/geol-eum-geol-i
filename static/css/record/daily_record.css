@@ -139,6 +139,11 @@ body {
   margin-top: 2px;
   font-size: 12px;
   color: var(--gray);
+  word-wrap: break-word; /* 단어가 길면 자동 줄바꿈 */
+  overflow-wrap: break-word; /* 자동 줄바꿈 보조 */
+  white-space: normal; /* 줄바꿈 허용 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  word-break: break-word; /* 줄 바꿈 시 단어를 자동으로 끊어줌 */
 }
 .walkForm > textarea {
   border-radius: 10px;
@@ -228,6 +233,11 @@ body {
 .comment__deco {
   font-family: "Nanum OenSonJabIDoYeBbeo", sans-serif;
   font-weight: 700;
+  word-wrap: break-word; /* 단어가 길면 자동 줄바꿈 */
+  overflow-wrap: break-word; /* 자동 줄바꿈 보조 */
+  white-space: normal; /* 줄바꿈 허용 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  word-break: break-word; /* 줄 바꿈 시 단어를 자동으로 끊어줌 */
 }
 
 .modal {
