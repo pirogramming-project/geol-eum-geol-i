@@ -129,26 +129,35 @@ body {
   word-wrap: break-word; /* 단어가 길면 자동 줄바꿈 */
   overflow-wrap: break-word; /* 자동 줄바꿈 보조 */
   white-space: normal; /* 줄바꿈 허용 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  word-break: break-word; /* 줄 바꿈 시 단어를 자동으로 끊어줌 */
 }
 
 .post_writer {
   color: var(--gray);
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   display: flex;
   justify-content: center;
   padding-left: 18px;
   margin-top: 3px;
+  word-wrap: break-word; /* 단어가 길면 자동 줄바꿈 */
+  overflow-wrap: break-word; /* 자동 줄바꿈 보조 */
+  white-space: normal; /* 줄바꿈 허용 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  word-break: break-word; /* 줄 바꿈 시 단어를 자동으로 끊어줌 */
 }
 
 .post_content {
   color: var(--gray);
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   display: flex;
   margin-bottom: 5px;
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  word-break: break-word; /* 줄 바꿈 시 단어를 자동으로 끊어줌 */
 }
 
 .post_img {
