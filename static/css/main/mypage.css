@@ -345,7 +345,7 @@ a:hover {
 .wrapper {
   overflow-y: auto;
   padding-bottom: 100px;
-  background: linear-gradient(180deg, #FFF3E9 0%, #FFF 100%);
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
 }
 
 ::-webkit-scrollbar {

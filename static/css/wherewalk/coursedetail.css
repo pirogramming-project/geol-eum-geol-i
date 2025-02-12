@@ -55,6 +55,7 @@ h1 {
     margin-inline: auto;
     margin-block: 7px;
     border-radius: 10px;
+    height: 150px;
 }
 .course-image {
     width: 100%;
