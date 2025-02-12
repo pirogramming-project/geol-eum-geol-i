@@ -198,6 +198,10 @@ textarea {
   color: var(--soft-red);
 }
 
+#courseForm > p {
+  margin-top: 5px;
+}
+
 .form-introduction {
   width: 310px;
   text-align: start;
@@ -293,7 +297,7 @@ textarea {
 }
 
 #register_btn {
-  margin-top: 60px;
+  margin-top: 35px;
 }
 
 textarea {
