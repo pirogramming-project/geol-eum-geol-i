@@ -118,7 +118,7 @@ a:hover {
 }
 
 .center_text2 > span {
-  color: var(--gray, #898989);
+  color: var(--gray);
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -132,7 +132,7 @@ a:hover {
 }
 
 .center_text_aboutus {
-  color: var(--gray, #898989);
+  color: var(--gray);
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 17px;
   text-decoration-line: underline;
