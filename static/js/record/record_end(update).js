@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let caloriesBurned = 0;
     let weight = 75;
     let minDistance = 3; // 최소 3m 이상 이동 시에만 기록
-    let isPaused = false; // 기록 수집 상태 확인용
+    let isPaused = false; // 기록 수집 상태(for bottleBtn)
     let pauseStartTime = null; // bottleBtn 누른 시간
     let totalPausedTime = 0; // 총 기록 수집 중단 시간
 
@@ -18,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let startTime = new Date();
     startTime.setHours(startTime.getHours() + 9);
 
-    console.log("📌 저장된 경로 데이터: ", path);
-
     function getUserGPS() {
-        if (navigator.geolocation) {
+        // watchID = null (GPS 수집 시작상태)일때 GPS 수집 시작
+        if (!watchID) {
+            console.log("GPS 수집 시작");
             watchID = navigator.geolocation.watchPosition(
                 (position) => {
                     if (isPaused) {
@@ -37,46 +37,56 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (path.length > 0) {
                         let lastPosition = path[path.length - 1];
     
-                        // ✅ 이동 거리 계산 (단위: km)
+                        // 이동 거리(km) 계산
                         let distance = haversine(
                             lastPosition.latitude, lastPosition.longitude,
                             newPosition.latitude, newPosition.longitude
                         );
     
-                        // ✅ 동일한 시간 데이터는 중복 저장 방지
+                        // 동일한 시간 데이터는 수집X
                         if (newPosition.timestamp === lastPosition.timestamp) {
-                            console.log("⚠️ 동일한 시간 데이터 → 중복 저장 방지");
+                            console.log("⚠️ 동일한 시간 데이터 -> 저장 X");
                             return;
                         }
     
-                        // ✅ GPS 흔들림 방지 (위도·경도 변화량이 너무 작으면 무시)
+                        // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
                         if (
                             Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00001 &&
                             Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00001
                         ) {
-                            console.log("⚠️ 너무 작은 변화량 → GPS 오차 가능성 있음, 무시함");
+                            console.log("⚠️ 너무 작은 변화량 -> 저장 X");
                             return;
                         }
     
-                        // ✅ 3m 이상 이동 시에만 기록
+                        // 최소 이동 거리 이상의 움직임만 수집
                         if (distance >= minDistance / 1000) {
                             path.push(newPosition);
-                            console.log(`📍 실시간 좌표 추가됨 (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
+                            console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
                             updateDisNCal();
-
-                            // Background Sync 등록 -> 백그라운드 모드(모바일 화면 종료 or 오프라인) GPS 유지
+                            // Background Sync 등록 -> 백그라운드 모드 GPS 유지
                             registerBackgroundSync(path);
                         } else {
-                            console.log(`⚠️ 이동 거리 너무 작음 (${(distance * 1000).toFixed(2)}m) → 무시됨`);
+                            console.log(`⚠️ 이동 거리 너무 작음 -> 저장 X`);
                         }
     
                     } else {
                         path.push(newPosition);
-                        console.log("📍 초기 좌표 추가됨:", newPosition);
+                        console.log("📍 초기 좌표 추가:", newPosition);
                     }
                 },
                 (error) => console.error("🚨 실시간 좌표 수집 불가:", error),
                 { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
+            );
+        } else {
+            console.log("📍 GPS 수집 중");
+            navigator.geolocation.getCurrentPosition(
+                (position) => console.log("GPS 수집 정상 작동: ", position),
+                (error) => {
+                    // watchID가 끊긴 예외상황
+                    console.error("GPS 수집 오류, 강제 다시 실행:", error);
+                    watchID = null;
+                    getUserGPS();
+                }
             );
         }
     }
@@ -102,13 +112,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateDisNCal() {
         totalDistance = calcDistance(path);
 
-        // 현재 시간을 KST로 변환
         let currentTime = new Date();
         currentTime.setHours(currentTime.getHours() + 9); // UTC → KST 변환
 
         // KST 기준으로 경과 시간 계산
         let durationSec = Math.floor((currentTime - startTime) / 1000) - totalPausedTime;
-
         let minutes = durationSec / 60;
 
         // 초기에는 칼로리 계산을 하지 않음
@@ -175,10 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (time < 0.5) {
             return 0; // 초기에는 칼로리 계산 제외
         }
-
         // 속도 계산 
         let speed = dist / (time / 60);
-
 
         // MET 값 설정 (걷기 ~ 런닝 속도에 따라 구분)
         let METs = 2.8; // 기본값: 천천히 걷기
@@ -191,7 +197,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let calories = METs * weight * (time / 60);
         return Math.round(calories); // 반올림 후 반환
-
     }
 
     // Background Sync API 등록
@@ -215,6 +220,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let timeUpdate = setInterval(updateTime, 1000);
     getUserGPS();
+
+    // 예외 상황 처리
+    setInterval(() => {
+        if(!watchID && !isPaused) {
+            // 중지버튼을 누르지 않았는데, watchID=null이 되어 GPS 수집이 중단된 경우
+            console.warn("GPS 추적 중단됨. 수집 재개");
+            getUserGPS();
+        }
+    }, 30000); // 30초마다 GPS 수집 상태 체크
 
     // 백그라운드 모드 감지
     document.addEventListener("visibilitychange", function() {
@@ -266,8 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let pauseStopTime = new Date();
             pauseStopTime.setHours(pauseStopTime.getHours() + 9);
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
-            console.log(totalPausedTime); // 확인용(삭제예정)
-            pauseStartTime = null; // 기록중단용 bottleBtn 클릭 시간 초기화
+            pauseStartTime = null; // bottleBtn 클릭 시간 초기화
             
             getUserGPS();
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
@@ -282,19 +295,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // gap 추가 전 path 상태 확인
             console.log("gap 추가 전 path: ", JSON.stringify(path));
-
             // 경로 수집 중지, 'gap' 표식 추가
             if (path.length > 0) {
                 path.push("gap"); // 경로 분리를 위한 마커
             }
-
             console.log("gap 추가 후 path: ", JSON.stringify(path));
         }
     });
 
     document.getElementById("stopBtn").addEventListener("click", function() {
         let now = new Date();
-        now.setHours(now.getHours() + 9); // ✅ UTC+9(KST) 변환
+        now.setHours(now.getHours() + 9); // UTC -> KST 변환
         let endTime = now.toISOString().slice(0, 19); // YYYY-MM-DDTHH:MM:SS 형식
 
         stopUserGPS();
@@ -306,13 +317,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let pauseStopTime = new Date();
             pauseStopTime.setHours(pauseStopTime.getHours()+9);
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
-            console.log(totalPausedTime); // 확인용(삭제예정)
             pauseStartTime = null;
         }
 
         let durationSec = Math.floor((now - startTime) / 1000) - totalPausedTime; // 초 단위로 변환
-        console.log(durationSec); // 확인용(삭제예정)
-
         let minutes = durationSec / 60; // 분 단위
         let pace = 0.00;
         if (totalDistance > 0) {
@@ -325,17 +333,17 @@ document.addEventListener("DOMContentLoaded", function () {
         let day = String(today.getDate()).padStart(2, "0");
         let formattedDate = `${year}-${month}-${day}`;
 
-        // ✅ **칼로리 계산을 프론트에서 수행 후 전송**
+        // 칼로리 계산을 프론트에서 수행 후 전송
         caloriesBurned = calcCalories(totalDistance, minutes, weight); 
 
         // API에 보낼 데이터 구조
         let daily_record = {
-            start_time: startTime.toISOString().slice(0, 19), // ✅ 프론트에서 KST로 변환한 값 사용
-            end_time: endTime, // ✅ KST로 변환된 값 전송
+            start_time: startTime.toISOString().slice(0, 19),
+            end_time: endTime,
             distance: totalDistance.toFixed(2),
             time: durationSec,
             pace: pace,
-            calories: caloriesBurned.toFixed(1), // 🔹 프론트에서 계산한 칼로리 값을 포함
+            calories: caloriesBurned.toFixed(1),
             path: path
         };
 
