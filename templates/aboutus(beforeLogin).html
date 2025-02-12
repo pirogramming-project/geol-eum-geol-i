@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>걸음걸이_AboutUs</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/root.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/aboutus.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+    <link rel="icon" type="image/png" href="{% static 'image/favicon/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{% static 'image/favicon/favicon.svg' %}" />
+    <link rel="shortcut icon" href="{% static 'image/favicon/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'image/favicon/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="걸음걸이" />
+    <link rel="manifest" href="{% static 'image/favicon/site.webmanifest' %}" />
+  </head>
+
+  <body>
+    <div class="landing__layout">
+      <div class="body_container">
+        <div class="wrapper">
+          <section class="title">
+            <a href="{% url 'users:main_beforeLogin' %}" class="home-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -13 47 57" fill="none">
+                <path
+                  d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z"
+                  fill="#B82132"
+                />
+              </svg>
+            </a>
+            <div class="title_top">About <span class="title_red">Us</span></div>
+          </section>
+
+          <section class="us">
+            <div class="profile">
+              <div class="profile_img">
+                <img src="{% static 'image/걸음이(남경민).png' %}" width="50" height="50" />
+              </div>
+              <div class="profile_text">
+                <div class="profile_name">남경민</div>
+                <div class="profile_position">기획, 디자인, Front-End</div>
+                <dic class="profile_email">kyeongmin35@gachon.ac.kr</div>
+
+            </div>
+
+            <div class="profile">
+              <div class="profile_img">
+                <img src="{% static 'image/걸음이(김규일).png' %}" width="50" height="50" />
+              </div>
+              <div class="profile_text">
+                <div class="profile_name">김규일</div>
+                <div class="profile_position">Back-End, CI/CD</div>
+                <dic class="profile_email">rlarbdlf222@naver.com</div>
+
+            </div>
+
+            <div class="profile">
+              <div class="profile_img">
+                <img src="{% static 'image/걸음이(김선주).png' %}" width="50" height="50" />
+              </div>
+              <div class="profile_text">
+                <div class="profile_name">김선주</div>
+                <div class="profile_position">Front-End, Back-End</div>
+                <dic class="profile_email">mhnaa6469@gmail.com</div>
+
+            </div>
+
+            <div class="profile">
+              <div class="profile_img">
+                <img src="{% static 'image/걸음이(박건욱).png' %}" width="50" height="50" />
+              </div>
+              <div class="profile_text">
+                <div class="profile_name">박건욱</div>
+                <div class="profile_position">Front-End, Back-End</div>
+                <dic class="profile_email">parkgunwook1@skku.edu</div>
+
+            </div>
+
+            <div class="profile">
+              <div class="profile_img">
+                <img src="{% static 'image/걸음이(이주원).png' %}" width="50" height="50" />
+              </div>
+              <div class="profile_text">
+                <div class="profile_name">이주원</div>
+                <div class="profile_position">Front-End, Back-End</div>
+                <dic class="profile_email">leexzu11@gmail.com</div>
+
+            </div>
+          </section>
+        </div>
+
+        <!-- footer -->
+        <footer>
+          <nav class="bottom_nav">
+            <div class="nav_item">
+              <a href="{% url 'users:login' %}">
+                <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+                <span>함께걸음!</span>
+              </a>
+            </div>
+            <div class="nav_item">
+              <a href="{% url 'users:login' %}">
+                <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+                <span>어디걸음?</span>
+              </a>
+            </div>
+            <div class="nav_item">
+              <a href="{% url 'users:login' %}">
+                <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+                <span>걸음캘린더</span>
+              </a>
+            </div>
+            <div class="nav_item">
+              <a href="{% url 'users:login' %}">
+                <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+                <span>마이걸음</span>
+              </a>
+            </div>
+          </nav>
+        </footer>
+      </div>
+    </div>
+    <script src="{% static 'js/main/main(beforeLogin).js' %}"></script>
+  </body>
+</html>
