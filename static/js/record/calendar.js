@@ -66,6 +66,8 @@ function checkRecordAndShowIcon(dateElement, date) {
             opacityClass = "opacity-0-50";
             } else if (3 < data.total_distance && data.total_distance <= 5) {
             opacityClass = "opacity-0-75";
+            } else if (0 === data.total_distance) {
+            opacityClass = "opacity-0";
             } else {
             opacityClass = "opacity-1";
             }
