@@ -50,12 +50,11 @@ h1 {
     color: #333;
 }
 .course-img-container {
-    width: fit-content;
-    display: flex;
+    width: 230px;
+    height: fit-content;
     margin-inline: auto;
-    margin-block: 7px;
     border-radius: 10px;
-    height: 150px;
+    margin-block: 7px;
 }
 .course-image {
     width: 100%;
