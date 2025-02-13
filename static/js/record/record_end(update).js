@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (path.length > 0) {
                         let lastPosition_index = path.length-1;
                         if (path[lastPosition_index] === "gap") {
-                            alert("gap 탐지 -> 새로운 경로 수집");
+                            // alert("gap 탐지 -> 새로운 경로 수집");
                             path.push(newPosition);
                         }
                         else {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00003
                             ) {
                                 console.log("⚠️ 너무 작은 변화량 -> 저장 X");
-                                alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
+                                // alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
                                 return;
                             }
         
@@ -63,20 +63,20 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (distance >= minDistance / 1000) {
                                 path.push(newPosition);
                                 console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
-                                alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
+                                // alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
                                 updateDisNCal();
                                 // Background Sync 등록 -> 백그라운드 모드 GPS 유지
                                 registerBackgroundSync(path);
                             } else {
                                 console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
-                                alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
+                                // alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
                             }
                         }
     
                     } else {
                         path.push(newPosition);
                         console.log("📍 초기 좌표 추가:", newPosition);
-                        alert("초기 좌표 추가"); // 모바일 확인용
+                        // alert("초기 좌표 추가"); // 모바일 확인용
                     }
                 },
                 (error) => console.error("🚨 실시간 좌표 수집 불가:", error),
@@ -85,11 +85,11 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             navigator.geolocation.getCurrentPosition(
                 (position) => console.log("GPS 수집 정상 작동: ", position),
-                alert("GPS 수집 정상 작동:"), // 모바일 확인용
+                // alert("GPS 수집 정상 작동:"), // 모바일 확인용
                 (error) => {
                     // watchID가 끊긴 예외상황
                     console.error("GPS 수집 오류, 강제 실행:", error);
-                    alert("GPS 수집 오류, 강제 실행"); // 모바일 확인용
+                    // alert("GPS 수집 오류, 강제 실행"); // 모바일 확인용
                     watchID = null;
                     getUserGPS();
                 }
