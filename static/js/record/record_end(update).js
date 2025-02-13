@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (isPaused) {
                         return;
                     }
-                    console.log("GPS 수집 시작");
-                    alert("getUserGPS() 실행 완료"); // 모바일 확인용
+                    // console.log("GPS 수집 시작");
+                    // alert("getUserGPS() 실행 완료"); // 모바일 확인용
                     let newPosition = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
