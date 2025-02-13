@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         return;
                     }
                     console.log("GPS 수집 시작");
+                    alert("getUserGPS() 실행 완료"); // 모바일 확인용
                     let newPosition = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         // 동일한 시간 데이터는 수집X
                         if (newPosition.timestamp === lastPosition.timestamp) {
                             console.log("⚠️ 동일한 시간 데이터 -> 저장 X");
+                            alert("동일한 시간 데이터 -> 저장 X"); // 모바일 확인용
                             return;
                         }
     
@@ -54,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00001
                         ) {
                             console.log("⚠️ 너무 작은 변화량 -> 저장 X");
+                            alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
                             return;
                         }
     
@@ -61,16 +64,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (distance >= minDistance / 1000) {
                             path.push(newPosition);
                             console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
+                            alert("실시간 좌표 추가"); // 모바일 확인용
                             updateDisNCal();
                             // Background Sync 등록 -> 백그라운드 모드 GPS 유지
                             registerBackgroundSync(path);
                         } else {
-                            console.log(`⚠️ 이동 거리 너무 작음 -> 저장 X`);
+                            console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
+                            alert("이동 거리 너무 작음 -> 저장 X"); // 모바일 확인용
                         }
     
                     } else {
                         path.push(newPosition);
                         console.log("📍 초기 좌표 추가:", newPosition);
+                        alert("초기 좌표 추가"); // 모바일 확인용
                     }
                 },
                 (error) => console.error("🚨 실시간 좌표 수집 불가:", error),
@@ -79,9 +85,11 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             navigator.geolocation.getCurrentPosition(
                 (position) => console.log("GPS 수집 정상 작동: ", position),
+                alert("GPS 수집 정상 작동:"), // 모바일 확인용
                 (error) => {
                     // watchID가 끊긴 예외상황
-                    console.error("GPS 수집 오류, 강제 다시 실행:", error);
+                    console.error("GPS 수집 오류, 강제 실행:", error);
+                    alert("GPS 수집 오류, 강제 실행"); // 모바일 확인용
                     watchID = null;
                     getUserGPS();
                 }
@@ -273,6 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("bottleBtn").addEventListener("click", function() {
         if (isPaused) {
             console.log("기록 수집 재개");
+            alert("기록 수집 재개"); // 모바일 확인용
             isPaused = false; // 상태 변경
 
             let pauseStopTime = new Date();
@@ -285,6 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {
             console.log("기록 수집 중지");
+            alert("기록 수집 중지"); // 모바일 확인용
             isPaused = true;
 
             pauseStartTime = new Date();
