@@ -174,11 +174,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function calcDistance(coords) {
         let totalDistance = 0;
+        let lastValidPosition = null; // gap 직전의 유효한 위치 저장
+
         for (let i = 1; i < coords.length; i++) {
-            totalDistance += haversine(
-                coords[i - 1].latitude, coords[i - 1].longitude,
-                coords[i].latitude, coords[i].longitude
-            );
+            if(coords[i] === "gap") {
+                lastValidPosition = null; // 거리 계산 reset
+            }
+            // 거리 계산 대상이 gap이 아닌경우
+            if(lastValidPosition) {
+                totalDistance += haversine(
+                    lastValidPosition.latitude, lastValidPosition.longitude,
+                    coords[i].latitude, coords[i].longitude
+                );
+            }
+            lastValidPosition = coords[i]; // 거리 계산 대상이 없으면 현재 위치로 업데이트 
         }
         return totalDistance;
     }
