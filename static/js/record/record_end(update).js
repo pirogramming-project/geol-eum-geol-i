@@ -48,12 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 lastPosition.latitude, lastPosition.longitude,
                                 newPosition.latitude, newPosition.longitude
                             );
-
-                            // 이상치 필터링 (순간적으로 5m 이상 이동한 경우)
-                            if (distance * 1000 > 5) {
-                                alert(`⚠️ GPS 오차 감지 -> ${distance * 1000}m 이동 기록 무시`);
-                                return;
-                            }
         
                             // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
                             if (
