@@ -64,9 +64,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // 1. 마지막 기록 강제 저장
-        // 2. 기록동안 한번도 중지버튼을 사용하지 않은 경우
-        if (segments.length === 0 && currentSegment.length > 0) {
+        // 모두 currentSegment에 저장 -> gap이 없는 경우
+        if (segments.length === 0) {
+            segments.push(currentSegment); 
+        }
+        // 마지막 gap 이후 GPS 좌표들이 남은 경우
+        if (currentSegment.length > 0) {
             segments.push(currentSegment); 
         }
 
