@@ -151,34 +151,33 @@ def delete_account(request):
 
 def activate(request, uidb64, token):
     try:
-        email = force_str(urlsafe_base64_decode(uidb64))  # 이메일 기반 디코딩
+        email = force_str(urlsafe_base64_decode(uidb64))
         cache_key = f"signup_{email}"
         temp_user_data_json = cache.get(cache_key)
 
         if not temp_user_data_json:
-            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
+            # 유효 시간 초과 또는 잘못된 이메일로 인해 데이터 없음
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "expired"})
 
         temp_user_data = json.loads(temp_user_data_json)
 
-        # 이메일 인증을 위한 유효성 검사
         if not default_token_generator.check_token(User(email=email), token):
-            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
+            # 잘못된 토큰 (URL 변조 또는 재사용된 링크)
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "invalid"})
 
-        # 인증 성공 후 계정 생성
         user = User.objects.create_user(
             email=temp_user_data['email'],
             password=temp_user_data['password'],
             nickname=temp_user_data['nickname'],
-            is_active=True  # 인증 후 활성화
+            is_active=True
         )
 
-        # 캐시에서 데이터 삭제
         cache.delete(cache_key)
-
         return render(request, "usermanage/SignUp_confirm.html")
 
     except (ValueError, TypeError):
-        return render(request, "usermanage/FindPassword/password_reset_invalid.html")
+        # URL 디코딩 실패 (잘못된 형식의 URL)
+        return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "invalid"})
 
 def password_reset_request(request):
     if request.method == "POST":
