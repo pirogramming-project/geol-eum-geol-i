@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalDistance = 0;
     let caloriesBurned = 0;
     let weight = 75;
-    let minDistance = 1; // 최소 1m 이상 이동 시에만 기록
+    let minDistance = 1.5; // 최소 1.5m 이상 이동 시에만 기록
     let isPaused = false; // 기록 수집 상태(for bottleBtn)
     let pauseStartTime = null; // bottleBtn 누른 시간
     let totalPausedTime = 0; // 총 기록 수집 중단 시간
@@ -35,42 +35,48 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
     
                     if (path.length > 0) {
-                        let lastPosition = path[path.length - 1];
-    
-                        // 이동 거리(km) 계산
-                        let distance = haversine(
-                            lastPosition.latitude, lastPosition.longitude,
-                            newPosition.latitude, newPosition.longitude
-                        );
-    
-                        // 동일한 시간 데이터는 수집X
-                        if (newPosition.timestamp === lastPosition.timestamp) {
-                            console.log("⚠️ 동일한 시간 데이터 -> 저장 X");
-                            alert("동일한 시간 데이터 -> 저장 X"); // 모바일 확인용
-                            return;
-                        }
-    
-                        // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
-                        if (
-                            Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00003 &&
-                            Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00003
-                        ) {
-                            console.log("⚠️ 너무 작은 변화량 -> 저장 X");
-                            alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
-                            return;
-                        }
-    
-                        // 최소 이동 거리 이상의 움직임만 수집
-                        if (distance >= minDistance / 1000) {
+                        let lastPosition_index = path.length-1;
+                        if (path[lastPosition_index] === "gap") {
+                            alert("gap 탐지 -> 새로운 경로 수집");
                             path.push(newPosition);
-                            console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
-                            alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
-                            updateDisNCal();
-                            // Background Sync 등록 -> 백그라운드 모드 GPS 유지
-                            registerBackgroundSync(path);
-                        } else {
-                            console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
-                            alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
+                        }
+                        else {
+                            let lastPosition = path[lastPosition_index];
+                            
+                            // 이동 거리(km) 계산
+                            let distance = haversine(
+                                lastPosition.latitude, lastPosition.longitude,
+                                newPosition.latitude, newPosition.longitude
+                            );
+
+                            // 이상치 필터링 (순간적으로 5m 이상 이동한 경우)
+                            if (distance * 1000 > 5) {
+                                alert(`⚠️ GPS 오차 감지 -> ${distance * 1000}m 이동 기록 무시`);
+                                return;
+                            }
+        
+                            // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
+                            if (
+                                Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00003 &&
+                                Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00003
+                            ) {
+                                console.log("⚠️ 너무 작은 변화량 -> 저장 X");
+                                alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
+                                return;
+                            }
+        
+                            // 최소 이동 거리 이상의 움직임만 수집
+                            if (distance >= minDistance / 1000) {
+                                path.push(newPosition);
+                                console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
+                                alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
+                                updateDisNCal();
+                                // Background Sync 등록 -> 백그라운드 모드 GPS 유지
+                                registerBackgroundSync(path);
+                            } else {
+                                console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
+                                alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
+                            }
                         }
     
                     } else {
