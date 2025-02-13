@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalDistance = 0;
     let caloriesBurned = 0;
     let weight = 75;
-    let minDistance = 3; // 최소 3m 이상 이동 시에만 기록
+    let minDistance = 1; // 최소 1m 이상 이동 시에만 기록
     let isPaused = false; // 기록 수집 상태(for bottleBtn)
     let pauseStartTime = null; // bottleBtn 누른 시간
     let totalPausedTime = 0; // 총 기록 수집 중단 시간
@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
                         // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
                         if (
-                            Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00001 &&
-                            Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00001
+                            Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00003 &&
+                            Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00003
                         ) {
                             console.log("⚠️ 너무 작은 변화량 -> 저장 X");
                             alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
@@ -64,13 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (distance >= minDistance / 1000) {
                             path.push(newPosition);
                             console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
-                            alert("실시간 좌표 추가"); // 모바일 확인용
+                            alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
                             updateDisNCal();
                             // Background Sync 등록 -> 백그라운드 모드 GPS 유지
                             registerBackgroundSync(path);
                         } else {
                             console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
-                            alert("이동 거리 너무 작음 -> 저장 X"); // 모바일 확인용
+                            alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
                         }
     
                     } else {
