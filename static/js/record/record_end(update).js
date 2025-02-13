@@ -282,6 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
             pauseStartTime = null; // bottleBtn 클릭 시간 초기화
             
+            stopUserGPS(); // 기존 watchID 삭제
             getUserGPS();
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {
@@ -290,8 +291,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             pauseStartTime = new Date();
             pauseStartTime.setHours(pauseStartTime.getHours() + 9);
+            
             stopUserGPS();
-            showStatus.textContent="지금은 쉬는 중! 다시 걸을 땐 물통 누르기";
 
             // gap 추가 전 path 상태 확인
             console.log("gap 추가 전 path: ", JSON.stringify(path));
@@ -300,6 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 path.push("gap"); // 경로 분리를 위한 마커
             }
             console.log("gap 추가 후 path: ", JSON.stringify(path));
+            showStatus.textContent="지금은 쉬는 중! 다시 걸을 땐 물통 누르기";
         }
     });
 
