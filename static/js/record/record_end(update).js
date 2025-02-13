@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
             pauseStartTime = null; // bottleBtn 클릭 시간 초기화
             
             watchID = null; // 기존 watchID 삭제
-            getUserGPS();
+            setTimeout(getUserGPS, 500);
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {
             console.log("기록 수집 중지");
