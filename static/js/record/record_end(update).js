@@ -21,13 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function getUserGPS() {
         // watchID = null (GPS 수집 시작상태)일때 GPS 수집 시작
         if (!watchID) {
-            console.log("GPS 수집 시작");
             watchID = navigator.geolocation.watchPosition(
                 (position) => {
                     if (isPaused) {
                         return;
                     }
-
+                    console.log("GPS 수집 시작");
                     let newPosition = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -78,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
             );
         } else {
-            console.log("📍 GPS 수집 중");
             navigator.geolocation.getCurrentPosition(
                 (position) => console.log("GPS 수집 정상 작동: ", position),
                 (error) => {
@@ -282,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
             pauseStartTime = null; // bottleBtn 클릭 시간 초기화
             
-            stopUserGPS(); // 기존 watchID 삭제
+            watchID = null; // 기존 watchID 삭제
             getUserGPS();
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {
@@ -293,7 +291,6 @@ document.addEventListener("DOMContentLoaded", function () {
             pauseStartTime.setHours(pauseStartTime.getHours() + 9);
             
             stopUserGPS();
-
             // gap 추가 전 path 상태 확인
             console.log("gap 추가 전 path: ", JSON.stringify(path));
             // 경로 수집 중지, 'gap' 표식 추가
