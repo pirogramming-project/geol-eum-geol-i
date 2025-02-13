@@ -176,12 +176,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let totalDistance = 0;
         let lastValidPosition = null; // gap 직전의 유효한 위치 저장
 
-        for (let i = 1; i < coords.length; i++) {
+        for (let i = 0; i < coords.length; i++) {
             if(coords[i] === "gap") {
                 lastValidPosition = null; // 거리 계산 reset
+                continue;
             }
             // 거리 계산 대상이 gap이 아닌경우
-            if(lastValidPosition) {
+            if(lastValidPosition && coords[i]) {
                 totalDistance += haversine(
                     lastValidPosition.latitude, lastValidPosition.longitude,
                     coords[i].latitude, coords[i].longitude
