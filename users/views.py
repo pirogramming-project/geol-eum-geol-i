@@ -86,18 +86,26 @@ def signup(request):
             password = form.cleaned_data['password1']
             nickname = form.cleaned_data['nickname']
 
-            # 캐시에 계정 정보 저장 (이메일 인증 후 계정 생성)
-            temp_user_data = {
-                'email': email,
-                'password': password,
-                'nickname': nickname,
-            }
-            cache_key = f"signup_{email}"  # 이메일 기반 캐시 키
-            cache.set(cache_key, json.dumps(temp_user_data), timeout=600)  # 10분 동안 저장
-
-            # 이메일 인증을 위한 토큰 생성
-            token = default_token_generator.make_token(User(email=email))
-            uid = urlsafe_base64_encode(force_bytes(email))  # 이메일을 기반으로 직렬화
+            cache_key = f"signup_{email}"
+            existing_data = cache.get(cache_key)
+            
+            # 기존 요청이 있다면 기존 토큰을 유지
+            if existing_data:
+                temp_user_data = json.loads(existing_data)
+                token = temp_user_data.get("token")
+                uid = temp_user_data.get("uid")
+            else:
+                # 새로 생성
+                token = default_token_generator.make_token(User(email=email))
+                uid = urlsafe_base64_encode(force_bytes(email))
+                temp_user_data = {
+                    'email': email,
+                    'password': password,
+                    'nickname': nickname,
+                    'token': token,
+                    'uid': uid
+                }
+                cache.set(cache_key, json.dumps(temp_user_data), timeout=600)
 
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
@@ -117,7 +125,6 @@ def signup(request):
 
             return JsonResponse({"message": "이메일이 전송되었습니다! 이메일을 확인해주세요!"})
 
-        # 유효성 검사 실패 시 오류 메시지 반환
         return JsonResponse({"error": form.errors}, status=400)
 
     return render(request, 'usermanage/signup.html', {'form': CustomUserCreationForm()})
