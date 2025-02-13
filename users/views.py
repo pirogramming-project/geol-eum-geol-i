@@ -88,8 +88,8 @@ def signup(request):
 
             cache_key = f"signup_{email}"
             existing_data = cache.get(cache_key)
-            
-            # 기존 요청이 있다면 기존 토큰을 유지
+
+            # 기존 요청이 있다면 기존 토큰 유지
             if existing_data:
                 temp_user_data = json.loads(existing_data)
                 token = temp_user_data.get("token")
@@ -131,26 +131,36 @@ def signup(request):
 
 
 
+
+
 "회원 탈퇴"
 logger = logging.getLogger(__name__)
 
 @login_required
 def delete_account(request):
     user = request.user
+    email = user.email  # 캐시 삭제를 위해 이메일 저장
 
     if request.method == "POST":
-        logger.info(f"회원 탈퇴 요청: {user.email} (ID: {user.user_id})")
+        logger.info(f"회원 탈퇴 요청: {email} (ID: {user.user_id})")
 
         try:
+            # 회원 삭제
             user.delete()
-            logger.info(f"회원 삭제 완료: {user.email} (ID: {user.user_id})")
+            logger.info(f"회원 삭제 완료: {email} (ID: {user.user_id})")
 
+            # 이메일 인증 관련 캐시 삭제
+            cache_key = f"signup_{email}"
+            cache.delete(cache_key)
+            logger.info(f"회원 탈퇴 후 캐시 삭제 완료: {cache_key}")
+
+            # 로그아웃 처리
             logout(request)
 
             return JsonResponse({"message": "회원 탈퇴가 완료되었습니다."}, status=200)
 
         except Exception as e:
-            logger.error(f"회원 삭제 실패: {user.email} (ID: {user.user_id}), 오류: {str(e)}")
+            logger.error(f"회원 삭제 실패: {email} (ID: {user.user_id}), 오류: {str(e)}")
             return JsonResponse({"error": "회원 탈퇴 중 오류가 발생했습니다."}, status=500)
 
     return JsonResponse({"error": "잘못된 요청입니다."}, status=400)
@@ -163,13 +173,12 @@ def activate(request, uidb64, token):
         temp_user_data_json = cache.get(cache_key)
 
         if not temp_user_data_json:
-            # 유효 시간 초과 또는 잘못된 이메일로 인해 데이터 없음
             return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "expired"})
 
         temp_user_data = json.loads(temp_user_data_json)
 
-        if not default_token_generator.check_token(User(email=email), token):
-            # 잘못된 토큰 (URL 변조 또는 재사용된 링크)
+        # 저장된 토큰과 비교하여 검증 (make_token을 사용하지 않음)
+        if temp_user_data["token"] != token:
             return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "invalid"})
 
         user = User.objects.create_user(
@@ -183,8 +192,8 @@ def activate(request, uidb64, token):
         return render(request, "usermanage/SignUp_confirm.html")
 
     except (ValueError, TypeError):
-        # URL 디코딩 실패 (잘못된 형식의 URL)
         return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "invalid"})
+
 
 def password_reset_request(request):
     if request.method == "POST":
