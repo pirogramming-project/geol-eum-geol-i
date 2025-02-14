@@ -130,7 +130,7 @@
   <tr>
     <td><img src="https://github.com/user-attachments/assets/993d44a9-d7df-46ec-9b39-130ab362e937" width="300" alt="Image"></td>
     <td><img src="https://github.com/user-attachments/assets/67249e99-81ea-48d7-804c-63669018cb3a" width="300" alt="Image"></td>
-    <td><img src="https://github.com/user-attachments/assets/16ca4c92-e158-4657-9659-cf8845050ce4" width="300" alt="Image"></td>
+    <td><img src="https://github.com/user-attachments/assets/23337c70-d5aa-45ff-a686-e1f07da8be4e" width="300" alt="Image"></td>
     <td><img src="https://github.com/user-attachments/assets/600bf651-7b7a-4911-9b50-c9dd71f05eb2" width="300" alt="Image"></td>
   </tr>
 </table>
