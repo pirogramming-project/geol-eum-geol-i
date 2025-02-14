@@ -86,18 +86,26 @@ def signup(request):
             password = form.cleaned_data['password1']
             nickname = form.cleaned_data['nickname']
 
-            # 캐시에 계정 정보 저장 (이메일 인증 후 계정 생성)
-            temp_user_data = {
-                'email': email,
-                'password': password,
-                'nickname': nickname,
-            }
-            cache_key = f"signup_{email}"  # 이메일 기반 캐시 키
-            cache.set(cache_key, json.dumps(temp_user_data), timeout=600)  # 10분 동안 저장
+            cache_key = f"signup_{email}"
+            existing_data = cache.get(cache_key)
 
-            # 이메일 인증을 위한 토큰 생성
-            token = default_token_generator.make_token(User(email=email))
-            uid = urlsafe_base64_encode(force_bytes(email))  # 이메일을 기반으로 직렬화
+            # 기존 요청이 있다면 기존 토큰 유지
+            if existing_data:
+                temp_user_data = json.loads(existing_data)
+                token = temp_user_data.get("token")
+                uid = temp_user_data.get("uid")
+            else:
+                # 새로 생성
+                token = default_token_generator.make_token(User(email=email))
+                uid = urlsafe_base64_encode(force_bytes(email))
+                temp_user_data = {
+                    'email': email,
+                    'password': password,
+                    'nickname': nickname,
+                    'token': token,
+                    'uid': uid
+                }
+                cache.set(cache_key, json.dumps(temp_user_data), timeout=600)
 
             # 이메일 인증 메일 발송
             current_site = get_current_site(request)
@@ -117,10 +125,11 @@ def signup(request):
 
             return JsonResponse({"message": "이메일이 전송되었습니다! 이메일을 확인해주세요!"})
 
-        # 유효성 검사 실패 시 오류 메시지 반환
         return JsonResponse({"error": form.errors}, status=400)
 
     return render(request, 'usermanage/signup.html', {'form': CustomUserCreationForm()})
+
+
 
 
 
@@ -130,20 +139,28 @@ logger = logging.getLogger(__name__)
 @login_required
 def delete_account(request):
     user = request.user
+    email = user.email  # 캐시 삭제를 위해 이메일 저장
 
     if request.method == "POST":
-        logger.info(f"회원 탈퇴 요청: {user.email} (ID: {user.user_id})")
+        logger.info(f"회원 탈퇴 요청: {email} (ID: {user.user_id})")
 
         try:
+            # 회원 삭제
             user.delete()
-            logger.info(f"회원 삭제 완료: {user.email} (ID: {user.user_id})")
+            logger.info(f"회원 삭제 완료: {email} (ID: {user.user_id})")
 
+            # 이메일 인증 관련 캐시 삭제
+            cache_key = f"signup_{email}"
+            cache.delete(cache_key)
+            logger.info(f"회원 탈퇴 후 캐시 삭제 완료: {cache_key}")
+
+            # 로그아웃 처리
             logout(request)
 
             return JsonResponse({"message": "회원 탈퇴가 완료되었습니다."}, status=200)
 
         except Exception as e:
-            logger.error(f"회원 삭제 실패: {user.email} (ID: {user.user_id}), 오류: {str(e)}")
+            logger.error(f"회원 삭제 실패: {email} (ID: {user.user_id}), 오류: {str(e)}")
             return JsonResponse({"error": "회원 탈퇴 중 오류가 발생했습니다."}, status=500)
 
     return JsonResponse({"error": "잘못된 요청입니다."}, status=400)
@@ -151,34 +168,32 @@ def delete_account(request):
 
 def activate(request, uidb64, token):
     try:
-        email = force_str(urlsafe_base64_decode(uidb64))  # 이메일 기반 디코딩
+        email = force_str(urlsafe_base64_decode(uidb64))
         cache_key = f"signup_{email}"
         temp_user_data_json = cache.get(cache_key)
 
         if not temp_user_data_json:
-            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "expired"})
 
         temp_user_data = json.loads(temp_user_data_json)
 
-        # 이메일 인증을 위한 유효성 검사
-        if not default_token_generator.check_token(User(email=email), token):
-            return render(request, "usermanage/FindPassword/password_reset_invalid.html")
+        # 저장된 토큰과 비교하여 검증 (make_token을 사용하지 않음)
+        if temp_user_data["token"] != token:
+            return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "invalid"})
 
-        # 인증 성공 후 계정 생성
         user = User.objects.create_user(
             email=temp_user_data['email'],
             password=temp_user_data['password'],
             nickname=temp_user_data['nickname'],
-            is_active=True  # 인증 후 활성화
+            is_active=True
         )
 
-        # 캐시에서 데이터 삭제
         cache.delete(cache_key)
-
         return render(request, "usermanage/SignUp_confirm.html")
 
     except (ValueError, TypeError):
-        return render(request, "usermanage/FindPassword/password_reset_invalid.html")
+        return render(request, "usermanage/FindPassword/password_reset_invalid.html", {"error_type": "invalid"})
+
 
 def password_reset_request(request):
     if request.method == "POST":

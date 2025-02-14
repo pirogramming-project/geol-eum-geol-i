@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalDistance = 0;
     let caloriesBurned = 0;
     let weight = 75;
-    let minDistance = 3; // 최소 3m 이상 이동 시에만 기록
+    let minDistance = 1.5; // 최소 1.5m 이상 이동 시에만 기록
     let isPaused = false; // 기록 수집 상태(for bottleBtn)
     let pauseStartTime = null; // bottleBtn 누른 시간
     let totalPausedTime = 0; // 총 기록 수집 중단 시간
@@ -21,13 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function getUserGPS() {
         // watchID = null (GPS 수집 시작상태)일때 GPS 수집 시작
         if (!watchID) {
-            console.log("GPS 수집 시작");
             watchID = navigator.geolocation.watchPosition(
                 (position) => {
                     if (isPaused) {
                         return;
                     }
-
+                    // console.log("GPS 수집 시작");
+                    // alert("getUserGPS() 실행 완료"); // 모바일 확인용
                     let newPosition = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -35,55 +35,61 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
     
                     if (path.length > 0) {
-                        let lastPosition = path[path.length - 1];
-    
-                        // 이동 거리(km) 계산
-                        let distance = haversine(
-                            lastPosition.latitude, lastPosition.longitude,
-                            newPosition.latitude, newPosition.longitude
-                        );
-    
-                        // 동일한 시간 데이터는 수집X
-                        if (newPosition.timestamp === lastPosition.timestamp) {
-                            console.log("⚠️ 동일한 시간 데이터 -> 저장 X");
-                            return;
-                        }
-    
-                        // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
-                        if (
-                            Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00001 &&
-                            Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00001
-                        ) {
-                            console.log("⚠️ 너무 작은 변화량 -> 저장 X");
-                            return;
-                        }
-    
-                        // 최소 이동 거리 이상의 움직임만 수집
-                        if (distance >= minDistance / 1000) {
+                        let lastPosition_index = path.length-1;
+                        if (path[lastPosition_index] === "gap") {
+                            // alert("gap 탐지 -> 새로운 경로 수집");
                             path.push(newPosition);
-                            console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
-                            updateDisNCal();
-                            // Background Sync 등록 -> 백그라운드 모드 GPS 유지
-                            registerBackgroundSync(path);
-                        } else {
-                            console.log(`⚠️ 이동 거리 너무 작음 -> 저장 X`);
+                        }
+                        else {
+                            let lastPosition = path[lastPosition_index];
+                            
+                            // 이동 거리(km) 계산
+                            let distance = haversine(
+                                lastPosition.latitude, lastPosition.longitude,
+                                newPosition.latitude, newPosition.longitude
+                            );
+        
+                            // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
+                            if (
+                                Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00003 &&
+                                Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00003
+                            ) {
+                                console.log("⚠️ 너무 작은 변화량 -> 저장 X");
+                                // alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
+                                return;
+                            }
+        
+                            // 최소 이동 거리 이상의 움직임만 수집
+                            if (distance >= minDistance / 1000) {
+                                path.push(newPosition);
+                                console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
+                                // alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
+                                updateDisNCal();
+                                // Background Sync 등록 -> 백그라운드 모드 GPS 유지
+                                registerBackgroundSync(path);
+                            } else {
+                                console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
+                                // alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
+                            }
                         }
     
                     } else {
                         path.push(newPosition);
                         console.log("📍 초기 좌표 추가:", newPosition);
+                        // alert("초기 좌표 추가"); // 모바일 확인용
                     }
                 },
                 (error) => console.error("🚨 실시간 좌표 수집 불가:", error),
                 { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
             );
         } else {
-            console.log("📍 GPS 수집 중");
             navigator.geolocation.getCurrentPosition(
                 (position) => console.log("GPS 수집 정상 작동: ", position),
+                // alert("GPS 수집 정상 작동:"), // 모바일 확인용
                 (error) => {
                     // watchID가 끊긴 예외상황
-                    console.error("GPS 수집 오류, 강제 다시 실행:", error);
+                    console.error("GPS 수집 오류, 강제 실행:", error);
+                    // alert("GPS 수집 오류, 강제 실행"); // 모바일 확인용
                     watchID = null;
                     getUserGPS();
                 }
@@ -168,11 +174,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function calcDistance(coords) {
         let totalDistance = 0;
-        for (let i = 1; i < coords.length; i++) {
-            totalDistance += haversine(
-                coords[i - 1].latitude, coords[i - 1].longitude,
-                coords[i].latitude, coords[i].longitude
-            );
+        let lastValidPosition = null; // gap 직전의 유효한 위치 저장
+
+        for (let i = 0; i < coords.length; i++) {
+            if(coords[i] === "gap") {
+                lastValidPosition = null; // 거리 계산 reset
+                continue;
+            }
+            // 거리 계산 대상이 gap이 아닌경우
+            if(lastValidPosition && coords[i]) {
+                totalDistance += haversine(
+                    lastValidPosition.latitude, lastValidPosition.longitude,
+                    coords[i].latitude, coords[i].longitude
+                );
+            }
+            lastValidPosition = coords[i]; // 거리 계산 대상이 없으면 현재 위치로 업데이트 
         }
         return totalDistance;
     }
@@ -275,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("bottleBtn").addEventListener("click", function() {
         if (isPaused) {
             console.log("기록 수집 재개");
+            alert("기록 수집 재개"); // 모바일 확인용
             isPaused = false; // 상태 변경
 
             let pauseStopTime = new Date();
@@ -282,17 +299,18 @@ document.addEventListener("DOMContentLoaded", function () {
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
             pauseStartTime = null; // bottleBtn 클릭 시간 초기화
             
-            getUserGPS();
+            watchID = null; // 기존 watchID 삭제
+            setTimeout(getUserGPS, 500);
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {
             console.log("기록 수집 중지");
+            alert("기록 수집 중지"); // 모바일 확인용
             isPaused = true;
 
             pauseStartTime = new Date();
             pauseStartTime.setHours(pauseStartTime.getHours() + 9);
+            
             stopUserGPS();
-            showStatus.textContent="지금은 쉬는 중! 다시 걸을 땐 물통 누르기";
-
             // gap 추가 전 path 상태 확인
             console.log("gap 추가 전 path: ", JSON.stringify(path));
             // 경로 수집 중지, 'gap' 표식 추가
@@ -300,6 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 path.push("gap"); // 경로 분리를 위한 마커
             }
             console.log("gap 추가 후 path: ", JSON.stringify(path));
+            showStatus.textContent="지금은 쉬는 중! 다시 걸을 땐 물통 누르기";
         }
     });
 
