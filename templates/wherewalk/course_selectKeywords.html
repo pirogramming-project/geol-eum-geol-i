@@ -157,15 +157,13 @@
             let posts = container.querySelectorAll(".center_post_box");
             posts.forEach((post, index) => {
               if (index < visiblePosts) {
-                post.style.visibility = "visible";
-                post.style.height = "auto";
-                post.style.opacity = "1";
-                post.style.transform = "scale(1)";
+                post.classList.add("visible");
+                post.classList.remove("hidden");
               } else {
-                post.style.visibility = "hidden";
-                post.style.height = "0";
-                post.style.opacity = "0";
-                post.style.transform = "scale(0.8)";
+                post.classList.add("hidden");
+                setTimeout(() => {
+                  post.classList.remove("visible");
+                }, 300); // 트랜지션 시간 후 제거
               }
             });
           });
@@ -175,6 +173,18 @@
           if (visiblePosts >= totalPosts) {
             loadMoreBtn.style.display = "none";
           }
+        }
+
+        function deletegap() {
+          postContainers.forEach((container) => {
+            let posts = container.querySelectorAll(".center_post_box");
+            posts.forEach((post) => {
+              post.classList.add("hidden");
+              setTimeout(() => {
+                post.classList.remove("visible");
+              }, 300);
+            });
+          });
         }
 
         // 초기 6개만 표시
@@ -194,7 +204,7 @@
           box.addEventListener("click", function () {
             let courseId = this.getAttribute("data-course-id");
             if (courseId) {
-              window.location.href = `/course/course/${courseId}/`; // Django URL 패턴에 맞게 수정
+              window.location.href = `/course/course/${courseId}/`;
             }
           });
         });
