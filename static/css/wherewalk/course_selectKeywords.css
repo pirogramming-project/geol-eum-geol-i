@@ -13,9 +13,9 @@ a:hover {
   position: relative;
 }
 
-.course-recommand-introduction {
+/* .course-recommand-introduction {
   margin-left: 3px;
-}
+} */
 
 .center_keywords_all {
   display: flex;
@@ -59,7 +59,7 @@ a:hover {
   display: grid;
   flex-direction: row;
   padding: 15px 15px 15px 0px;
-  gap: 14px;
+  /* gap: 14px; */
 }
 
 .center_post_box {
@@ -83,13 +83,31 @@ a:hover {
   transition: transform 300ms ease;
 }
 
-.center_post_box[style*="visibility: hidden"] {
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
+/* 처음에는 보이지 않도록 설정 */
+.center_post_box.hidden {
   opacity: 0;
   transform: scale(0.8);
+  height: 0;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
   transition: all 0.3s ease-in-out;
+}
+
+/* 나타날 때 애니메이션 효과 */
+.center_post_box.visible {
+  opacity: 1;
+  transform: scale(1);
+  height: auto;
+  margin: 10px;
+  padding: 5px;
+  visibility: visible;
+  transition: all 0.3s ease-in-out;
+
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 .center_post_img {
