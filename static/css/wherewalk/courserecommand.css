@@ -397,14 +397,14 @@ svg {
 }
 .map-popup-content {
   position: absolute;
-    top: 38%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    height: 68%;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 68%;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .map_Btn {
   width: 100%;
@@ -444,7 +444,7 @@ svg {
 
 .ranking-word {
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 13.5px;
+  font-size: 13.656px;
   font-weight: 400;
   line-height: normal;
   color: var(--red);

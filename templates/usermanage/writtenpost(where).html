@@ -59,30 +59,28 @@
 
           <div class="writtenpost_title">
             <div class="writtenpost_context">어디걸음? (글쓴이:{{ user.nickname }})</div>
-            
+
             <div class="writtenpost_move">
               <div class="writtenpost_together"><a href="{% url 'users:writtenpost_together_view'%}">내가 작성한 '함께걸음!' 보러 이동하기</a></div>
             </div>
-
           </div>
-
 
           <div class="recommendations">
             {% for course in page_obj %}
-            <a href="{% url 'course:course_detail' course.pk %}" class="card-link">
 
-              <div class="card" data-id="{{ course.id }}">
+            <div class="card" data-id="{{ course.id }}">
+              <a href="{% url 'course:course_detail' course.pk %}" class="card-link">
                 <img
                   src="{% if course.image %}{{ course.image.url }}{% else %}{% static 'defaultimage/geoleumi.png' %}{% endif %}"
                   alt="{{ course.title }}"
                   class="course-image"
                   style="width: 77px; height: 74px"
                 />
-
-                <p>{{ course.title|slice:":6" }}{% if course.title|length > 6 %}...{% endif %}</p>
-              </div>
-              {% endfor %}
+              </a>
+              <p>{{ course.title|slice:":6" }}{% if course.title|length > 6 %}...{% endif %}</p>
             </div>
+            {% endfor %}
+          </div>
 
           <div class="pagination">
             <!-- 이전 페이지 버튼 -->
