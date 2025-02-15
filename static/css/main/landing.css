@@ -7,7 +7,7 @@ body {
     background-color: var(--white);
 }
 .landing__layout {
-    width: 100vw;
+    width: 400px;
     height: 100dvh;
     background: linear-gradient(180deg, var(--light-coral) 0%, var(--mint) 50%, var(--light-skyblue) 100%);
     margin-inline: auto;
@@ -99,6 +99,14 @@ body {
     z-index: 4;
 }
 @media (max-width: 480px) {
+    .landing__layout {
+        width: 100vw;
+        height: 100dvh;
+        background: linear-gradient(180deg, var(--light-coral) 0%, var(--mint) 50%, var(--light-skyblue) 100%);
+        margin-inline: auto;
+        font-family: 'VITRO INSPIRE OTF', sans-serif;
+        position: relative;
+    }
     .landing__person {
         bottom: 180px;
         left: 141px;
