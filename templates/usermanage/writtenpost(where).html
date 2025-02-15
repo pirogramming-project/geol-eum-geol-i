@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>걸음걸이_내가 작성한 글(어디걸음)</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/root.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/landing.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/together/together_main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/writtenpost(where).css' %}" />
+    <link rel="stylesheet" href="{% static 'css/wherewalk/courserecommand.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main/navBar.css' %}" />
+    <link rel="icon" type="image/png" href="{% static 'image/favicon/favicon-96x96.png' %}" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="{% static 'image/favicon/favicon.svg' %}" />
+    <link rel="shortcut icon" href="{% static 'image/favicon/favicon.ico' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'image/favicon/apple-touch-icon.png' %}" />
+    <meta name="apple-mobile-web-app-title" content="걸음걸이" />
+    <link rel="manifest" href="{% static 'image/favicon/site.webmanifest' %}" />
+  </head>
+
+  <body>
+    <div class="landing__layout">
+      <div class="body_container">
+        <a href="{% url 'record:ranking'%}" class="link-ranking">
+          <div class="to-ranking">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="59" viewBox="0 0 48 59" fill="none">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M16.4078 42.109H4.38664V27.6734C4.38664 27.1626 4.79988 26.7448 5.31063 26.7448H15.4745C15.9853 26.7448 16.4031 27.1626 16.4031 27.6734V42.109H16.4078ZM18.813 20.4393C18.3022 20.4393 17.889 20.8572 17.889 21.368V42.109H29.9101V21.368C29.9101 20.8572 29.4969 20.4393 28.9815 20.4393H18.813ZM31.3913 33.9742V42.109H43.4124V33.9742C43.4124 33.4634 42.9992 33.0455 42.4884 33.0455H32.3199C31.8092 33.0502 31.3913 33.4634 31.3913 33.9742ZM45.7619 43.5901H2.03256C1.84219 43.5901 1.68896 43.7434 1.68896 43.9291V45.8514C1.68896 46.0417 1.84219 46.1903 2.03256 46.1903H45.7619C45.9522 46.1903 46.1008 46.0371 46.1008 45.8514V43.9291C46.1055 43.7434 45.9522 43.5901 45.7619 43.5901ZM16.0549 12.7874H31.7442L33.1232 7.71243C32.3338 7.45241 31.6652 6.92774 31.2148 6.24055L27.5096 8.58999C27.3982 8.65964 27.2774 8.67821 27.1474 8.64106C27.0221 8.60392 26.9246 8.52499 26.8688 8.40891L25.513 5.6648C25.0255 5.90624 24.4776 6.04089 23.9019 6.04089C23.3215 6.04089 22.7736 5.90624 22.2907 5.6648L20.9349 8.40891C20.8745 8.52499 20.7817 8.60392 20.6563 8.64106C20.5309 8.67821 20.4056 8.65964 20.2941 8.58999L17.016 6.50985C16.4542 7.20633 15.637 7.68922 14.713 7.82387L16.0549 12.7874ZM30.7412 16.488L31.3402 14.2686H16.4542L17.0578 16.488C17.1136 16.6877 17.2853 16.8177 17.4896 16.8177H30.3048C30.5137 16.8223 30.6855 16.6877 30.7412 16.488ZM23.8972 4.56437C25.0905 4.56437 26.0609 3.5893 26.0609 2.40065C26.0609 1.20736 25.0905 0.236938 23.8972 0.236938C22.7039 0.236938 21.7335 1.20736 21.7335 2.40065C21.7335 3.5893 22.7039 4.56437 23.8972 4.56437ZM34.27 6.41699C35.4633 6.41699 36.4338 5.44657 36.4338 4.25327C36.4338 3.05998 35.4587 2.08956 34.27 2.08956C33.0767 2.08956 32.1063 3.05998 32.1063 4.25327C32.1063 5.44657 33.0767 6.41699 34.27 6.41699ZM14.1791 6.37984C15.3724 6.37984 16.3428 5.40942 16.3428 4.21613C16.3428 3.02284 15.3724 2.05242 14.1791 2.05242C12.9858 2.05242 12.0154 3.02284 12.0154 4.21613C12.0107 5.40942 12.9858 6.37984 14.1791 6.37984Z"
+                fill="#B82132"
+              />
+            </svg>
+            <div class="ranking-word">이달의 걸음왕</div>
+          </div>
+        </a>
+
+        <div class="wrapper">
+          <div class="together_header">
+            <div class="together_title">
+              <a href="{% url 'users:success' %}" class="home-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="47" height="57" viewBox="0 -13 47 57" fill="none">
+                  <path
+                    d="M36.4381 26.8837V40.0532C36.4381 41.8312 34.8251 43.2793 32.8327 43.2793H26.9761V31.3566C26.9761 30.2037 26.0426 29.2702 24.8897 29.2702H21.5498C20.3937 29.2702 19.4635 30.2037 19.4635 31.3566V43.2793H13.6068C11.6227 43.2793 10.0014 41.8312 10.0014 40.0532V26.8837C10.1795 26.7947 23.2174 15.2642 23.2174 15.2642C23.2174 15.2642 36.2552 26.7913 36.4334 26.8837H36.4381ZM40.474 21.4953L24.5612 7.88709C23.7976 7.22408 22.6481 7.22408 21.8927 7.88709L5.96518 21.4953C5.17187 22.1798 5.04816 23.3524 5.6782 24.1672C6.01136 24.6141 6.53582 24.9061 7.10156 24.9605C7.16423 24.9687 7.2368 24.9737 7.29947 24.9737C7.78933 24.9737 8.26598 24.8005 8.63378 24.4838L23.222 12.0067L37.8136 24.4872C38.1847 24.7989 38.6531 24.9721 39.1429 24.9721C39.7894 24.9721 40.393 24.6769 40.7691 24.1738C41.3975 23.3541 41.2721 22.1814 40.4772 21.497L40.474 21.4953Z"
+                    fill="#B82132"
+                  />
+                </svg>
+              </a>
+              <div class="writtenpost_title_text_all">
+                <div class="writtenpost_title_text">내가</div>
+                <div class="writtenpost_title_text_red">작성한</div>
+                <div class="writtenpost_title_text">글</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="writtenpost_title">
+            <div class="writtenpost_context">어디걸음? (글쓴이:{{ user.nickname }})</div>
+            
+            <div class="writtenpost_move">
+              <div class="writtenpost_together"><a href='#'>'함께걸음!'으로 이동하기</a></div>
+              <div class="writtenpost_where_all"><a href='#'>'어디걸음?'으로 이동하기</a></div>
+            </div>
+
+          </div>
+
+
+          <div class="recommendations">
+            {% for course in page_obj %}
+            <a href="{% url 'course:course_detail' course.pk %}" class="card-link">
+
+              <div class="card" data-id="{{ course.id }}">
+                <img
+                  src="{% if course.image %}{{ course.image.url }}{% else %}{% static 'defaultimage/geoleumi.png' %}{% endif %}"
+                  alt="{{ course.title }}"
+                  class="course-image"
+                  style="width: 77px; height: 74px"
+                />
+
+                <p>{{ course.title|slice:":6" }}{% if course.title|length > 6 %}...{% endif %}</p>
+              </div>
+              {% endfor %}
+            </div>
+
+          <div class="pagination">
+            <!-- 이전 페이지 버튼 -->
+            <a
+              href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"
+              onclick="{% if not page_obj.has_previous %}alert('첫 번째 페이지입니다.'); return false;{% endif %}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M10 0C4.48584 0 0 4.48584 0 10C0 15.5142 4.48584 20 10 20C15.5142 20 20 15.5142 20 10C20 4.48584 15.5142 0 10 0ZM15 11H7.41406L8.70703 12.293C9.09766 12.6836 9.09766 13.3164 8.70703 13.707C8.51172 13.9023 8.25586 14 8 14C7.74414 14 7.48828 13.9023 7.29297 13.707L4.29297 10.707C3.90234 10.3164 3.90234 9.68359 4.29297 9.29297L7.29297 6.29297C7.68359 5.90234 8.31641 5.90234 8.70703 6.29297C9.09766 6.68359 9.09766 7.31641 8.70703 7.70703L7.41406 9H15C15.5522 9 16 9.44775 16 10C16 10.5522 15.5522 11 15 11Z"
+                  fill="#76453B"
+                />
+              </svg>
+            </a>
+
+            <span class="pagination-status">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+            <!-- 다음 페이지 버튼 -->
+            <a
+              href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}"
+              onclick="{% if not page_obj.has_next %}alert('마지막 페이지입니다.'); return false;{% endif %}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M10 0C15.5142 0 20 4.48584 20 10C20 15.5142 15.5142 20 10 20C4.48584 20 0 15.5142 0 10C0 4.48584 4.48584 0 10 0ZM5 11H12.5859L11.293 12.293C10.9023 12.6836 10.9023 13.3164 11.293 13.707C11.4883 13.9023 11.7441 14 12 14C12.2559 14 12.5117 13.9023 12.707 13.707L15.707 10.707C16.0977 10.3164 16.0977 9.68359 15.707 9.29297L12.707 6.29297C12.3164 5.90234 11.6836 5.90234 11.293 6.29297C10.9023 6.68359 10.9023 7.31641 11.293 7.70703L12.5859 9H5C4.44775 9 4 9.44775 4 10C4 10.5522 4.44775 11 5 11Z"
+                  fill="#76453B"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <nav class="bottom_nav">
+          <div class="nav_item">
+            <a href="{% url 'post:together_main' %}">
+              <img src="{% static 'image/nav_people.svg' %}" class="nav_icon" />
+              <span>함께걸음!</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'course:course_list' %}">
+              <img src="{% static 'image/nav_find.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+              <span>어디걸음?</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'course:calendar_view' %}">
+              <img src="{% static 'image/nav_calendar.svg' %}" class="nav_icon" />
+              <span>걸음캘린더</span>
+            </a>
+          </div>
+          <div class="nav_item">
+            <a href="{% url 'users:mypage_view' %}">
+              <img src="{% static 'image/nav_socks.svg' %}" class="nav_icon" id="nav_icon_margin_right" />
+              <span>마이걸음</span>
+            </a>
+          </div>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>
