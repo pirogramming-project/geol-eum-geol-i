@@ -1,3 +1,4 @@
+@import url("../root.css");
 @keyframes fadeOut {
     0% { opacity: 1; }
     100% { opacity: 0; }
@@ -6,7 +7,7 @@ body {
     background-color: var(--white);
 }
 .landing__layout {
-    width: 400px;
+    width: 100vw;
     height: 100dvh;
     background: linear-gradient(180deg, var(--light-coral) 0%, var(--mint) 50%, var(--light-skyblue) 100%);
     margin-inline: auto;

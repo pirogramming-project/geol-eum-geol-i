@@ -1,3 +1,4 @@
+@import url("../root.css");
 body {
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -14,7 +15,6 @@ a:hover {
 
 .landing__layout {
   background: var(--background-beige);
-  height: 100dvh;
 }
 
 .title {
