@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let isPaused = false; // 기록 수집 상태(for bottleBtn)
     let pauseStartTime = null; // bottleBtn 누른 시간
     let totalPausedTime = 0; // 총 기록 수집 중단 시간
+    let gpsBuffer = []; // 초기 좌표 저장
+    let avgPosition = null; // 초기 평균 좌표 저장
+    let bufferCnt = 5; // 초기 최소 5개 좌표 수집 후 거리 측정
 
     const showDistance = document.querySelector(".record__e_total_dist");
     const showCalories = document.querySelector(".record__e_total_cal");
@@ -33,6 +36,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         longitude: position.coords.longitude,
                         timestamp: position.timestamp
                     };
+
+                    if(gpsBuffer.length <  bufferCnt) {
+                        gpsBuffer.push(newPosition);
+
+                        if(gpsBuffer.length === bufferCnt) {
+                            let avgLat = gpsBuffer.reduce((sum, p) => sum + p.latitude, 0) / gpsBuffer.length;
+                            let avgLon = gpsBuffer.reduce((sum, p) => sum + p.longitude, 0) / gpsBuffer.length;
+                            let avgT = gpsBuffer.reduce((sum, p) => sum + p.timestamp, 0) / gpsBuffer.length;
+                            avgPosition = { latitude: avgLat, longitude: avgLon, timestamp: avgT };
+                            path.push(avgPosition);
+                        }
+                        return;
+                    }
     
                     if (path.length > 0) {
                         let lastPosition_index = path.length-1;
@@ -56,6 +72,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             ) {
                                 console.log("⚠️ 너무 작은 변화량 -> 저장 X");
                                 // alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
+                                return;
+                            }
+
+                            // GPS 튐 수집 방지(속도 필터링)
+                            let timeDiff = (newPosition.timestamp - lastPosition.timestamp) / 1000; // sec로 단위 변환
+                            let speed = distance * 1000 / timeDiff; // m/s 속도 단위
+                            if (speed > 5) {
+                                // 비정상적인 속도(5m/s 이상) 감지 -> 수집 X
+                                return;
+                            }
+                            if (speed === 5) {
+                                // 비정상적인 속도(0) 감지 -> 수집 X
                                 return;
                             }
         
