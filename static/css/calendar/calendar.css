@@ -3,12 +3,12 @@
 @font-face {
   font-family: "VITRO INSPIRE OTF";
   font-style: normal;
-  src: url('../fonts/VITRO_INSPIRE_OTF.otf') format('opentype');
+  src: url("../fonts/VITRO_INSPIRE_OTF.otf") format("opentype");
 }
 @font-face {
   font-family: "Kartrider Kor OTF";
   font-style: normal;
-  src: url('../fonts/NEXON_Kart_OTF_Bold.otf') format('opentype');
+  src: url("../fonts/NEXON_Kart_OTF_Bold.otf") format("opentype");
 }
 
 body {
@@ -193,8 +193,7 @@ body {
 
 .wrapper {
   overflow-y: auto;
-  padding-bottom: 140px;
-  overflow-x: hidden;
+  padding-bottom: 250px;
 }
 
 ::-webkit-scrollbar {
@@ -232,4 +231,9 @@ body {
   left: 79.8%;
   top: 3.3%;
   z-index: 10;
+}
+
+.body_container {
+  width: 100%;
+  height: 100%;
 }
