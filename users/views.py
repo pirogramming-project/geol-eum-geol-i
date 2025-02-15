@@ -427,7 +427,7 @@ def naver_callback(request):
     email = user_info.get("email")
     nickname = user_info.get("nickname", "사용자")[:8]
     user_id = user_info.get("id")
-    profile_image_url = user_info.get("profile_image", f"{settings.STATIC_URL}defaultimage/default-image.jpg")  # 기본값 설정
+    profile_image_url = user_info.get("profile_image", f"{settings.STATIC_URL}defaultimage/geoleumi.png")  # 기본값 설정
 
     # 로그로 프로필 이미지 확인
     logger.info(f"Naver Profile Image URL: {profile_image_url}")
@@ -518,7 +518,7 @@ def google_callback(request):
     google_id = user_info.get('id')  # Google 고유 사용자 ID
     name = user_info.get('name', '사용자')[:8]
     email = user_info.get('email')  # 세션에 저장하거나 로그에 사용할 수 있음
-    profile_image_url = user_info.get("picture", f"{settings.STATIC_URL}defaultimage/default-image.jpg")    # 프로필 이미지 기본값 설정
+    profile_image_url = user_info.get("picture", f"{settings.STATIC_URL}defaultimage/geoleumi.png")    # 프로필 이미지 기본값 설정
 
 
     logger.info(f"Google People API Response: {user_info}")
