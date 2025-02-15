@@ -3,7 +3,7 @@ body {
   background-color: var(--white);
 }
 .daily__layout {
-  width: 100vw;
+  width: 400px;
   background: var(--background-beige);
   margin-inline: auto;
   font-family: "VITRO INSPIRE OTF", sans-serif;
@@ -309,4 +309,14 @@ body {
   background: linear-gradient(transparent, rgb(118, 69, 59));
   border-radius: 6px;
   border-radius: 20px;
+}
+
+@media (max-width: 480px) {
+  .daily__layout {
+    width: 100vw;
+    background: var(--background-beige);
+    margin-inline: auto;
+    font-family: "VITRO INSPIRE OTF", sans-serif;
+    position: relative;
+  }
 }
