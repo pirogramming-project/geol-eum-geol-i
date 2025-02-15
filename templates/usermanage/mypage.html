@@ -49,7 +49,7 @@
               <div class="mypage_title_text">마이걸음 로그</div>
             </div>
           </div>
-  
+
           <div class="center_1">
             <div class="center_1_img">
               <svg xmlns="http://www.w3.org/2000/svg" width="43" height="53" viewBox="0 0 43 53" fill="none">
@@ -67,11 +67,11 @@
                 />
               </svg>
             </div>
-  
+
             <div class="center_1_box">
               <div class="center_1_profile">
                 {% if profile_update_form.errors.nickname %}
-                <p style="color: red;">{{ profile_update_form.errors.nickname.0 }}</p>
+                <p style="color: red">{{ profile_update_form.errors.nickname.0 }}</p>
                 {% endif %}
                 <div class="center_1_profile_img">
                   <img src="{{ user.profile_image }}" alt="프로필 사진" width="87" height="87" />
@@ -83,31 +83,31 @@
               <!-- 프로필 변경 팝업-->
               <div id="profile-modal" class="modal">
                 <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h2>프로필 변경</h2>
-                    <form id="profile-form" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="profile-preview-box">
-                            <img id="modal-profile-preview" src="{{ user.profile_image }}" alt="프로필 미리보기" width="100">
-                        </div>
-                        <input type="file" name="profile_image" id="profile-upload" class="hidden-input">
-                        <label for="profile-upload" class="custom-file-btn">사진 선택</label>
-                        <div class="nickname-change-box">
-                          <label for="nickname">닉네임 변경</label>
-                          {{ profile_update_form.nickname }}
-                        </div>
-                        <button type="submit" class="profile-upload-btn center_1_profile_change box_text">저장</button>
-                    </form>
+                  <span class="close-modal">&times;</span>
+                  <h2>프로필 변경</h2>
+                  <form id="profile-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="profile-preview-box">
+                      <img id="modal-profile-preview" src="{{ user.profile_image }}" alt="프로필 미리보기" width="100" />
+                    </div>
+                    <input type="file" name="profile_image" id="profile-upload" class="hidden-input" />
+                    <label for="profile-upload" class="custom-file-btn">사진 선택</label>
+                    <div class="nickname-change-box">
+                      <label for="nickname">닉네임 변경</label>
+                      {{ profile_update_form.nickname }}
+                    </div>
+                    <button type="submit" class="profile-upload-btn center_1_profile_change box_text">저장</button>
+                  </form>
                 </div>
               </div>
-  
+
               <div class="center_1_text">
                 <div class="center_1_text1">닉네임: <span class="center_text_red">{{ user.nickname }}</span></div>
                 <div class="center_1_text3">이메일: <span class="center_text_red">{{ user.email }}</span></div>
               </div>
             </div>
           </div>
-  
+
           <div class="center_2">
             <div class="center_2_img">
               <svg xmlns="http://www.w3.org/2000/svg" width="33" height="39" viewBox="0 0 33 39" fill="none">
@@ -123,6 +123,11 @@
               <div class="center_2_text1">걸음걸이와 <span class="center_text_red">{{ total_records }}</span>번 함께 걸었어요!</div>
               <div class="center_2_text2">지금까지 얼마걸음: <span class="center_text_red">{{ total_distance|floatformat:2 }}</span>km</div>
               <div class="center_2_text3">지금까지 소비 칼로리: <span class="center_text_red">{{ total_calories }}</span>kcal</div>
+              <div class="center_2_text4">
+                * 내가 작성한 글 보러가기:
+                <span class="center_text_red_small"><a href="{% url 'users:writtenpost_together_view'%}">함께걸음!</a></span> &nbsp;
+                <span class="center_text_red_small"><a href="{% url 'users:writtenpost_where_view'%}">어디걸음?</a></span>
+              </div>
             </div>
           </div>
           <div class="out_button">
@@ -165,8 +170,8 @@
       </footer>
     </div>
     <script>
-      const deleteAccountUrl = "{% url 'users:delete_account' %}";  // Django URL을 JavaScript 변수로 저장
-      const csrfToken = "{{ csrf_token }}";  // CSRF 토큰도 미리 저장
+      const deleteAccountUrl = "{% url 'users:delete_account' %}"; // Django URL을 JavaScript 변수로 저장
+      const csrfToken = "{{ csrf_token }}"; // CSRF 토큰도 미리 저장
     </script>
   
     <script src="{% static 'js/main/mypage.js' %}"></script>

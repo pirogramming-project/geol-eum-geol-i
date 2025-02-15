@@ -30,6 +30,35 @@ from .forms import ProfileUpdateForm
 import logging
 
 
+
+from django.core.paginator import Paginator 
+from django.contrib.auth.decorators import login_required
+from course.models import Course
+from post.models import Post
+
+@login_required
+def writtenpost_where_view(request):
+    user_courses = Course.objects.filter(user=request.user)  
+
+    paginator = Paginator(user_courses, 9)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'usermanage/writtenpost(where).html', {'page_obj': page_obj})
+
+
+@login_required
+def writtenpost_together_view(request):
+    posts = Post.objects.filter(user=request.user).order_by('-created_at') 
+
+    paginator = Paginator(posts, 4)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number)  
+
+    return render(request, 'usermanage/writtenpost(together).html', {'page_obj': page_obj})
+
+
+
 def aboutus_beforeLogin_view(request):
     return render(request, 'aboutus(beforeLogin).html')
 

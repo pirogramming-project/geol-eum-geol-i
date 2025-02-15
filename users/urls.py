@@ -25,6 +25,8 @@ urlpatterns = [
     path('privacy-policy/', privacy_policy, name="privacy_policy"),
     path('aboutus(afterLogin)/', aboutus_afterLogin_view, name='aboutus_afterLogin_view'),
     path('aboutus(beforeLogin)/', aboutus_beforeLogin_view, name='aboutus_beforeLogin_view'),
+    path('writtenpost(together)/', writtenpost_together_view, name='writtenpost_together_view'),
+    path('writtenpost(where)/', writtenpost_where_view, name='writtenpost_where_view'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

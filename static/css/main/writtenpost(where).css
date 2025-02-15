@@ -1,0 +1,64 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--soft-red);
+}
+
+.writtenpost_title_text_all {
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  padding-left: 3px;
+}
+
+.writtenpost_title_text_red {
+  color: var(--red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 51px;
+  font-weight: 900;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.writtenpost_title_text {
+  color: var(--soft-red);
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  font-size: 51px;
+  font-weight: 900;
+}
+
+.writtenpost_title {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+
+  margin-top: 15px;
+  padding-bottom: 10px;
+}
+
+.writtenpost_context {
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  margin-left: 5px;
+
+  display: flex;
+  justify-content: left;
+
+  margin-bottom: 10px;
+}
+
+.writtenpost_together {
+  color: black;
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 5px;
+
+  display: flex;
+  justify-content: left;
+}
