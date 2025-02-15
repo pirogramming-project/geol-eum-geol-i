@@ -30,6 +30,32 @@ from .forms import ProfileUpdateForm
 import logging
 
 
+
+from django.core.paginator import Paginator  # 페이지네이션 추가
+from django.contrib.auth.decorators import login_required
+from course.models import Course  # Course 모델 가져오기
+
+@login_required
+def writtenpost_where_view(request):
+    """현재 로그인한 사용자가 작성한 글만 필터링하여 보여주는 뷰"""
+    user_courses = Course.objects.filter(user=request.user)  # 내가 작성한 글만 필터링
+
+    paginator = Paginator(user_courses, 9)  # 페이지네이션 (9개씩 표시)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'usermanage/writtenpost(where).html', {'page_obj': page_obj})
+
+
+
+
+
+def writtenpost_together_view(request):
+    return render(request, 'usermanage/writtenpost(together).html')
+
+# def writtenpost_where_view(request):
+#     return render(request, 'usermanage/writtenpost(where).html')
+
 def aboutus_beforeLogin_view(request):
     return render(request, 'aboutus(beforeLogin).html')
 

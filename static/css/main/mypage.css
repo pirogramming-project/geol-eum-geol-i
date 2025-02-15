@@ -165,6 +165,14 @@ a:hover {
   padding: 10px;
 }
 
+.center_2_text4 {
+  color: var(--deep-brown);
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 10px;
+}
+
 .center_text_red {
   color: var(--soft-red);
   font-family: "Kartrider Kor OTF", sans-serif;
@@ -172,7 +180,14 @@ a:hover {
   font-weight: 400;
 }
 
-.out_button{
+.center_text_red_small {
+  color: #c8b955;
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.out_button {
   display: flex;
 }
 
@@ -193,7 +208,7 @@ a:hover {
   border: 2px solid var(--light-gray);
 }
 
-.secession_button{
+.secession_button {
   width: 100px;
   height: 46px;
   border-radius: 18px;
@@ -241,7 +256,7 @@ a:hover {
   position: relative;
 }
 
-.modal-content h2{
+.modal-content h2 {
   margin-bottom: 10px;
 }
 
@@ -271,7 +286,7 @@ a:hover {
   align-items: center;
 }
 
-#profile-upload{
+#profile-upload {
   padding-left: 65px;
   margin-bottom: 10px;
 }
@@ -302,7 +317,7 @@ a:hover {
 .profile-upload-btn {
   display: inline-block;
   background-color: var(--deep-brown);
-  font-family: 'VITRO INSPIRE OTF', sans-serif;
+  font-family: "VITRO INSPIRE OTF", sans-serif;
   color: var(--white);
   border-radius: 5px;
   font-size: 14px;
@@ -315,12 +330,12 @@ a:hover {
   background-color: var(--deep-brown);
 }
 
-.nickname-change-box{
+.nickname-change-box {
   display: flex;
   align-items: center;
 }
 
-.nickname-change-box label{
+.nickname-change-box label {
   margin-right: 9px;
 }
 
@@ -335,7 +350,6 @@ a:hover {
   outline: none;
   transition: all 0.3s ease-in-out;
 }
-
 
 .nickname-input:focus {
   border-color: var(--red);
