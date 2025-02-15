@@ -1,3 +1,12 @@
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--soft-red);
+}
+
 .writtenpost_title_text_all {
   display: flex;
   flex-direction: row;
@@ -43,24 +52,13 @@
   margin-bottom: 10px;
 }
 
-.writtenpost_move {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 .writtenpost_together {
   color: black;
   font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 400;
   margin-left: 5px;
-}
 
-.writtenpost_where_all {
-  color: black;
-  font-family: "Kartrider Kor OTF", sans-serif;
-  font-size: 17px;
-  font-weight: 400;
-  margin-left: 5px;
+  display: flex;
+  justify-content: left;
 }

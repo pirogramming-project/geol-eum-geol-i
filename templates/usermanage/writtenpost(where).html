@@ -61,8 +61,7 @@
             <div class="writtenpost_context">어디걸음? (글쓴이:{{ user.nickname }})</div>
             
             <div class="writtenpost_move">
-              <div class="writtenpost_together"><a href='#'>'함께걸음!'으로 이동하기</a></div>
-              <div class="writtenpost_where_all"><a href='#'>'어디걸음?'으로 이동하기</a></div>
+              <div class="writtenpost_together"><a href="{% url 'users:writtenpost_together_view'%}">내가 작성한 '함께걸음!' 보러 이동하기</a></div>
             </div>
 
           </div>
