@@ -45,15 +45,15 @@ body {
 }
 
 .body_container {
-  padding: 0px;
-  padding-left: 20px;
-  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 40px 20px;
 }
 
 .link-ranking {
   position: absolute;
-  left: 80%;
-  top: 2%;
+  left: 79.8%;
+  top: 3.3%;
   z-index: 10;
 }
 
@@ -64,8 +64,10 @@ body {
   line-height: normal;
   color: var(--red);
   position: relative;
-  top: -9px;
+  top: -13px;
+  left: -0.4px;
 }
+
 .to-ranking > svg {
   transition: transform 0.3s ease;
 }
@@ -84,25 +86,25 @@ body {
 
 .home-icon {
   position: relative;
-  top: 7px;
+  bottom: 10px;
 }
+
 .home-icon > svg {
   transition: transform 0.3s ease;
 }
+
 .home-icon > svg:hover {
   transform: scale(1.1);
 }
 
 .together_title_text_all {
-  display: flex;
-  flex-direction: column;
+  margin-top: 5px;
+  padding-left: 3px;
 }
 
 .together_title_title {
   display: flex;
   flex-direction: row;
-  margin-top: 15px;
-  padding-left: 3px;
 }
 
 .together_title_text_red {
@@ -125,7 +127,7 @@ body {
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
   font-weight: 400;
-  margin-left: 4px;
+  margin-left: 2px;
   margin-top: 8px;
 }
 
