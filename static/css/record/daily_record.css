@@ -3,7 +3,7 @@ body {
   background-color: var(--white);
 }
 .daily__layout {
-  width: 100vw;
+  width: 400px;
   background: var(--background-beige);
   margin-inline: auto;
   font-family: "VITRO INSPIRE OTF", sans-serif;
@@ -322,4 +322,14 @@ body {
   left: 79.8%;
   top: 3.3%;
   z-index: 10;
+}
+
+@media (max-width: 480px) {
+  .daily__layout {
+    width: 100vw;
+    background: var(--background-beige);
+    margin-inline: auto;
+    font-family: "VITRO INSPIRE OTF", sans-serif;
+    position: relative;
+  }
 }
