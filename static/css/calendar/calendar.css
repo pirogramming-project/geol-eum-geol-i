@@ -1,14 +1,14 @@
 @import url("../root.css");
 
 @font-face {
-  font-family: 'VITRO INSPIRE OTF';
+  font-family: "VITRO INSPIRE OTF";
   font-style: normal;
-  src: url('../fonts/VITRO INSPIRE OTF.otf') format('truetype');
+  src: url("../fonts/VITRO INSPIRE OTF.otf") format("truetype");
 }
 @font-face {
-  font-family: 'Kartrider Kor OTF';
+  font-family: "Kartrider Kor OTF";
   font-style: normal;
-  src: url('../fonts/NEXON Kart Gothic Kor OTF Bold.otf') format('truetype');
+  src: url("../fonts/NEXON Kart Gothic Kor OTF Bold.otf") format("truetype");
 }
 
 body {
@@ -40,7 +40,7 @@ body {
 
 .calender-title {
   display: flex;
-  font-family: 'Vitro Inspire OTF', sans-serif;
+  font-family: "Vitro Inspire OTF", sans-serif;
   font-size: 51.238px;
   font-weight: 900;
   line-height: normal;
@@ -58,7 +58,7 @@ body {
 
 .calendar-introduction {
   color: var(--soft-red);
-  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 23px;
   font-weight: 600;
   line-height: normal;
@@ -90,14 +90,14 @@ body {
 
 .calendar-header {
   display: flex;
-  font-family: 'Vitro Inspire OTF', sans-serif;
+  font-family: "Vitro Inspire OTF", sans-serif;
   justify-content: center;
   align-items: center;
 }
 
 .calendar-days {
   color: var(--deep-brown);
-  font-family: 'Vitro Inspire OTF', sans-serif;
+  font-family: "Vitro Inspire OTF", sans-serif;
   font-size: 20px;
   font-weight: 900;
   line-height: normal;
@@ -125,7 +125,7 @@ body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   color: var(--red);
-  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: normal;
@@ -141,10 +141,9 @@ body {
   background-color: #f5f5f5;
 }
 
-
 .calendar-information {
   color: var(--deep-brown);
-  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
   font-weight: 600;
   position: absolute;
@@ -163,20 +162,15 @@ body {
   top: 480px;
 }
 
-#prevBtn, #nextBtn {
+#prevBtn,
+#nextBtn {
   color: var(--deep-brown);
-  font-family: 'Kartrider Kor OTF', sans-serif;
+  font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 24px;
   font-weight: 400;
   line-height: normal;
   margin-right: 10px;
   margin-left: 10px;
-}
-
-.link-ranking {
-  position: absolute;
-  left: 80%;
-  z-index: 10;
 }
 
 .ranking-word {
@@ -187,7 +181,7 @@ body {
   color: var(--red);
   position: relative;
   top: -13px;
-  right: 7px;
+  left: -0.4px;
 }
 
 .to-ranking > svg {
@@ -198,8 +192,9 @@ body {
 }
 
 .wrapper {
-  padding-bottom: 250px;
   overflow-y: auto;
+  padding-bottom: 140px;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -211,4 +206,30 @@ body {
   background: linear-gradient(transparent, rgb(118, 69, 59));
   border-radius: 6px;
   border-radius: 20px;
+}
+
+body {
+  text-align: center;
+}
+
+.landing__layout {
+  background: linear-gradient(180deg, var(--background-beige) 0%, var(--white) 100%);
+  width: 400px;
+  height: 100dvh;
+  margin-inline: auto;
+  font-family: "VITRO INSPIRE OTF", sans-serif;
+  position: relative;
+}
+
+.container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px 20px;
+}
+
+.link-ranking {
+  position: absolute;
+  left: 79.8%;
+  top: 3.3%;
+  z-index: 10;
 }
