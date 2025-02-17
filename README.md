@@ -22,6 +22,7 @@
 ‘걷기’라는 행위에 대한 우리의 관심은 꾸준히 커지고 있지요. 고강도의 러닝부터 가벼운 산책까지, 여러분은 어떤 형태의 걸음을 남기시나요? 그 걸음이 얼마나 모이고 어디서 쌓여갈지, 웹서비스 ‘걸음걸이’와 함께 해요! 데일리 걷기 기록과 월간 관리를 다루는 ‘오늘 걸음’, 걸음코스 추천을 제공하는 ‘어디 걸음’, 러너의 커뮤니티 ‘함께 걸음’과 ‘이달의 걸음왕’ 기능을 통해 나만의 고유한 걸음을 이어가요.🔥
 
 # **👀 서비스 화면**
+**✨ 모든 페이지 `모바일(아이폰 15 Pro 기준 max-width:480px)` 지원**
 
 **홈**
 
@@ -38,9 +39,9 @@
     <th>ABOUT US</th>
   </tr>
   <tr>
-    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/cced419e-791a-424b-acae-e1430b091a0c"></td>
-    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/3c60c8ed-f209-4822-b9ca-d89525ae8915" /></td>
-    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/04069206-60a9-4bcc-8f08-883edeecdd5e" /></td>
+    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/a1a0c9f7-8a85-4eaa-b38b-f7e1f7321752"></td>
+    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/bfd3015e-14f0-4a88-af62-25b9fa764504" /></td>
+    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/5b767615-80db-4b8a-8ff8-eb36e7ba9709" /></td>
     <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/27fedc49-a32b-4cdc-b19c-45b72bb12eca" /></td>
   </tr>
 </table>
@@ -63,7 +64,7 @@
   </tr>
   <tr>
     <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/912cc31c-c59d-4d6a-92bc-caa787437ecc"></td>
-    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/e787548f-e7b4-4da4-b9ff-d8e83262bbdd" /></td>
+    <td><img width="300" alt="Image" src="https://github.com/user-attachments/assets/dd184f1b-8dd0-46b3-8d17-bba95ed85813" /></td>
     <td><img src="https://github.com/user-attachments/assets/59c4299f-c20a-4183-b6dd-0d6d25ccf3e5" width="300" alt="Image"></td>
     <td><img src="https://github.com/user-attachments/assets/4e2665d8-eb61-424f-8c19-550c354bff64" width="300" alt="Image"></td>
   </tr>
@@ -78,12 +79,14 @@
   <tr>
     <th>걸음기록 시작</th>
     <th>걸음기록 준비 랜딩 페이지</th>
-    <th>걸음기록 측정 및 종료</th>
+    <th>걸음기록 수집</th>
+    <th>수집 일지중지 및 종료</th>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/51253777-68ca-4601-8681-06d86e689161" width="300" alt="Image"></td>
-    <td><img src="https://github.com/user-attachments/assets/41ae53ea-45ac-4c4f-952e-9adb4742bc7e" width="300" alt="Image"></td>
-    <td><img src="https://github.com/user-attachments/assets/4ebf779a-3541-4565-bd4b-d0dff7820707" width="300" alt="Image"></td>
+    <td><img src="https://github.com/user-attachments/assets/f044ad48-f213-4dcf-919b-12fe68e2fcc3" width="300" alt="Image"></td>
+    <td><img src="https://github.com/user-attachments/assets/30a2c5ce-9fea-4373-89c0-242be9262b83" width="300" alt="Image"></td>
+    <td><img src="https://github.com/user-attachments/assets/14bd0198-734b-4a14-a835-5a073f22fc63" width="300" alt="Image"></td>
+    <td><img src="https://github.com/user-attachments/assets/e2f66e5b-b87e-4e99-84a2-5b3b3f3ed8be" width="300" alt="Image"></td>
   </tr>
 </table>
 
