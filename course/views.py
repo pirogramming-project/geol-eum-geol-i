@@ -209,10 +209,10 @@ def select_keywords_view(request):
         return render(request, 'wherewalk/course_selectKeywords.html', {'error': "키워드를 선택해주세요."})
 
     all_courses = Course.objects.all()
-    course_groups = defaultdict(list)  # 키워드 개수별 코스 저장할 리스트
+    course_groups = defaultdict(list)  # 키워드 개수별로 코스를 저장
 
     for course in all_courses:
-        # 전체 키워드 집합 = course_keywords
+        # 각 코스의 전체 키워드 집합 = course_keywords
         course_keywords = set(course.coursekeyword_set.values_list('keyword__name', flat=True))
 
         # 선택한 키워드들이 모두 해당 코스에 포함되어 있는지 체크

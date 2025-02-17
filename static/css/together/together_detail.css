@@ -209,6 +209,15 @@ body {
   line-height: 24px;
 }
 
+.comment_content > p {
+  color: var(--gray);
+  font-family: "Kartrider Kor OTF", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-left: 5px;
+}
+
 .comment_context {
   color: var(--gray);
   font-family: "Kartrider Kor OTF", sans-serif;

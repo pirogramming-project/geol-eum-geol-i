@@ -197,7 +197,7 @@ def ranking_view(request):
         for index, record in enumerate(all_rankings[:5])
     ]
     
-    # ✅ 현재 로그인한 사용자의 최신 record 가져오기
+    # 로그인한 사용자의 해당 월 record 가져오기
     user_record = Record.objects.filter(
         user=request.user, date__year=year, date__month=month
     ).order_by('-date', '-id').first()  # 최신 데이터 한 개만 가져오기
@@ -224,7 +224,7 @@ def ranking_view(request):
 
     selected_date = datetime(year,month,1) # 선택된 월의 첫날
     prev_date = (selected_date - timedelta(days=1)) # 이전 달의 마지막 날
-    # ✅ 다음 달의 마지막 날을 구하는 로직
+    # 다음 달의 마지막 날을 구하는 로직
     if month == 12:  # 12월이면 다음 해의 1월로 이동
         next_year = year + 1
         next_month = 1
