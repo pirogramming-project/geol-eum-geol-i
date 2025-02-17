@@ -38,7 +38,7 @@ from post.models import Post
 
 @login_required
 def writtenpost_where_view(request):
-    user_courses = Course.objects.filter(user=request.user)  
+    user_courses = Course.objects.filter(user=request.user).order_by('-id')  
 
     paginator = Paginator(user_courses, 9)  
     page_number = request.GET.get('page')
