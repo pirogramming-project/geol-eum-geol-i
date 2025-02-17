@@ -34,7 +34,6 @@ a:hover {
   display: flex;
   justify-content: left;
   flex-direction: column;
-
   margin-top: 15px;
   padding-bottom: 10px;
 }
@@ -45,20 +44,17 @@ a:hover {
   font-size: 24px;
   font-weight: 400;
   margin-left: 5px;
-
   display: flex;
   justify-content: left;
-
   margin-bottom: 10px;
 }
 
 .writtenpost_where {
-  color: black;
+  color: var(--black);
   font-family: "Kartrider Kor OTF", sans-serif;
   font-size: 16px;
   font-weight: 400;
   margin-left: 5px;
-
   display: flex;
   justify-content: left;
 }

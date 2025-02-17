@@ -79,6 +79,7 @@ body {
     border-right: 8px solid var(--light-gray);
     background: linear-gradient(180deg, var(--soft-green) 0%, var(--mint) 100%);
     z-index: 1;
+    background-clip: padding-box;
 }
 .landing__ground_2, .landing__ground_4 {
     background: linear-gradient(180deg, var(--soft-green) 0%, var(--green) 100%);
@@ -128,6 +129,7 @@ body {
         -webkit-border-right: 8px solid var(--light-gray);
         background: linear-gradient(180deg, var(--soft-green) 0%, var(--mint) 100%);
         z-index: 1;
+        background-clip: padding-box;
     }
     .landing__ground_2, .landing__ground_4 {
         background: linear-gradient(180deg, var(--soft-green) 0%, var(--green) 100%);
