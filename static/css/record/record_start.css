@@ -119,6 +119,7 @@
     }
     .landing__ground_2, .landing__ground_4 {
         background: linear-gradient(180deg, var(--soft-green) 0%, var(--green) 100%);
+        background-clip: padding-box;
     }
     .landing__ground_2 {
         width: 342px;
