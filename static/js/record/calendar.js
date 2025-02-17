@@ -48,7 +48,7 @@ function renderCalendar() {
     updateMonthlyRecord();
 }
 
-// 해당 날짜의 기록 확인 후 아이콘을 표시하는 함수
+// 해당 날짜의 기록 확인 후 로고 표시 및 투명도 설정하는 함수
 function checkRecordAndShowIcon(dateElement, date) {
     fetch(`/record/check/${date}/`)
         .then(response => response.json())
