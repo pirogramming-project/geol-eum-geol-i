@@ -18,12 +18,16 @@
     font-size: 29px;
     font-weight: 900;
     line-height: normal;
+    /* Fallback: 호환되지 않는 브라우저에서는 기본 색상 사용 */
+    color: linear-gradient(180deg, var(--peach) 0%, var(--soft-red) 100%);
     background: linear-gradient(180deg, var(--peach) 0%, var(--soft-red) 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     transform: skewX(14deg);
 }
 .record__red {
+    /* Fallback: 호환되지 않는 브라우저에서는 기본 색상 사용 */
+    color: var(--red);
     background: var(--red);
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -73,7 +77,7 @@
 }
 .record_btn_text {
     color: var(--white);
-    font-family: "VITRO INSPIRE OTF";
+    font-family: "VITRO INSPIRE OTF", sans-serif;
     font-size: 40px;
 }
 .eng {
@@ -111,6 +115,7 @@
         -webkit-border-right: 8px solid var(--light-gray);
         background: linear-gradient(180deg, var(--soft-green) 0%, var(--mint) 100%);
         z-index: 1;
+        background-clip: padding-box;
     }
     .landing__ground_2, .landing__ground_4 {
         background: linear-gradient(180deg, var(--soft-green) 0%, var(--green) 100%);

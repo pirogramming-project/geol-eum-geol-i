@@ -322,6 +322,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .modal_content button {
@@ -332,6 +333,7 @@ body {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  font-family: "Kartrider Kor OTF", sans-serif;
 }
 
 .modal_content button:hover {

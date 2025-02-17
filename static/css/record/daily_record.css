@@ -283,6 +283,7 @@ body {
   top: 10px;
   right: 15px;
   font-size: 35px;
+  font-family: sans-serif;
   cursor: pointer;
   color: var(--gray);
 }
