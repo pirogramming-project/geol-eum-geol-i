@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
-    localStorage.removeItem('gpsData'); // 새로운 걸음기록 시작마다 GPS 데이터 초기화
+    localStorage.removeItem('gpsData'); // 새로운 걸음기록 시작마다 백그라운드 GPS 데이터 초기화
     let path = [];
     let watchID;
     let totalDistance = 0;
     let caloriesBurned = 0;
     let weight = 75;
     let minDistance = 1.5; // 최소 1.5m 이상 이동 시에만 기록
-    let isPaused = false; // 기록 수집 상태(for bottleBtn)
-    let pauseStartTime = null; // bottleBtn 누른 시간
-    let totalPausedTime = 0; // 총 기록 수집 중단 시간
-    let gpsBuffer = []; // 초기 좌표 저장
-    let avgPosition = null; // 초기 평균 좌표 저장
+    let isPaused = false; // 수집 일시정지 여부
+    let pauseStartTime = null; // 일시정지 버튼 누른 시간
+    let totalPausedTime = 0; // 기록 수집 일시정지 총 시간
+    let gpsBuffer = []; // 초기 좌표
+    let avgPosition = null; // 초기 평균 좌표
     let bufferCnt = 5; // 초기 최소 5개 좌표 수집 후 거리 측정
 
     const showDistance = document.querySelector(".record__e_total_dist");
@@ -22,89 +22,81 @@ document.addEventListener("DOMContentLoaded", function () {
     startTime.setHours(startTime.getHours() + 9);
 
     function getUserGPS() {
-        // watchID = null (GPS 수집 시작상태)일때 GPS 수집 시작
+        // watchID = null (GPS 수집 시작)일때
         if (!watchID) {
+            // 새로운 watchID 할당하여 수집 시작
             watchID = navigator.geolocation.watchPosition(
                 (position) => {
                     if (isPaused) {
+                        // 일시정지 버튼을 누른 상태 -> 수집X
                         return;
                     }
-                    // console.log("GPS 수집 시작");
-                    // alert("getUserGPS() 실행 완료"); // 모바일 확인용
                     let newPosition = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         timestamp: position.timestamp
                     };
 
+                    // 5개의 초기 좌표 저장 및 평균 구함 -> 첫 좌표로 지정(불가능한 초기 이동거리 계산 방지 -> 이동거리 정교화)
                     if(gpsBuffer.length <  bufferCnt) {
                         gpsBuffer.push(newPosition);
-
                         if(gpsBuffer.length === bufferCnt) {
                             let avgLat = gpsBuffer.reduce((sum, p) => sum + p.latitude, 0) / gpsBuffer.length;
                             let avgLon = gpsBuffer.reduce((sum, p) => sum + p.longitude, 0) / gpsBuffer.length;
                             let avgT = gpsBuffer.reduce((sum, p) => sum + p.timestamp, 0) / gpsBuffer.length;
                             avgPosition = { latitude: avgLat, longitude: avgLon, timestamp: avgT };
-                            path.push(avgPosition);
+                            path.push(avgPosition); // path(이동경로 배열)에 평균 초기좌표 저장
                         }
                         return;
                     }
     
+                    // 이동 경로의 초기 좌표 존재하는 경우
                     if (path.length > 0) {
                         let lastPosition_index = path.length-1;
+                        // gap(일시정지 버튼 누름)이 제일 최근 GPS 데이터인 경우
                         if (path[lastPosition_index] === "gap") {
-                            // alert("gap 탐지 -> 새로운 경로 수집");
+                            // 거리계산X, 이동 경로에 수집한 좌표 저장만
                             path.push(newPosition);
                         }
                         else {
                             let lastPosition = path[lastPosition_index];
-                            
-                            // 이동 거리(km) 계산
+                            // 가장 마지막 경로의 좌표와 실시간 수집 좌표의 이동 거리(km) 계산
                             let distance = haversine(
                                 lastPosition.latitude, lastPosition.longitude,
                                 newPosition.latitude, newPosition.longitude
                             );
-        
-                            // GPS 흔들림 (위도·경도 변화량이 너무 작은 경우) 수집X
+
+                            // 위도·경도 변화량이 너무 작은 경우(GPS 흔들림 가능성) 수집X
                             if (
                                 Math.abs(newPosition.latitude - lastPosition.latitude) < 0.00003 &&
                                 Math.abs(newPosition.longitude - lastPosition.longitude) < 0.00003
                             ) {
-                                console.log("⚠️ 너무 작은 변화량 -> 저장 X");
-                                // alert("너무 작은 변화량 -> 저장 X"); // 모바일 확인용
                                 return;
                             }
 
-                            // GPS 튐 수집 방지(속도 필터링)
+                            // 비정상적인 속도 감지한 경우(GPS 튐 가능성) 수집X
                             let timeDiff = (newPosition.timestamp - lastPosition.timestamp) / 1000; // sec로 단위 변환
                             let speed = distance * 1000 / timeDiff; // m/s 속도 단위
                             if (speed > 5) {
-                                // 비정상적인 속도(5m/s 이상) 감지 -> 수집 X
+                                // 비정상적인 속도(5m/s 이상) 감지 -> 수집X
                                 return;
                             }
-                            if (speed === 5) {
-                                // 비정상적인 속도(0) 감지 -> 수집 X
+                            if (speed === 0) {
+                                // 속도변화X -> 수집X
                                 return;
                             }
         
-                            // 최소 이동 거리 이상의 움직임만 수집
+                            // 최소 이동거리(1.5m) 이상의 움직임만 수집
                             if (distance >= minDistance / 1000) {
                                 path.push(newPosition);
-                                console.log(`📍 실시간 좌표 추가, (${(distance * 1000).toFixed(2)}m 이동):`, newPosition);
-                                // alert(`📍 실시간 좌표 추가 (${(distance * 1000).toFixed(2)}m 이동)`); // 모바일 확인용
                                 updateDisNCal();
-                                // Background Sync 등록 -> 백그라운드 모드 GPS 유지
+                                // Background Sync 등록 -> 백그라운드 모드 진입 후 GPS 수집 실행
                                 registerBackgroundSync(path);
-                            } else {
-                                console.log("⚠️ 이동 거리 너무 작음 -> 저장 X");
-                                // alert(`⚠️ 이동 거리 너무 작음 -> ${distance * 1000}m`); // 모바일 확인용
                             }
                         }
-    
                     } else {
                         path.push(newPosition);
                         console.log("📍 초기 좌표 추가:", newPosition);
-                        // alert("초기 좌표 추가"); // 모바일 확인용
                     }
                 },
                 (error) => console.error("🚨 실시간 좌표 수집 불가:", error),
@@ -113,11 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             navigator.geolocation.getCurrentPosition(
                 (position) => console.log("GPS 수집 정상 작동: ", position),
-                // alert("GPS 수집 정상 작동:"), // 모바일 확인용
                 (error) => {
                     // watchID가 끊긴 예외상황
                     console.error("GPS 수집 오류, 강제 실행:", error);
-                    // alert("GPS 수집 오류, 강제 실행"); // 모바일 확인용
+                    // GPS 수집 재개
                     watchID = null;
                     getUserGPS();
                 }
@@ -126,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function stopUserGPS() {
+        // watchID 초기화
         if (watchID) {
             navigator.geolocation.clearWatch(watchID);
             watchID = null;
@@ -133,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function haversine(lat1, lon1, lat2, lon2) {
-        const R = 6371; // 지구 반지름 (km)
+        const R = 6371; // 지구 반지름 (단위 km)
         const dLat = (lat2 - lat1) * Math.PI / 180;
         const dLon = (lon2 - lon1) * Math.PI / 180;
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -148,27 +140,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let currentTime = new Date();
         currentTime.setHours(currentTime.getHours() + 9); // UTC → KST 변환
-
         // KST 기준으로 경과 시간 계산
         let durationSec = Math.floor((currentTime - startTime) / 1000) - totalPausedTime;
         let minutes = durationSec / 60;
 
-        // 초기에는 칼로리 계산을 하지 않음
         if (minutes < 0.5) {
-            console.log("⚠️ 30초 미만 → 칼로리 계산 제외");
             showDistance.textContent = ` 얼마걸음: ${totalDistance.toFixed(2)}km`;
             showCalories.textContent = `총 소비칼로리: 0kcal`;
             return;
         }
-
         caloriesBurned = calcCalories(totalDistance, minutes, weight);
 
-        // UI 업데이트 최적화: 이전 값과 비교하여 DOM 업데이트 최소화
         const newDistanceText = ` 얼마걸음: ${totalDistance.toFixed(2)}km`;
         const newCaloriesText = `총 소비칼로리: ${caloriesBurned}kcal`;
-
         if (totalDistance < 0.01) {
-            console.log("⚠️ 30초 미만 & 거리 부족 → UI 초기화");
             if (showDistance.textContent !== `얼마걸음: 0.00km`) {
                 showDistance.textContent = `얼마걸음: 0.00km`;
             }
@@ -177,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             return;
         }
-
+        // 이전 값과 비교하여 DOM 업데이트
         if (showDistance.textContent !== newDistanceText) {
             showDistance.textContent = newDistanceText;
         }
@@ -187,50 +172,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateTime() {
+        // 기록수집 중단상태면 시간 업데이트 중지
         if (isPaused) {
             return;
-        } // 기록수집 중단상태면 시간 업데이트 중지
+        }
         let time = new Date();
         time.setHours(time.getHours() + 9);
-        let durationSec = Math.floor((time-startTime)/1000) - totalPausedTime; // 초 단위변환
+        let durationSec = Math.floor((time-startTime)/1000) - totalPausedTime; // sec 변환
         let hours = Math.floor(durationSec/3600);
         let min = Math.floor((durationSec % 3600)/60);
         let sec = durationSec % 60;
-
         showTime.textContent = `${hours.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
     }
 
     function calcDistance(coords) {
         let totalDistance = 0;
-        let lastValidPosition = null; // gap 직전의 유효한 위치 저장
-
+        let lastValidPosition = null; // "gap" 직전 거리 계산이 유효한 GPS 좌표 저장
         for (let i = 0; i < coords.length; i++) {
+            // 일시정지 버튼을 누른 기록일 경우
             if(coords[i] === "gap") {
-                lastValidPosition = null; // 거리 계산 reset
+                // 거리 계산 reset
+                lastValidPosition = null;
                 continue;
             }
-            // 거리 계산 대상이 gap이 아닌경우
+            // 일시정지 버튼을 누른 기록이 아닐 경우 거리 계산
             if(lastValidPosition && coords[i]) {
                 totalDistance += haversine(
                     lastValidPosition.latitude, lastValidPosition.longitude,
                     coords[i].latitude, coords[i].longitude
                 );
             }
-            lastValidPosition = coords[i]; // 거리 계산 대상이 없으면 현재 위치로 업데이트 
+            // 거리 계산이 유효한 GPS 좌표를 현재 GPS로 업데이트
+            lastValidPosition = coords[i]; 
         }
-        return totalDistance;
+        return totalDistance; // 총 이동거리
     }
 
-
-    // 칼로리 계산
     function calcCalories(dist, time, weight) {
         if (time < 0.5) {
-            return 0; // 초기에는 칼로리 계산 제외
+            return 0;
         }
-        // 속도 계산 
         let speed = dist / (time / 60);
 
-        // MET 값 설정 (걷기 ~ 런닝 속도에 따라 구분)
+        // METs 값 설정 (속도에 따라 구분)
         let METs = 2.8; // 기본값: 천천히 걷기
         if (speed >= 3.0 && speed < 5.5) METs = 3.8; // 일반 걷기
         else if (speed >= 5.5 && speed < 7.0) METs = 4.3; // 빠르게 걷기
@@ -243,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return Math.round(calories); // 반올림 후 반환
     }
 
-    // Background Sync API 등록
+    // 백그라운드 모드 GPS 수집을 위한 Background Sync API 등록
     function registerBackgroundSync(path) {
         if ('serviceWorker' in navigator && 'SyncManager' in window) {
             navigator.serviceWorker.ready.then(registration => {
@@ -254,8 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-    
-    // Service Worker 등록
+    // 백그라운드 모드에서 GPS 데이터 유지를 위한 Service Worker 등록
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register(service_worker_url)
             .then(reg => console.log('Service Worker 등록 완료:', reg))
@@ -265,11 +248,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let timeUpdate = setInterval(updateTime, 1000);
     getUserGPS();
 
-    // 예외 상황 처리
+    // 예외 상황
     setInterval(() => {
         if(!watchID && !isPaused) {
-            // 중지버튼을 누르지 않았는데, watchID=null이 되어 GPS 수집이 중단된 경우
-            console.warn("GPS 추적 중단됨. 수집 재개");
+            // 일시정지 버튼을 누르지 않았는데, watchID=null로 GPS 수집 중단된 경우
             getUserGPS();
         }
     }, 30000); // 30초마다 GPS 수집 상태 체크
@@ -282,7 +264,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 registerBackgroundSync(path);
             }
         } else {
-            // 02.11 수정
             console.log("포그라운드 복귀 -> GPS 업데이트");
             getUserGPS();
         }
@@ -291,7 +272,6 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.serviceWorker.addEventListener("message", function(event) {
         if (event.data.action === "clearGPSData") {
             localStorage.removeItem('gpsData');
-            console.log("localStorage GPS 데이터 삭제");
         }
         if (event.data.action === "getCSRFToken") {
             let csrfToken = getCookie("csrftoken");
@@ -311,41 +291,35 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (event.source) {
                 event.source.postMessage(response); // 포트가 없는 경우 source 사용
             } else {
-                console.error("포트가 비어있어 GPS 데이터 전송 불가");
+                console.error("GPS 데이터 전송 불가");
             }
         }
     });
 
     document.getElementById("bottleBtn").addEventListener("click", function() {
         if (isPaused) {
-            console.log("기록 수집 재개");
-            alert("기록 수집 재개"); // 모바일 확인용
-            isPaused = false; // 상태 변경
+            alert("기록 수집 재개");
+            isPaused = false; // 일시정지 상태 변경
 
             let pauseStopTime = new Date();
             pauseStopTime.setHours(pauseStopTime.getHours() + 9);
             totalPausedTime += Math.floor((pauseStopTime - pauseStartTime)/1000);
-            pauseStartTime = null; // bottleBtn 클릭 시간 초기화
+            pauseStartTime = null; // 일시정지 버튼 클릭 시간 초기화
             
             watchID = null; // 기존 watchID 삭제
             setTimeout(getUserGPS, 500);
             showStatus.textContent="지금은 걷는 중! 쉴 땐 물통 누르기";
         } else {
-            console.log("기록 수집 중지");
-            alert("기록 수집 중지"); // 모바일 확인용
-            isPaused = true;
+            alert("기록 수집 일시정지");
+            isPaused = true; // 일시정지 상태 변경
 
-            pauseStartTime = new Date();
+            pauseStartTime = new Date(); // 일시정지 버튼 클릭 시간 저장
             pauseStartTime.setHours(pauseStartTime.getHours() + 9);
             
             stopUserGPS();
-            // gap 추가 전 path 상태 확인
-            console.log("gap 추가 전 path: ", JSON.stringify(path));
-            // 경로 수집 중지, 'gap' 표식 추가
             if (path.length > 0) {
                 path.push("gap"); // 경로 분리를 위한 마커
             }
-            console.log("gap 추가 후 path: ", JSON.stringify(path));
             showStatus.textContent="지금은 쉬는 중! 다시 걸을 땐 물통 누르기";
         }
     });
@@ -358,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
         stopUserGPS();
         clearInterval(timeUpdate);
 
-        // bottleBtn을 한번만 누른 상태에 대한 예외처리
+        // 일시정지 버튼을 한번만 누른 상태에 대한 예외처리(수집 재개하지 않고 기록종료한 경우)
         // 마지막 중단시간을 설정하고 totalPausedTime 업데이트
         if (isPaused && pauseStartTime) {
             let pauseStopTime = new Date();

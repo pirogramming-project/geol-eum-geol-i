@@ -52,6 +52,7 @@ def course_list(request):
         'keywords': keywords,
     })
 
+# DetailView = 장고 클래스 기반 뷰(CBV), 특정 모델 객체 조회 후 상세 페이지 렌더링
 class CourseDetailView(DetailView):
     model = Course
     template_name = 'wherewalk/course_detail.html'  # 사용할 템플릿 파일

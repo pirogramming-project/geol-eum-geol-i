@@ -24,47 +24,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
     sessionStorage.setItem("path", JSON.stringify(djangoPathData));
 
+    // Google Maps UI Custom
     const customMapStyle = [
         {
             elementType: "geometry",
-            stylers: [{ color: "#1F1F1F" }] // 부드러운 다크 블랙 배경
+            stylers: [{ color: "#1F1F1F" }] // 배경: 블랙
         },
         {
             elementType: "labels.text.fill",
-            stylers: [{ color: "#D4AF37" }] // 텍스트를 은은한 골드로
+            stylers: [{ color: "#D4AF37" }] // 텍스트: 연한 골드
         },
         {
             featureType: "water",
             elementType: "geometry",
-            stylers: [{ color: "#2B3A42" }] // 물을 고급스러운 다크 블루로
+            stylers: [{ color: "#2B3A42" }] // 물: 네이비
         },
         {
             featureType: "road",
             elementType: "geometry",
-            stylers: [{ color: "#C8A961" }] // 기본 도로를 부드러운 골드로
+            stylers: [{ color: "#C8A961" }] // 기본 도로: 골드
         },
         {
             featureType: "road.arterial",
             elementType: "geometry",
-            stylers: [{ color: "#E0C68D" }] // 주요 도로를 밝은 골드로 강조
+            stylers: [{ color: "#E0C68D" }] // 주요 도로: 밝은 골드
         },
         {
             featureType: "road.highway",
             elementType: "geometry",
-            stylers: [{ color: "#A17C48" }] // 고속도로를 어두운 골드로 조정
+            stylers: [{ color: "#A17C48" }] // 고속도로: 어두운 골드
         },
         {
             featureType: "road.highway.controlled_access",
             elementType: "geometry",
-            stylers: [{ color: "#D4AF37" }] // 고속도로(주요) 부분을 짙은 골드로
+            stylers: [{ color: "#D4AF37" }] // 주요 고속도로: 짙은 골드
         },
         {
             featureType: "transit",
-            stylers: [{ visibility: "off" }] // 대중교통 요소 숨김
+            stylers: [{ visibility: "off" }] // 대중교통 요소 숨기기
         },
         {
             featureType: "poi",
-            stylers: [{ visibility: "simplified"}, {color: "#E0C68D" }] // POI를 따뜻한 옐로우로
+            stylers: [{ visibility: "simplified"}, {color: "#E0C68D" }] // POI(주요시설): 옐로우
         }
     ];
 
@@ -72,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function showMap() {
         let path = JSON.parse(sessionStorage.getItem("path"));
         console.log("경로: ", path);
-
         modal.style.display = "flex";
 
         if (!map) {
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
             map = new google.maps.Map(mapContainer, {
                 center: { lat: path[0].latitude, lng: path[0].longitude },
                 zoom: 15,
-                styles: customMapStyle,
+                styles: customMapStyle, // 커스텀한 UI 적용
             });
         } else {
             // 지도 존재 시, 경로에 맞춰 세팅
@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
         path.forEach((point) => {
             if(point === "gap") {
                 if (currentSegment.length > 0) {
+                    // gap 이전의 경로 저장
                     segments.push(currentSegment);
                     currentSegment = []; // 임시 저장소 초기화
                 }
@@ -109,16 +110,17 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // 모두 currentSegment에 저장 -> gap이 없는 경우
+        // 모두 currentSegment에 저장한(일시정지 버튼 사용하지 않은) 경우
         if (segments.length === 0) {
             segments.push(currentSegment); 
         }
-        // 마지막 gap 이후 GPS 좌표들이 남은 경우
+        // 마지막 gap 이후 GPS 좌표들이 남은(일지정지 후 수집재개하지 않고 기록 종료) 경우
         if (currentSegment.length > 0) {
             segments.push(currentSegment); 
         }
 
         segments.forEach(segment => {
+            // 일시정지 버튼 전까지의 각각의 경로를 각각의 폴리라인으로 나타내기
             if (segment.length > 1) {
                 let polyline = new google.maps.Polyline({
                     path: segment,
@@ -142,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
     if(mapButton) {
         mapButton.addEventListener("click", function() {
             loadGoogleMaps(() => showMap());
@@ -150,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// 파일 선택 후 파일 이름 표시
+// 이미지 파일 선택 후 파일 이름 표시
 document.getElementById("file-upload").addEventListener("change", function(event) {
     const fileName = event.target.files[0] ? event.target.files[0].name : "선택된 파일 없음";
     document.getElementById("file-name").textContent = fileName;
